@@ -1,8 +1,8 @@
 import json
 from doc_processor.doc_processor import DocumentProcessor
-from summarization.content_selector import ContentSelector
-from summarization.information_orderer import InformationOrderer
-from summarization.content_realizer import ContentRealizer
+from model.content_selector import ContentSelector
+from model.information_orderer import InformationOrderer
+from model.content_realizer import ContentRealizer
 
 def load_config(config_path):
     with open(config_path, 'r') as file:
