@@ -1,0 +1,18 @@
+{
+    "document_processing": {
+        "input_xml_file": "path/to/input.xml",
+        "output_dir": "path/to/output"
+    },
+    "model": {
+        "content_selection": {
+            "approach": "approach1",
+            "additional_parameters": {}
+        },
+        "information_ordering": {
+            "method": "simple_heuristic"
+        },
+        "content_realization": {
+            "method": "default"
+        }
+    }
+}
