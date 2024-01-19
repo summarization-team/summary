@@ -6,13 +6,10 @@ dependencies:
   - python=3.9
   - numpy
   - pandas
-  - empath
   - gensim
   - nltk
   - spacy
-  - scikit-learn
-  - pyyaml  
-  - emoji
+  - scikit-learn  
   - pip
   - pip:
     - contractions
