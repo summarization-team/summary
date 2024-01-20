@@ -6,6 +6,18 @@ class DocumentProcessor:
         self.input_xml_file = input_xml_file
         self.output_dir = output_dir
 
+    # Return year from doc ID
+    def get_year(self, docID):
+        return int(docID[-13:])
+    
+    # Return filepath of AQUAINT xml document
+    def get_AQUAINT_file(docID):
+        filePath = '/corpora/LDC/LDC02T31/'
+        filePath += docID[:2] + '/'
+        filePath += get_year(docID) + '/'
+        filePath += docID[-13:-6] + '_' + docID[:2] + '_ENG'
+        return filePath
+
     def process_documents(self):
         # Implement XML parsing and document processing
         # Return a list of DocSets
@@ -20,6 +32,11 @@ class DocumentProcessor:
             
             for doc in docset:
                 docID = doc.get('id')
-                
-              
-        pass
+                if get_year(docID) >= 1996 and get_year(docID) <= 2000:
+                    file = get_AQUAINT_file(docID)
+                elif get_year(docID) >= 2004 and get_year(docID) <= 2006:
+                    file = get_AQUAINT2_file(docID)
+                elif get_year(docID) == 2009:
+                    file = get_2009_file(docID)
+                             
+        return docsets
