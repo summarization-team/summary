@@ -35,7 +35,7 @@ class DocumentProcessor:
 # Process doc
 def process_doc(docID):
     remove_these = ['&Cx1f', '&Cx13', '&Cx11', '&UR', '&LR', '&QL', '&HT', '&QC', '&QR', '&AMP']
-    headerTags = ['DOCTYPE', 'DATE_TIME', 'CATEGORY', 'SLUG', 'HEADLINE', 'DATELINE']
+    headerTags = ['DOCTYPE', 'DATE_TIME', 'DATETIME', 'CATEGORY', 'SLUG', 'HEADLINE', 'DATELINE']
     # AQUAINT
     if int(get_year(docID)) >= 1996 and int(get_year(docID)) <= 2000:
         file = get_AQUAINT_file(docID)
@@ -43,12 +43,11 @@ def process_doc(docID):
         for x in remove_these:
             docXML = docXML.replace(x, '')
         headers = get_doc_headers_AQUAINT(docID, docXML, headerTags)
-        print('AQUAINT: ' + file)
         paragraphs = separate_paragraphs(docXML)
         for p in paragraphs:
             tokenized = tokenize_text(p)
     # AQUAINT 2
-    elif int(get_year(docID)) >= 2004 and int(get_year(docID)) <= 2006:
+    elif int(get_year(docID)) >= 2004 and int(get_year(docID)) < 2006:
         file = get_AQUAINT2_file(docID)
         docXML = get_doc_AQUAINT2(docID, file)
         for x in remove_these:
@@ -58,8 +57,15 @@ def process_doc(docID):
         for p in paragraphs:
             tokenized = tokenize_text(p)
     # 2009 files
-    elif int(get_year(docID)) == 2009:
+    else:
         file = get_2009_file(docID)
+        docXML = get_doc_2009(docID, file)
+        for x in remove_these:
+            docXML = docXML.replace(x, '')
+        headers = get_doc_headers_2009(docID, docXML, headerTags)
+        paragraphs = separate_paragraphs(docXML)
+        for p in paragraphs:
+            tokenized = tokenize_text(p)
 
     
 # Return year from doc ID
@@ -95,7 +101,11 @@ def get_2009_file(docID):
     filePath = '~/dropbox/23-24/575x/TAC_2010_KBP_Source_Data/data/2009/nw/'
     filePath += docID[:7].lower() + '/'
     filePath += docID[8:-5] + '/'
-    filePath += docID + '.LDC2009T13.sgm'
+    filePath += docID
+    if get_year(docID) == '2006':
+        filePath += '.LDC2007T07.sgm'
+    else:
+        filePath += '.LDC2009T13.sgm'
     return filePath
 
 # Return headers to go in the top of the output file (DATE_TIME, CATEGORY, HEADLINE etc.)
@@ -117,6 +127,17 @@ def get_doc_headers_AQUAINT2(docID, docXML, tags):
             for i in root.iter(t):
                 headers.append(t + ': ' + i.text.strip())
     return headers
+
+# Return headers to go in the top of the output file (DATE_TIME, CATEGORY, HEADLINE etc.)
+def get_doc_headers_2009(docID, docXML, tags):
+    headers = []
+    root = ET.fromstring(docXML)
+    if root.find('DOCID').text.strip()[:21] == docID:
+        for t in tags:
+            for i in root.iter(t):
+                headers.append(t + ': ' + i.text.strip())
+    return headers
+
 
 
 # Return xml with specified doc ID from AQUAINT xml file
@@ -144,6 +165,20 @@ def get_doc_AQUAINT2(docID, filepath):
                 doc += line
             if inDoc and line == '</DOC>\n':
                 return doc
+
+# Return xml with specified doc ID from 2009 xml file
+def get_doc_2009(docID, filepath):
+    doc = '<DOC>'
+    with open(filepath) as F:
+        inDoc = False
+        for line in F:
+            if '<DOCID> ' + docID in line:
+                inDoc = True
+            if inDoc:
+                doc += line
+            if inDoc and line == '</DOC>\n':
+                return doc
+
 
             
 # Split text into paragraphs
