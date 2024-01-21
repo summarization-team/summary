@@ -136,6 +136,23 @@ def process_doc(dirPath, docID):
                 F.write('\n')
                 for s in tokenized:
                     F.write(str(s) + '\n')
+    # 2009 files
+    else:
+        file = get_2009_file(docID)
+        docXML = get_doc_2009(docID, file)
+        for x in remove_these:
+            docXML = docXML.replace(x, '')
+        headers = get_doc_headers_2009(docID, docXML, headerTags)
+        newFile = os.path.join(dirPath, docID)
+        with open(newFile, 'a') as F:
+            for h in headers:
+                F.write(h + '\n')
+            paragraphs = separate_paragraphs(docXML)
+            for p in paragraphs:
+                tokenized = tokenize_text(p)
+                F.write('\n')
+                for s in tokenized:
+                    F.write(str(s) + '\n')
 
 
 def get_year(docID):
