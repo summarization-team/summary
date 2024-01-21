@@ -1,2 +1,2 @@
 #!/bin/sh
-python ./doc_processor.py $1 $2
+/mnt/dropbox/23-24/571/envs/571/bin/python ./__init__.py $1 $2

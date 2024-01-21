@@ -21,7 +21,8 @@ class DocumentProcessor:
             docsets.append(docsetID)
             for doc in docset:
                 docID = doc.get('id')
-                process_doc(docID)
+                path = self.output_dir + '/' + docsetID
+                process_doc(path, docID)
                 
         # Find all docsetB
         for docset in root.iter('docsetB'):
@@ -29,7 +30,8 @@ class DocumentProcessor:
             docsets.append(docsetID)
             for doc in docset:
                 docID = doc.get('id')
-                process_doc(docID)
+                path = self.output_dir + '/' + docsetID
+                process_doc(path, docID)
                 
         return docsets
 
