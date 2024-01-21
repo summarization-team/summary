@@ -34,6 +34,7 @@ class DocumentProcessor:
 
 # Process doc
 def process_doc(docID):
+    #AQUAINT2009Exceptions = ['AFP_ENG_200601', 'AFP_ENG_200602', 'AFP_ENG_200603', 'APW_ENG_200601', 'APW_ENG_200602', 'APW_ENG_200602']
     remove_these = ['&Cx1f', '&Cx13', '&Cx11', '&UR', '&LR', '&QL', '&HT', '&QC', '&QR', '&AMP']
     headerTags = ['DOCTYPE', 'DATE_TIME', 'DATETIME', 'CATEGORY', 'SLUG', 'HEADLINE', 'DATELINE']
     # AQUAINT
@@ -47,9 +48,23 @@ def process_doc(docID):
         for p in paragraphs:
             tokenized = tokenize_text(p)
     # AQUAINT 2
-    elif int(get_year(docID)) >= 2004 and int(get_year(docID)) < 2006:
+    elif (int(get_year(docID)) >= 2004 and int(get_year(docID)) <= 2006): 
         file = get_AQUAINT2_file(docID)
-        docXML = get_doc_AQUAINT2(docID, file)
+        try:
+            docXML = get_doc_AQUAINT2(docID, file)
+        # if not found in AQUAINT 2 try 2009 corpus
+        except:
+            try:
+                docXML = get_doc_2009(docID, file)
+                for x in remove_these:
+                    docXML = docXML.replace(x, '')
+                headers = get_doc_headers_2009(docID, docXML, headerTags)
+                paragraphs = separate_paragraphs(docXML)
+                for p in paragraphs:
+                    tokenized = tokenize_text(p)
+            except:
+                return
+
         for x in remove_these:
             docXML = docXML.replace(x, '')
         headers = get_doc_headers_AQUAINT2(docID, docXML, headerTags)
@@ -66,6 +81,7 @@ def process_doc(docID):
         paragraphs = separate_paragraphs(docXML)
         for p in paragraphs:
             tokenized = tokenize_text(p)
+
 
     
 # Return year from doc ID
@@ -98,7 +114,7 @@ def get_AQUAINT2_file(docID):
 
 # Return filepath of 2009 xml document
 def get_2009_file(docID):
-    filePath = '~/dropbox/23-24/575x/TAC_2010_KBP_Source_Data/data/2009/nw/'
+    filePath = '/dropbox/23-24/575x/TAC_2010_KBP_Source_Data/data/2009/nw/'
     filePath += docID[:7].lower() + '/'
     filePath += docID[8:-5] + '/'
     filePath += docID
