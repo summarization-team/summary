@@ -1,3 +1,4 @@
+import os
 import xml.etree.ElementTree as ET
 from nltk.tokenize import sent_tokenize, word_tokenize
 
@@ -33,8 +34,9 @@ class DocumentProcessor:
         return docsets
 
 # Process doc
-def process_doc(docID):
-    #AQUAINT2009Exceptions = ['AFP_ENG_200601', 'AFP_ENG_200602', 'AFP_ENG_200603', 'APW_ENG_200601', 'APW_ENG_200602', 'APW_ENG_200602']
+def process_doc(dirPath, docID):
+    if not os.path.exists(dirPath):
+        os.makedirs(dirPath)
     remove_these = ['&Cx1f', '&Cx13', '&Cx11', '&UR', '&LR', '&QL', '&HT', '&QC', '&QR', '&AMP']
     headerTags = ['DOCTYPE', 'DATE_TIME', 'DATETIME', 'CATEGORY', 'SLUG', 'HEADLINE', 'DATELINE']
     # AQUAINT
@@ -44,9 +46,17 @@ def process_doc(docID):
         for x in remove_these:
             docXML = docXML.replace(x, '')
         headers = get_doc_headers_AQUAINT(docID, docXML, headerTags)
-        paragraphs = separate_paragraphs(docXML)
-        for p in paragraphs:
-            tokenized = tokenize_text(p)
+        newFile = os.path.join(dirPath, docID)
+        with open(newFile, 'a') as F:
+            for h in headers:
+                F.write(h + '\n')
+            paragraphs = separate_paragraphs(docXML)
+            for p in paragraphs:
+                tokenized = tokenize_text(p)
+                F.write('\n')
+                for s in tokenized:
+                    F.write(str(s) + '\n')
+
     # AQUAINT 2
     elif (int(get_year(docID)) >= 2004 and int(get_year(docID)) <= 2006): 
         file = get_AQUAINT2_file(docID)
@@ -59,30 +69,32 @@ def process_doc(docID):
                 for x in remove_these:
                     docXML = docXML.replace(x, '')
                 headers = get_doc_headers_2009(docID, docXML, headerTags)
-                paragraphs = separate_paragraphs(docXML)
-                for p in paragraphs:
-                    tokenized = tokenize_text(p)
+                newFile = os.path.join(dirPath, docID)
+                with open(newFile, 'a') as F:
+                    for h in headers:
+                        F.write(h + '\n')
+                    paragraphs = separate_paragraphs(docXML)
+                    for p in paragraphs:
+                        tokenized = tokenize_text(p)
+                        F.write('\n')
+                        for s in tokenized:
+                            F.write(str(s) + '\n')
             except:
                 return
 
         for x in remove_these:
             docXML = docXML.replace(x, '')
         headers = get_doc_headers_AQUAINT2(docID, docXML, headerTags)
-        paragraphs = separate_paragraphs(docXML)
-        for p in paragraphs:
-            tokenized = tokenize_text(p)
-    # 2009 files
-    else:
-        file = get_2009_file(docID)
-        docXML = get_doc_2009(docID, file)
-        for x in remove_these:
-            docXML = docXML.replace(x, '')
-        headers = get_doc_headers_2009(docID, docXML, headerTags)
-        paragraphs = separate_paragraphs(docXML)
-        for p in paragraphs:
-            tokenized = tokenize_text(p)
-
-
+        newFile = os.path.join(dirPath, docID)
+        with open(newFile, 'a') as F:
+            for h in headers:
+                F.write(h + '\n')
+            paragraphs = separate_paragraphs(docXML)
+            for p in paragraphs:
+                tokenized = tokenize_text(p)
+                F.write('\n')
+                for s in tokenized:
+                    F.write(str(s) + '\n')
     
 # Return year from doc ID
 def get_year(docID):
