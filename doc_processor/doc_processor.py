@@ -4,17 +4,46 @@ from nltk.tokenize import sent_tokenize, word_tokenize
 
 
 class DocumentProcessor:
+    """
+    A class for processing XML documents.
+
+    This class provides functionalities to parse XML documents and process them
+    into a structured format suitable for further NLP tasks.
+
+    Attributes:
+        input_xml_file (str): The file path of the input XML file.
+        output_dir (str): The directory path where the processed output will be stored.
+    """
     def __init__(self, input_xml_file, output_dir):
+        """
+        Initializes the DocumentProcessor with the given XML file and output directory.
+
+        This class provides functionalities to parse XML documents and process them
+        into a structured format suitable for further NLP tasks.
+
+        Args:
+            input_xml_file (str): The file path of the input XML file.
+            output_dir (str): The directory path where the processed output will be stored.
+        """
         self.input_xml_file = input_xml_file
         self.output_dir = output_dir
-        
+
     def process_documents(self):
+        """
+        Processes the XML documents by parsing and extracting relevant information.
+
+        Reads the input XML file, parses its content, and processes it into a structured
+        format (DocSets). The processed documents are then saved in the specified output directory.
+
+        Returns:
+            list: A list of DocSets representing the processed documents.
+        """
         # Implement XML parsing and document processing
         # Return a list of DocSets
         docsets = []
         tree = ET.parse(self.input_xml_file)
         root = tree.getroot()
-        
+
         # Find all docsetA
         for docset in root.iter('docsetA'):
             docsetID = docset.get('id')
@@ -23,7 +52,7 @@ class DocumentProcessor:
                 docID = doc.get('id')
                 path = self.output_dir + '/' + docsetID
                 process_doc(path, docID)
-                
+
         # Find all docsetB
         for docset in root.iter('docsetB'):
             docsetID = docset.get('id')
@@ -32,11 +61,21 @@ class DocumentProcessor:
                 docID = doc.get('id')
                 path = self.output_dir + '/' + docsetID
                 process_doc(path, docID)
-                
+
         return docsets
 
-# Process doc
+
 def process_doc(dirPath, docID):
+    """
+    Processes a document by creating a directory, removing unwanted strings, and writing headers and tokenized text.
+
+    Args:
+        dirPath (str): The directory path where the processed document is to be saved.
+        docID (str): The document identifier.
+
+    Returns:
+        None
+    """
     if not os.path.exists(dirPath):
         os.makedirs(dirPath)
     remove_these = ['&Cx1f', '&Cx13', '&Cx11', '&UR', '&LR', '&QL', '&HT', '&QC', '&QR', '&AMP']
@@ -60,7 +99,7 @@ def process_doc(dirPath, docID):
                     F.write(str(s) + '\n')
 
     # AQUAINT 2
-    elif (int(get_year(docID)) >= 2004 and int(get_year(docID)) <= 2006): 
+    elif (int(get_year(docID)) >= 2004 and int(get_year(docID)) <= 2006):
         file = get_AQUAINT2_file(docID)
         try:
             docXML = get_doc_AQUAINT2(docID, file)
@@ -97,13 +136,31 @@ def process_doc(dirPath, docID):
                 F.write('\n')
                 for s in tokenized:
                     F.write(str(s) + '\n')
-    
-# Return year from doc ID
+
+
 def get_year(docID):
+    """
+    Extracts the year from a document identifier.
+
+    Args:
+        docID (str): The document identifier.
+
+    Returns:
+        str: The extracted year as a four-character string.
+    """
     return docID[-13:-9]
-    
-# Return filepath of AQUAINT xml document
+
+
 def get_AQUAINT_file(docID):
+    """
+    Constructs the filepath for an AQUAINT XML document based on the document identifier.
+
+    Args:
+        docID (str): The identifier of the AQUAINT document.
+
+    Returns:
+        str: The filepath of the specified AQUAINT document.
+    """
     filePath = '/corpora/LDC/LDC02T31/'
     filePath += docID[:3].lower() + '/'
     filePath += get_year(docID) + '/'
@@ -115,19 +172,37 @@ def get_AQUAINT_file(docID):
     else:
         filePath += docID[:3]
     return filePath
-    
-# Return filepath of AQUAINT 2 xml document
+
+
 def get_AQUAINT2_file(docID):
+    """
+    Constructs the filepath for an AQUAINT 2 XML document based on the document identifier.
+
+    Args:
+        docID (str): The identifier of the AQUAINT 2 document.
+
+    Returns:
+        str: The filepath of the specified AQUAINT 2 document.
+    """
     filePath = '/corpora/LDC/LDC08T25/data/'
     filePath += docID[:7].lower() + '/'
     if docID[:3] == 'XIE':
-        filepath += docID[4:-5] + 'XIN_ENG'
+        filePath += docID[4:-5] + 'XIN_ENG'
     else:
         filePath += docID[:7].lower() + '_' + docID[-13:-7] + '.xml'
     return filePath
 
-# Return filepath of 2009 xml document
+
 def get_2009_file(docID):
+    """
+    Constructs the filepath for a 2009 XML document based on the document identifier.
+
+    Args:
+        docID (str): The identifier of the 2009 document.
+
+    Returns:
+        str: The filepath of the specified 2009 document.
+    """
     filePath = '/dropbox/23-24/575x/TAC_2010_KBP_Source_Data/data/2009/nw/'
     filePath += docID[:7].lower() + '/'
     filePath += docID[8:-5] + '/'
@@ -138,8 +213,19 @@ def get_2009_file(docID):
         filePath += '.LDC2009T13.sgm'
     return filePath
 
-# Return headers to go in the top of the output file (DATE_TIME, CATEGORY, HEADLINE etc.)
+
 def get_doc_headers_AQUAINT(docID, docXML, tags):
+    """
+    Extracts headers from an AQUAINT document XML.
+
+    Args:
+        docID (str): The document identifier.
+        docXML (str): The XML content of the document.
+        tags (list of str): The tags to look for in the XML content.
+
+    Returns:
+        list of str: The extracted headers.
+    """
     headers = []
     root = ET.fromstring(docXML)
     if root.find('DOCNO').text.strip() == docID:
@@ -148,8 +234,19 @@ def get_doc_headers_AQUAINT(docID, docXML, tags):
                 headers.append(t + ': ' + i.text.strip())
     return headers
 
-# Return headers to go in the top of the output file (DATE_TIME, CATEGORY, HEADLINE etc.)
+
 def get_doc_headers_AQUAINT2(docID, docXML, tags):
+    """
+    Extracts headers from an AQUAINT 2 document XML.
+
+    Args:
+        docID (str): The document identifier.
+        docXML (str): The XML content of the document.
+        tags (list of str): The tags to look for in the XML content.
+
+    Returns:
+        list of str: The extracted headers.
+    """
     headers = []
     root = ET.fromstring(docXML)
     if root.get('id').strip() == docID:
@@ -158,8 +255,19 @@ def get_doc_headers_AQUAINT2(docID, docXML, tags):
                 headers.append(t + ': ' + i.text.strip())
     return headers
 
-# Return headers to go in the top of the output file (DATE_TIME, CATEGORY, HEADLINE etc.)
+
 def get_doc_headers_2009(docID, docXML, tags):
+    """
+    Extracts headers from a 2009 document XML.
+
+    Args:
+        docID (str): The document identifier.
+        docXML (str): The XML content of the document.
+        tags (list of str): The tags to look for in the XML content.
+
+    Returns:
+        list of str: The extracted headers.
+    """
     headers = []
     root = ET.fromstring(docXML)
     if root.find('DOCID').text.strip()[:21] == docID:
@@ -169,9 +277,17 @@ def get_doc_headers_2009(docID, docXML, tags):
     return headers
 
 
-
-# Return xml with specified doc ID from AQUAINT xml file
 def get_doc_AQUAINT(docID, filepath):
+    """
+    Retrieves the XML content of an AQUAINT document given its identifier and filepath.
+
+    Args:
+        docID (str): The document identifier.
+        filepath (str): The filepath to the AQUAINT document.
+
+    Returns:
+        str: The XML content of the document.
+    """
     doc = '<DOC>'
     with open(filepath) as F:
         inDoc = False
@@ -182,6 +298,7 @@ def get_doc_AQUAINT(docID, filepath):
                 doc += line
             if inDoc and line == '</DOC>\n':
                 return doc
+
 
 # Return xml with specified doc ID from AQUAINT 2 xml file
 def get_doc_AQUAINT2(docID, filepath):
@@ -196,8 +313,18 @@ def get_doc_AQUAINT2(docID, filepath):
             if inDoc and line == '</DOC>\n':
                 return doc
 
-# Return xml with specified doc ID from 2009 xml file
+
 def get_doc_2009(docID, filepath):
+    """
+    Retrieves the XML content of a 2009 document given its identifier and filepath.
+
+    Args:
+        docID (str): The document identifier.
+        filepath (str): The filepath to the 2009 document.
+
+    Returns:
+        str: The XML content of the document.
+    """
     doc = '<DOC>'
     with open(filepath) as F:
         inDoc = False
@@ -210,10 +337,16 @@ def get_doc_2009(docID, filepath):
                 return doc
 
 
-            
-# Split text into paragraphs
-# Return list of paragraphs
 def separate_paragraphs(docXML):
+    """
+    Separates text into paragraphs from the given document XML.
+
+    Args:
+        docXML (str): The XML content of the document.
+
+    Returns:
+        list of str: A list of paragraphs extracted from the document.
+    """
     paragraphs = []
     text = docXML.split('<TEXT>')
     text = text[1].split('</TEXT>')[0]
@@ -236,14 +369,18 @@ def separate_paragraphs(docXML):
                 paragraphs.append(p)
     return paragraphs
 
-# Tokenize text
-#Return list of tokenized sentences
+
 def tokenize_text(text):
+    """
+    Tokenizes the given text into sentences, and then tokenizes each sentence into words.
+
+    Args:
+        text (str): The text to be tokenized.
+
+    Returns:
+        list of list of str: A list of sentences, where each sentence is a list of word tokens.
+    """
     sentences = []
     for s in sent_tokenize(text):
         sentences.append(word_tokenize(s))
     return sentences
-
-
-            
-            
