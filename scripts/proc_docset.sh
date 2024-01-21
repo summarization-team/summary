@@ -1,2 +1,6 @@
 #!/bin/sh
-/mnt/dropbox/23-24/571/envs/571/bin/python ../doc_processor/__init__.py $1 $2
+if [ -f "$HOME/anaconda3/etc/profile.d/conda.sh" ]; then
+    source "$HOME/anaconda3/etc/profile.d/conda.sh"
+    conda activate Summary
+fi
+python3  ../doc_processor/__init__.py $1 $2
