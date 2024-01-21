@@ -28,7 +28,7 @@ class DocumentProcessor:
                     for x in remove_these:
                         docXML = docXML.replace(x, '')
                     headers = get_doc_headers(docID, docXML, ['DOCTYPE', 'DATE_TIME', 'CATEGORY', 'SLUG', 'HEADLINE'])
-                    #docText = get_doc_test(docID)
+                    paragraphs = separate_paragraphs(docXML)
                 # AQUIAINT 2
                 elif int(get_year(docID)) >= 2004 and int(get_year(docID)) <= 2006:
                     file = get_AQUAINT2_file(docID)
@@ -99,5 +99,30 @@ def get_doc(docID, filepath):
             if inDoc and line == '</DOC>\n':
                 return doc
             
+# Split text into paragraphs
+# Return list of paragraphs
+def separate_paragraphs(docXML):
+    paragraphs = []
+    text = docXML.split('<TEXT>')
+    text = text[1].split('</TEXT>')[0]
+    if '<P>' in docXML:
+        paras = text.split('<P>')
+        for p in paras:
+            p = p.replace('</P>', '')
+            p = p.replace('\n', ' ')
+            p = p.replace('\t', ' ')
+            p = p.strip()
+            if len(p) > 0:
+                paragraphs.append(p)
+    else:
+        paras = text.split('\n')
+        for p in paras:
+            p = p.replace('\n', ' ')
+            p = p.replace('\t', ' ')
+            p = p.strip()
+            if len(p) > 0:
+                paragraphs.append(p)
+    return paragraphs
+
             
             
