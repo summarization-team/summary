@@ -12,7 +12,7 @@
             "method": "simple_heuristic"
         },
         "content_realization": {
-            "method": "default"
+            "method": "simple"
         }
     }
 }

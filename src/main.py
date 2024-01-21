@@ -8,6 +8,14 @@ def load_config(config_path):
     with open(config_path, 'r') as file:
         return json.load(file)
 
+def get_realization_strategy(method_name):
+    if method_name == 'simple':
+        return SimpleJoinMethod()
+    elif method_name == 'sentence_compression':
+        return SentenceCompressionMethod()
+    else:
+        raise ValueError("Unknown realization strategy: {}".format(method_name))
+
 def main(config):
     # Document Processing
     doc_processor = DocumentProcessor(config['document_processing']['input_xml_file'],
