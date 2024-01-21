@@ -1,4 +1,5 @@
 import xml.etree.ElementTree as ET
+from nltk.tokenize import sent_tokenize, word_tokenize
 
 
 class DocumentProcessor:
@@ -29,7 +30,9 @@ class DocumentProcessor:
                         docXML = docXML.replace(x, '')
                     headers = get_doc_headers(docID, docXML, ['DOCTYPE', 'DATE_TIME', 'CATEGORY', 'SLUG', 'HEADLINE'])
                     paragraphs = separate_paragraphs(docXML)
-                # AQUIAINT 2
+                    for p in paragraphs:
+                        tokenized = tokenize_text(p)
+                # AQUAINT 2
                 elif int(get_year(docID)) >= 2004 and int(get_year(docID)) <= 2006:
                     file = get_AQUAINT2_file(docID)
                 # 2009 files
@@ -123,6 +126,15 @@ def separate_paragraphs(docXML):
             if len(p) > 0:
                 paragraphs.append(p)
     return paragraphs
+
+# Tokenize text
+#Return list of tokenized sentences
+def tokenize_text(text):
+    sentences = []
+    for s in sent_tokenize(text):
+        sentences.append(word_tokenize(s))
+    return sentences
+
 
             
             
