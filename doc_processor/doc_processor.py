@@ -18,28 +18,41 @@ class DocumentProcessor:
         for docset in root.iter('docsetA'):
             docsetID = docset.get('id')
             docsets.append(docsetID)
-            
             for doc in docset:
                 docID = doc.get('id')
-                # AQUAINT
-                if int(get_year(docID)) >= 1996 and int(get_year(docID)) <= 2000:
-                    file = get_AQUAINT_file(docID)
-                    docXML = get_doc(docID, file)
-                    remove_these = ['&Cx1f', '&Cx13', '&Cx11', '&UR', '&LR', '&QL', '&HT', '&QC', '&AMP']
-                    for x in remove_these:
-                        docXML = docXML.replace(x, '')
-                    headers = get_doc_headers(docID, docXML, ['DOCTYPE', 'DATE_TIME', 'CATEGORY', 'SLUG', 'HEADLINE'])
-                    paragraphs = separate_paragraphs(docXML)
-                    for p in paragraphs:
-                        tokenized = tokenize_text(p)
-                # AQUAINT 2
-                elif int(get_year(docID)) >= 2004 and int(get_year(docID)) <= 2006:
-                    file = get_AQUAINT2_file(docID)
-                # 2009 files
-                elif int(get_year(docID)) == 2009:
-                    file = get_2009_file(docID)
-                             
+                process_doc(docID)
+                
+        # Find all docsetB
+        for docset in root.iter('docsetB'):
+            docsetID = docset.get('id')
+            docsets.append(docsetID)
+            for doc in docset:
+                docID = doc.get('id')
+                process_doc(docID)
+                
         return docsets
+
+# Process doc
+def process_doc(docID):
+    # AQUAINT
+    if int(get_year(docID)) >= 1996 and int(get_year(docID)) <= 2000:
+        file = get_AQUAINT_file(docID)
+        docXML = get_doc(docID, file)
+        remove_these = ['&Cx1f', '&Cx13', '&Cx11', '&UR', '&LR', '&QL', '&HT', '&QC', '&QR', '&AMP']
+        for x in remove_these:
+            docXML = docXML.replace(x, '')
+        headers = get_doc_headers(docID, docXML, ['DOCTYPE', 'DATE_TIME', 'CATEGORY', 'SLUG', 'HEADLINE'])
+        print('AQUAINT: ' + file)
+        paragraphs = separate_paragraphs(docXML)
+        for p in paragraphs:
+            tokenized = tokenize_text(p)
+    # AQUAINT 2
+    elif int(get_year(docID)) >= 2004 and int(get_year(docID)) <= 2006:
+        file = get_AQUAINT2_file(docID)
+    # 2009 files
+    elif int(get_year(docID)) == 2009:
+        file = get_2009_file(docID)
+
     
 # Return year from doc ID
 def get_year(docID):
