@@ -1,3 +1,8 @@
+# Ignore data/ dir on repo to avoid github size limits
+data/
+
+# vs
+.vs/
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
