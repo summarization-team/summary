@@ -1,0 +1,47 @@
+DOCTYPE: NEWS STORY
+DATETIME: 2007-02-07
+HEADLINE: Massive hacker attack slows but fails to bring down Internet by
+Rob Lever
+
+['The', 'worst', 'attack', 'in', 'years', 'on', 'the', 'Internet', "'s", 'infrastructure', ',', 'which', 'slowed', 'traffic', 'but', 'failed', 'to', 'bring', 'down', 'the', 'Web', ',', 'used', 'infected', 'computers', 'around', 'the', 'world', 'as', '``', 'zombies', ',', "''", 'security', 'experts', 'said', 'Wednesday', '.']
+
+['The', 'US', 'Department', 'of', 'Homeland', 'Security', 'meanwhile', 'confirmed', 'that', 'its', 'cybersecurity', 'arm', 'had', 'been', 'monitoring', '``', 'anomalous', "''", 'activity', 'on', 'the', 'Internet', '.']
+
+['``', 'The', 'nature', 'of', 'the', 'traffic', 'has', 'not', 'been', 'confirmed', ',', 'and', 'the', 'servers', 'which', 'are', 'overseas', 'remain', 'operational', ',', "''", 'DHS', 'spokesman', 'Russ', 'Knocke', 'said', '.']
+
+['``', 'There', 'are', 'no', 'indications', 'of', 'any', 'direct', 'nexus', 'to', 'the', 'United', 'States', 'at', 'this', 'time', '.']
+['Also', ',', 'there', 'is', 'no', 'credible', 'intelligence', 'to', 'suggest', 'an', 'imminent', 'threat', 'to', 'the', 'homeland', 'or', 'our', 'computing', 'systems', 'at', 'this', 'time', '.', "''"]
+
+['Graham', 'Cluley', ',', 'senior', 'technology', 'consultant', 'at', 'the', 'London-based', 'firm', 'Sophos', ',', 'said', 'Tuesday', "'s", 'incident', '``', 'seems', 'to', 'have', 'been', 'the', 'most', 'serious', 'attack', 'against', 'these', 'domain', 'name', 'servers', "''", 'since', 'late', '2002', '.']
+
+['Cluley', 'said', 'three', 'of', 'the', '13', 'domain', 'name', 'system', '(', 'DNS', ')', 'servers', 'that', 'control', 'global', 'Internet', 'traffic', 'were', 'hit', 'with', 'a', 'so-called', '``', 'denial', 'of', 'service', "''", 'attack', ',', 'which', 'means', 'they', 'were', 'bombarded', 'with', 'information', 'requests', 'in', 'an', 'effort', 'to', 'bring', 'them', 'down', '.']
+
+['Cluley', 'noted', 'that', 'the', 'attack', 'was', 'coming', 'from', 'PCs', 'taken', 'over', 'by', 'hackers', 'to', 'create', 'zombie', 'networks', 'or', '``', 'botnets', "''", 'to', 'bombard', 'the', 'servers', 'with', 'traffic', '.']
+
+['``', 'These', 'zombie', 'computers', 'could', 'have', 'brought', 'the', 'Web', 'to', 'its', 'knees', ',', 'and', 'while', 'the', 'resilience', 'of', 'the', 'root', 'servers', 'should', 'be', 'commended', ',', 'more', 'needs', 'to', 'be', 'done', 'to', 'tackle', 'the', 'root', 'of', 'the', 'problem', '--', 'the', 'lax', 'attitude', 'of', 'some', 'users', 'towards', 'IT', 'security', ',', "''", 'he', 'said', '.']
+
+['He', 'said', 'that', 'since', 'the', '2002', 'attacks', ',', '``', 'the', 'system', 'has', 'become', 'more', 'resilient', 'and', 'is', 'well', 'set', 'up', 'to', 'bounce', 'back', 'from', 'these', 'attacks', '.', "''"]
+
+['The', 'US-based', 'SANS', 'Internet', 'Storm', 'Center', 'said', 'experts', 'at', 'the', 'computer', 'security', 'institute', 'were', '``', 'aware', 'of', 'the', 'attacks', ',', "''", 'and', 'trying', 'to', 'get', 'more', 'information', 'about', 'them', '.']
+
+['``', 'We', "'re", 'still', 'hunting', 'for', 'some', 'technical', 'details', ',', "''", 'said', 'center', 'director', 'Marcus', 'Sachs', '.']
+
+['Cluley', 'said', 'some', 'reports', 'traced', 'the', 'attacks', 'to', 'South', 'Korea', ',', 'but', 'added', 'that', '``', 'it', 'does', "n't", 'mean', 'the', 'hackers', 'are', 'based', 'there', '...', 'the', 'bad', 'guys', 'could', 'be', 'based', 'anywhere', 'in', 'the', 'world', '.', "''"]
+
+['``', 'It', 'could', 'be', 'that', 'your', 'grandmother', "'s", 'computer', 'in', 'the', 'bedroom', ',', 'unbeknownst', 'to', 'her', ',', 'may', 'have', 'been', 'trying', 'to', 'bring', 'down', 'the', 'Internet', '.', "''"]
+
+['He', 'said', 'the', 'motive', 'of', 'the', 'attack', 'was', 'unclear', '.']
+['One', 'tactic', 'used', 'by', 'hackers', 'in', 'the', 'past', 'was', 'blackmail', ',', 'or', 'to', 'threaten', 'to', 'shut', 'down', 'a', 'website', 'with', 'a', 'denial', 'of', 'service', 'attack', 'if', 'money', 'is', 'not', 'paid', '.']
+
+['``', 'Another', 'possibility', 'is', 'just', 'plain', 'mischief', ',', 'and', 'my', 'feeling', 'is', 'that', 'this', 'may', 'have', 'been', 'just', 'a', 'bit', 'of', 'a', 'lark', ',', "''", 'Cluley', 'said', '.']
+['``', 'Fortunately', 'this', 'was', 'repelled', '.', "''"]
+
+['The', 'attack', 'was', 'on', 'three', 'of', 'the', '13', 'Internet', 'root', 'servers', ',', 'which', 'manage', 'the', 'domains', 'from', 'various', 'locations', 'around', 'the', 'world', 'and', 'convert', 'website', 'names', 'such', 'as', 'Amazon.com', 'to', 'their', 'numeric', 'IP', '(', 'Internet', 'Protocol', ')', 'address', '.']
+
+['``', 'If', 'the', 'DNS', 'servers', 'were', 'to', 'fall', 'over', 'then', 'pandemonium', 'would', 'ensue', ',', 'emphasizing', 'the', 'importance', 'of', 'properly', 'defending', 'all', 'PCs', 'from', 'being', 'taken', 'over', 'by', 'hackers', ',', "''", 'said', 'Cluley', '.']
+
+['``', 'A', 'denial-of-service', 'attack', 'like', 'this', 'swamps', 'Web-connected', 'servers', 'with', 'traffic', 'from', 'many', 'computers', 'around', 'the', 'globe', '.']
+['It', "'s", 'a', 'bit', 'like', '20', 'hippos', 'trying', 'to', 'get', 'through', 'a', 'revolving', 'door', 'at', 'the', 'same', 'time', '--', 'there', "'s", 'no', 'route', 'through', 'and', 'everything', 'clogs', 'up', '.', "''"]
+
+['In', 'October', '2002', ',', 'another', 'major', 'attack', 'targeted', 'the', '13', 'root', 'servers', 'and', 'slowed', 'traffic', '.']
+['But', 'experts', 'said', 'at', 'the', 'time', 'that', 'the', 'Internet', 'would', 'still', 'operate', 'with', 'at', 'least', 'one', 'of', 'the', 'servers', 'functioning', '.']

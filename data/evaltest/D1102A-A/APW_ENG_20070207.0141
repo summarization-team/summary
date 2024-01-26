@@ -1,0 +1,36 @@
+DOCTYPE: NEWS STORY
+DATETIME: 2007-02-07
+HEADLINE: Hackers overwhelm some vital Internet traffic computers
+
+['WASHINGTON', '2007-02-07', '01:43:26', 'UTC']
+
+['Hackers', 'briefly', 'overwhelmed', 'at', 'least', 'three', 'of', 'the', '13', 'computers', 'that', 'help', 'manage', 'global', 'computer', 'traffic', 'Tuesday', 'in', 'one', 'of', 'the', 'most', 'significant', 'attacks', 'against', 'the', 'Internet', 'since', '2002', '.']
+
+['Experts', 'said', 'the', 'unusually', 'powerful', 'attacks', 'lasted', 'as', 'long', 'as', '12', 'hours', 'but', 'passed', 'largely', 'unnoticed', 'by', 'most', 'computer', 'users', ',', 'a', 'testament', 'to', 'the', 'resiliency', 'of', 'the', 'Internet', '.']
+['Behind', 'the', 'scenes', ',', 'computer', 'scientists', 'worldwide', 'raced', 'to', 'cope', 'with', 'enormous', 'volumes', 'of', 'data', 'that', 'threatened', 'to', 'saturate', 'some', 'of', 'the', 'Internet', "'s", 'most', 'vital', 'pipelines', '.']
+
+['The', 'Homeland', 'Security', 'Department', 'confirmed', 'it', 'was', 'monitoring', 'what', 'it', 'called', '``', 'anomalous', "''", 'Internet', 'traffic', '.']
+
+['``', 'There', 'is', 'no', 'credible', 'intelligence', 'to', 'suggest', 'an', 'imminent', 'threat', 'to', 'the', 'homeland', 'or', 'our', 'computing', 'systems', 'at', 'this', 'time', ',', "''", 'the', 'department', 'said', 'in', 'a', 'statement', '.']
+
+['The', 'motive', 'for', 'the', 'attacks', 'was', 'unclear', ',', 'said', 'Duane', 'Wessels', ',', 'a', 'researcher', 'at', 'the', 'Cooperative', 'Association', 'for', 'Internet', 'Data', 'Analysis', 'at', 'the', 'San', 'Diego', 'Supercomputing', 'Center', '.']
+['``', 'Maybe', 'to', 'show', 'off', 'or', 'just', 'be', 'disruptive', ';', 'it', 'does', "n't", 'seem', 'to', 'be', 'extortion', 'or', 'anything', 'like', 'that', ',', "''", 'Wessels', 'said', '.']
+
+['Other', 'experts', 'said', 'the', 'hackers', 'appeared', 'to', 'disguise', 'their', 'origin', ',', 'but', 'vast', 'amounts', 'of', 'rogue', 'data', 'in', 'the', 'attacks', 'were', 'traced', 'to', 'South', 'Korea', '.']
+
+['The', 'attacks', 'appeared', 'to', 'target', 'UltraDNS', ',', 'the', 'company', 'that', 'operates', 'servers', 'managing', 'traffic', 'for', 'Web', 'sites', 'ending', 'in', '``', 'org', "''", 'and', 'some', 'other', 'suffixes', ',', 'experts', 'said', '.']
+['Officials', 'with', 'NeuStar', 'Inc.', ',', 'which', 'owns', 'UltraDNS', ',', 'confirmed', 'only', 'that', 'it', 'had', 'observed', 'an', 'unusual', 'increase', 'in', 'traffic', '.']
+
+['Among', 'the', 'targeted', '``', 'root', "''", 'servers', 'that', 'manage', 'global', 'Internet', 'traffic', 'were', 'ones', 'operated', 'by', 'the', 'Defense', 'Department', 'and', 'the', 'Internet', "'s", 'primary', 'oversight', 'body', '.']
+
+['``', 'There', 'was', 'what', 'appears', 'to', 'be', 'some', 'form', 'of', 'attack', 'during', 'the', 'night', 'hours', 'here', 'in', 'California', 'and', 'into', 'the', 'morning', ',', "''", 'said', 'John', 'Crain', ',', 'chief', 'technical', 'officer', 'for', 'the', 'Internet', 'Corp.', 'for', 'Assigned', 'Names', 'and', 'Numbers', '.']
+['He', 'said', 'the', 'attack', 'was', 'continuing', 'and', 'so', 'was', 'the', 'hunt', 'for', 'its', 'origin', '.']
+
+['``', 'I', 'do', "n't", 'think', 'anybody', 'has', 'the', 'full', 'picture', ',', "''", 'Crain', 'said', '.']
+['``', 'We', "'re", 'looking', 'at', 'the', 'data', '.', "''"]
+
+['Crain', 'said', 'Tuesday', "'s", 'attack', 'was', 'less', 'serious', 'than', 'attacks', 'against', 'the', 'same', '13', '``', 'root', "''", 'servers', 'in', 'October', '2002', 'because', 'technology', 'innovations', 'in', 'recent', 'years', 'have', 'increasingly', 'distributed', 'their', 'workloads', 'to', 'other', 'computers', 'around', 'the', 'globe', '.']
+
+['--', '--', '--']
+
+['AP', 'Internet', 'writer', 'Anick', 'Jesdanun', 'contributed', 'to', 'this', 'report', 'from', 'New', 'York', '.']

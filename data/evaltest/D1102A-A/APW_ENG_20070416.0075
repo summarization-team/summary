@@ -1,0 +1,44 @@
+DOCTYPE: NEWS STORY
+DATETIME: 2007-04-16
+HEADLINE: Internet design challenges lead to work on rebuilding network
+
+['NEW', 'YORK', '2007-04-16', '01:03:25', 'UTC']
+
+['Government', 'and', 'university', 'researchers', 'have', 'been', 'exploring', 'ways', 'to', 'redesign', 'the', 'Internet', 'from', 'scratch', '.']
+['Some', 'of', 'the', 'challenges', 'that', 'led', 'researchers', 'to', 'start', 'thinking', 'of', 'clean-slate', 'approaches', ':']
+
+['SECURITY']
+
+['THE', 'CHALLENGE', ':', 'The', 'Internet', 'was', 'designed', 'to', 'be', 'open', 'and', 'flexible', ',', 'and', 'all', 'users', 'were', 'assumed', 'to', 'be', 'trustworthy', '.']
+['Thus', ',', 'the', 'Internet', "'s", 'protocols', 'were', 'not', 'designed', 'to', 'authenticate', 'users', 'and', 'their', 'data', ',', 'allowing', 'spammers', 'and', 'hackers', 'to', 'easily', 'cover', 'their', 'tracks', 'by', 'attaching', 'fake', 'return', 'addresses', 'onto', 'data', 'packets', '.']
+
+['THE', 'CURRENT', 'FIX', ':', 'Internet', 'applications', 'such', 'as', 'firewalls', 'and', 'spam', 'filters', 'attempt', 'to', 'control', 'security', 'threats', '.']
+['But', 'because', 'such', 'techniques', 'do', 'not', 'penetrate', 'deep', 'into', 'the', 'network', ',', 'bad', 'data', 'still', 'get', 'passed', 'along', ',', 'clogging', 'systems', 'and', 'possibly', 'fooling', 'the', 'filtering', 'technology', '.']
+
+['THE', 'CLEAN-SLATE', 'SOLUTION', ':', 'The', 'network', 'would', 'have', 'to', 'be', 'redesigned', 'to', 'be', 'skeptical', 'of', 'all', 'users', 'and', 'data', 'packets', 'from', 'the', 'start', '.']
+['Data', 'would', 'not', 'be', 'passed', 'along', 'unless', 'the', 'packets', 'are', 'authenticated', '.']
+['Faster', 'computers', 'today', 'should', 'be', 'able', 'to', 'handle', 'the', 'additional', 'processing', 'required', 'within', 'the', 'network', '.']
+
+['MOBILITY']
+
+['THE', 'CHALLENGE', ':', 'Computers', 'rarely', 'moved', ',', 'so', 'numeric', 'Internet', 'addresses', 'were', 'assigned', 'to', 'devices', 'based', 'on', 'their', 'location', '.']
+['A', 'laptop', ',', 'on', 'the', 'other', 'hand', ',', 'is', 'constantly', 'on', 'the', 'move', '.']
+
+['THE', 'CURRENT', 'FIX', ':', 'A', 'laptop', 'changes', 'its', 'address', 'and', 'reconnects', 'as', 'it', 'moves', 'from', 'one', 'wireless', 'access', 'point', 'to', 'another', ',', 'disrupting', 'data', 'flow', '.']
+['Another', 'workaround', 'is', 'to', 'have', 'all', 'traffic', 'channel', 'back', 'to', 'the', 'first', 'access', 'point', 'as', 'a', 'laptop', 'moves', 'to', 'a', 'second', 'or', 'a', 'third', 'location', ',', 'but', 'delays', 'could', 'result', 'from', 'the', 'extra', 'distance', '.']
+
+['THE', 'CLEAN-SLATE', 'SOLUTION', ':', 'The', 'address', 'system', 'would', 'have', 'to', 'be', 'restructured', 'so', 'that', 'addresses', 'are', 'based', 'more', 'on', 'the', 'device', 'and', 'less', 'on', 'the', 'location', '.']
+['This', 'way', ',', 'a', 'laptop', 'could', 'retain', 'its', 'address', 'as', 'it', 'hops', 'through', 'multiple', 'hot', 'spots', '.']
+
+['UBIQUITY']
+
+['THE', 'CHALLENGE', ':', 'The', 'Internet', 'was', 'designed', 'when', 'there', 'were', 'relatively', 'few', 'computers', 'connecting', 'to', 'it', '.']
+['The', 'proliferation', 'of', 'personal', 'computers', 'and', 'mobile', 'devices', 'led', 'to', 'a', 'scarcity', 'in', 'the', 'initial', 'address', 'system', '.']
+['There', 'will', 'be', 'even', 'more', 'demand', 'for', 'addresses', 'as', 'toasters', ',', 'air', 'conditioners', 'and', 'other', 'devices', 'come', 'with', 'Internet', 'capability', ',', 'as', 'will', 'standalone', 'sensors', 'for', 'measuring', 'everything', 'from', 'the', 'temperature', 'to', 'the', 'availability', 'of', 'parking', 'spaces', '.']
+
+['THE', 'CURRENT', 'FIX', ':', 'Engineers', 'expanded', 'the', 'address', 'pool', 'with', 'a', 'system', 'called', 'IPv6', ',', 'but', 'nearly', 'a', 'decade', 'after', 'most', 'of', 'the', 'groundwork', 'was', 'completed', ',', 'the', 'vast', 'majority', 'of', 'software', 'and', 'hardware', 'still', 'use', 'the', 'older', ',', 'more', 'crowded', 'IPv4', 'technology', '.']
+['Even', 'if', 'more', 'migrate', 'to', 'IPv6', ',', 'processing', 'the', 'addresses', 'for', 'all', 'the', 'sensors', 'could', 'prove', 'taxing', '.']
+
+['THE', 'CLEAN-SLATE', 'SOLUTION', ':', 'Researchers', 'are', 'questioning', 'whether', 'all', 'devices', 'truly', 'need', 'addresses', '.']
+['Perhaps', 'sensors', 'in', 'a', 'home', 'could', 'talk', 'to', 'one', 'another', 'locally', 'and', 'relay', 'the', 'most', 'important', 'data', 'through', 'a', 'gateway', 'bearing', 'an', 'address', '.']
+['This', 'way', ',', 'the', 'Internet', "'s", 'traffic', 'cops', ',', 'known', 'as', 'routers', ',', 'would', "n't", 'have', 'to', 'keep', 'track', 'of', 'every', 'single', 'sensor', ',', 'improving', 'efficiency', '.']
