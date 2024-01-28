@@ -1,0 +1,43 @@
+DOCTYPE: NEWS STORY
+DATETIME: 2007-02-08
+HEADLINE: VeriSign to spend more than $100M on infrastructure upgrade
+
+['SAN', 'FRANCISCO', '2007-02-08', '04:10:56', 'UTC']
+
+['VeriSign', 'Inc.', ',', 'which', 'manages', 'the', '``', '.com', "''", 'and', '``', '.net', "''", 'domain', 'names', 'registry', 'and', 'ensures', 'Internet', 'users', 'can', 'reach', 'those', 'locations', ',', 'said', 'it', 'will', 'spend', 'more', 'than', '$', '100', 'million', '(', 'euro77', 'million', ')', 'in', 'a', 'massive', 'infrastructure', 'upgrade', 'to', 'combat', 'a', 'new', 'wave', 'of', 'computer', 'attacks', 'and', 'manage', 'a', 'surge', 'in', 'online', 'activity', '.']
+
+['Industry', 'experts', 'said', 'VeriSign', "'s", 'investment', 'comes', 'at', 'a', 'critical', 'time', 'for', 'the', 'computing', 'world', '.']
+['They', 'pointed', 'to', 'hackers', "'", 'powerful', 'attacks', 'this', 'week', 'on', 'the', 'computers', 'that', 'manage', 'global', 'Internet', 'traffic', 'as', 'evidence', 'of', 'the', 'mounting', 'threat', 'from', 'online', 'criminals', '.']
+
+['Stratton', 'Sclavos', ',', 'VeriSign', "'s", 'chief', 'executive', 'officer', ',', 'was', 'scheduled', 'to', 'announce', 'the', 'upgrade', 'Thursday', 'in', 'San', 'Francisco', 'at', 'a', 'security', 'conference', 'sponsored', 'by', 'RSA', 'Inc.', ',', 'the', 'security', 'division', 'of', 'EMC', 'Corp', '.']
+
+['Sclavos', 'said', 'it', "'s", 'the', 'company', "'s", 'largest', 'investment', 'in', 'infrastructure', 'upgrades', 'and', 'technology', 'development', '.']
+['The', 'overall', 'investment', 'is', 'slated', 'to', 'boost', 'capacity', 'tenfold', 'by', '2010', '.']
+
+['Sclavos', 'said', 'VeriSign', ',', 'which', 'operates', 'two', 'of', 'the', '13', 'so-called', '``', 'root', "''", 'servers', 'that', 'manage', 'global', 'Internet', 'traffic', ',', 'has', 'an', 'obligation', 'to', 'stay', 'ahead', 'of', 'increasingly', 'insidious', 'and', 'widespread', 'Internet', 'attacks', '.']
+
+['``', 'We', "'re", 'seeing', 'a', 'lot', 'more', 'sophistication', 'in', 'these', 'attacks', ',', "''", 'he', 'said', '.']
+['``', 'And', 'they', "'re", 'not', 'just', 'targeting', 'thousands', 'of', 'users', '--', 'they', "'re", 'targeting', 'hundreds', 'of', 'thousands', 'or', 'millions', 'of', 'users', '.', "''"]
+
+['The', 'Mountain', 'View-based', 'company', 'said', 'the', 'expansion', 'will', 'increase', 'its', 'ability', 'to', 'process', 'domain', 'name', 'system', ',', 'or', 'DNS', ',', 'queries', 'from', '400', 'billion', 'a', 'day', 'to', 'more', 'than', '4', 'trillion', 'a', 'day', '.']
+['Those', 'queries', 'occur', 'every', 'time', 'Internet', 'users', 'click', 'on', '``', '.com', "''", 'or', '``', '.net', "''", 'Web', 'sites', 'or', 'check', 'e-mail', 'and', 'use', 'applications', 'that', 'utilize', 'those', 'domain', 'names', '.']
+
+['VeriSign', 'said', 'it', 'currently', 'processes', '24', 'billion', 'such', 'interactions', 'daily', ',', 'and', 'it', 'is', 'preparing', 'for', 'dramatically', 'higher', 'activity', 'as', 'more', 'users', 'get', 'online', 'worldwide', 'and', 'conduct', 'more', 'of', 'their', 'business', 'and', 'leisure', 'on', 'the', 'Web', '.']
+
+['The', 'investment', 'also', 'will', 'boost', 'bandwidth', 'on', 'VeriSign', "'s", 'systems', 'from', 'more', 'than', '20', 'gigabits', 'per', 'second', 'to', 'more', 'than', '200', 'gigabits', 'per', 'second', '.']
+
+['The', 'company', 'promises', 'reduced', 'bottlenecks', 'and', 'ramped-up', 'speed', 'from', 'infrastructure', 'that', 'is', 'more', 'broadly', 'distributed', 'around', 'the', 'world', '.']
+
+['But', 'Sclavos', 'said', 'security', 'is', 'also', 'a', 'key', 'element', 'of', 'the', 'upgrade', ',', 'including', 'the', 'strengthening', 'of', 'security', 'provisions', 'and', 'engineering', 'improvements', 'to', 'bolster', 'the', 'ability', 'to', 'identify', 'and', 'track', 'security', 'threats', 'around', 'the', 'globe', '.']
+
+['``', 'This', 'is', 'good', 'for', 'the', 'whole', 'Internet', 'infrastructure', ',', "''", 'Sclavos', 'said', '.']
+['``', 'If', 'the', 'Internet', "'s", 'infrastructure', 'fails', ',', 'hundreds', 'of', 'billions', 'of', 'dollars', 'in', 'commerce', 'and', 'communications', 'will', 'be', 'at', 'risk', '.']
+['We', 'ca', "n't", 'afford', 'for', 'that', 'to', 'happen', '.', "''"]
+
+['Will', 'Stofega', ',', 'a', 'research', 'manager', 'with', 'market', 'researcher', 'IDC', ',', 'said', 'the', 'attacks', 'this', 'week', 'that', 'overwhelmed', 'at', 'least', 'three', 'of', 'the', '13', 'root', 'servers', 'highlight', 'the', 'growing', 'threat', 'posed', 'by', 'online', 'criminals', '.']
+
+['He', 'said', 'the', 'last', 'major', 'round', 'of', 'large', 'upgrades', 'occurred', 'during', 'the', 'dot-com', 'boom', 'and', 'that', 'VeriSign', "'s", 'investment', 'could', 'prod', 'other', 'companies', 'into', 'following', 'suit', '.']
+
+['``', 'This', 'is', 'a', 'very', 'timely', 'investment', ',', "''", 'Stofega', 'said', '.']
+['``', 'In', 'a', 'couple', 'of', 'years', ',', 'we', "'re", 'going', 'to', 'start', 'seeing', 'some', 'very', ',', 'very', 'serious', 'types', 'of', 'attacks', '.']
+['If', 'we', 'do', "n't", 'start', 'making', 'these', 'types', 'of', 'investments', 'now', ',', 'we', "'re", 'in', 'trouble', '.', "''"]

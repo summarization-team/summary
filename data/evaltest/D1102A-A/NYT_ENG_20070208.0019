@@ -1,0 +1,36 @@
+DOCTYPE: NEWS STORY
+DATETIME: 2007-02-08
+HEADLINE: VERISIGN MOVES TO ADDRESS AN INTERNET SECURITY PROBLEM
+
+['SAN', 'FRANCISCO']
+
+['To', 'keep', 'up', 'with', 'the', 'growing', 'strains', 'put', 'on', 'the', 'Internet', 'by', 'both', 'legitimate', 'users', 'and', 'online', 'attackers', ',', 'a', 'Silicon', 'Valley', 'company', 'is', 'undertaking', 'a', '$', '100', 'million', 'expansion', 'of', 'a', 'crucial', 'part', 'of', 'the', 'system', 'that', 'speeds', 'Web', 'users', 'to', 'their', 'destinations', '.']
+
+['The', 'company', ',', 'VeriSign', ',', 'is', 'a', 'leader', 'in', 'networking', 'infrastructure', 'and', 'manages', 'registration', 'for', 'the', '.com', 'and', '.net', 'Internet', 'domains', '.']
+['It', 'is', 'among', 'the', 'stewards', 'of', 'an', 'international', 'system', 'of', 'computer', 'servers', 'running', 'programs', 'that', 'translate', 'domain', 'names', 'like', 'google.com', 'or', 'wikipedia.org', 'into', 'numeric', 'addresses', '.']
+
+['But', 'the', 'system', 'is', 'under', 'increasing', 'strain', 'because', 'of', 'the', 'explosion', 'of', 'human', 'and', 'machine', 'Internet', 'users', ',', 'and', 'because', 'of', 'occasional', 'assaults', 'by', 'automated', 'software', 'programs', 'that', 'threaten', 'to', 'overwhelm', 'the', 'ability', 'to', 'respond', 'to', 'routine', 'requests', '.']
+
+['VeriSign', 'executives', 'said', 'their', 'expansion', 'project', ',', 'to', 'be', 'announced', 'Thursday', ',', 'was', 'crucial', 'because', 'of', 'the', 'increasing', 'role', 'that', 'the', 'Internet', 'plays', 'in', 'basic', 'functions', 'of', 'modern', 'life', '.']
+
+['``', 'This', 'is', "n't", 'just', 'about', 'Web', 'sites', 'anymore', ',', 'and', 'it', "'s", 'not', 'about', 'online', 'shopping', ',', "''", 'said', 'Ken', 'Silva', ',', 'VeriSign', "'s", 'chief', 'security', 'officer', '.']
+['``', 'It', "'s", 'about', 'the', 'way', 'humans', 'communicate', 'and', 'the', 'way', 'everything', 'is', 'interconnected', '.', "''"]
+
+['The', 'potential', 'challenge', 'was', 'underscored', 'on', 'Tuesday', 'when', 'an', 'automated', 'attack', 'against', 'the', 'domain', 'name', 'system', 'was', 'carried', 'out', 'for', 'several', 'hours', 'by', 'a', 'distributed', 'computer', 'program', 'known', 'as', 'a', 'botnet', '.']
+
+['The', 'attack', 'initially', 'affected', 'all', 'of', 'the', '13', 'root', 'server', 'systems', '--', 'the', 'top', 'level', 'of', 'the', 'hierarchy', 'of', 'interconnected', 'computers', '--', 'and', 'then', 'focused', 'for', 'several', 'hours', 'on', 'servers', 'operated', 'by', 'the', 'Internet', 'Corporation', 'for', 'Assigned', 'Names', 'and', 'Numbers', '(', 'the', 'organization', 'responsible', 'for', 'the', 'Internet', 'address', 'system', ')', ',', 'and', 'the', 'Pentagon', '.']
+
+['The', 'attack', 'impeded', 'but', 'did', 'not', 'halt', 'any', 'of', 'the', 'systems', ',', 'according', 'to', 'several', 'of', 'the', 'operators', '.']
+
+['Such', 'attacks', 'make', 'expansion', 'of', 'the', 'name', 'server', 'systems', 'crucial', ',', 'Silva', 'said', '.']
+['The', 'VeriSign', 'project', ',', 'to', 'be', 'completed', 'by', '2010', ',', 'will', 'offer', 'a', 'tenfold', 'increase', 'in', 'the', 'capacity', 'of', 'two', 'root', 'servers', 'that', 'the', 'company', 'operates', 'and', 'in', 'the', 'infrastructure', 'that', 'supports', 'the', '.com', 'and', '.net', 'systems', '.']
+
+['VeriSign', 'servers', ',', 'now', 'in', '20', 'regional', 'centers', 'around', 'the', 'world', ',', 'will', 'be', 'expanded', 'to', '70', 'sites', '.']
+['The', 'effort', 'would', 'not', 'only', 'improve', 'response', 'time', ',', 'the', 'company', 'said', ',', 'but', 'would', 'also', 'make', 'it', 'possible', 'to', 'recognize', 'and', 'contain', 'Internet', 'attacks', 'more', 'quickly', '.']
+
+['VeriSign', 'profits', 'indirectly', 'from', 'the', 'growth', 'of', 'Internet', 'traffic', 'from', 'its', 'business', 'managing', 'the', '.com', 'and', '.net', 'domains', '.']
+
+['In', 'addition', 'to', 'resisting', 'cyber', 'attacks', ',', 'the', 'enhancement', 'of', 'the', 'root', 'server', 'system', 'is', 'made', 'necessary', 'by', 'the', 'rapid', 'growth', 'in', 'new', 'types', 'of', 'Internet', 'devices', ',', 'many', 'of', 'which', 'can', 'communicate', 'among', 'themselves', 'without', 'direct', 'human', 'intervention', '.']
+
+['The', 'company', 'said', 'it', 'expected', 'the', 'number', 'of', 'Internet', 'users', 'to', 'grow', 'from', '1', 'billion', 'today', 'to', '1.8', 'billion', 'in', '2010', '.']
+['Many', 'will', 'reach', 'the', 'Internet', 'with', 'multiple', 'devices', ',', 'including', 'cell', 'phones', ',', 'most', 'of', 'which', 'are', 'expected', 'to', 'be', 'Internet-enabled', '.']

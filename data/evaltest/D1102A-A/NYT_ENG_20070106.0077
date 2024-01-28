@@ -1,0 +1,29 @@
+DOCTYPE: NEWS STORY
+DATETIME: 2007-01-06
+HEADLINE: ATTACK OF THE ZOMBIE COMPUTERS IS A GROWING THREAT, EXPERTS SAY
+
+['In', 'their', 'persistent', 'quest', 'to', 'breach', 'the', 'Internet', "'s", 'defenses', ',', 'the', 'bad', 'guys', 'are', 'honing', 'their', 'weapons', 'and', 'increasing', 'their', 'firepower', '.']
+
+['With', 'growing', 'sophistication', ',', 'they', 'are', 'taking', 'advantage', 'of', 'programs', 'that', 'secretly', 'install', 'themselves', 'on', 'thousands', 'or', 'even', 'millions', 'of', 'personal', 'computers', ',', 'band', 'these', 'computers', 'together', 'into', 'an', 'unwitting', 'army', 'of', 'zombies', ',', 'and', 'use', 'the', 'collective', 'power', 'of', 'the', 'dragooned', 'network', 'to', 'commit', 'Internet', 'crimes', '.']
+
+['These', 'systems', ',', 'called', 'botnets', ',', 'are', 'being', 'blamed', 'for', 'the', 'huge', 'spike', 'in', 'spam', 'that', 'bedeviled', 'the', 'Internet', 'in', 'recent', 'months', ',', 'as', 'well', 'as', 'fraud', 'and', 'data', 'theft', '.']
+
+['Security', 'researchers', 'have', 'been', 'concerned', 'about', 'botnets', 'for', 'some', 'time', 'because', 'they', 'automate', 'and', 'amplify', 'the', 'effects', 'of', 'viruses', 'and', 'other', 'malicious', 'programs', '.']
+
+['What', 'is', 'new', 'is', 'the', 'escalating', 'scale', 'of', 'the', 'problem', '--', 'and', 'the', 'precision', 'with', 'which', 'some', 'of', 'the', 'programs', 'can', 'scan', 'computers', 'for', 'specific', 'information', ',', 'like', 'corporate', 'and', 'personal', 'data', ',', 'to', 'drain', 'money', 'from', 'online', 'bank', 'accounts', 'and', 'stock', 'brokerages', '.']
+
+['``', 'It', "'s", 'the', 'perfect', 'crime', ',', 'both', 'low-risk', 'and', 'high-profit', ',', "''", 'said', 'Gadi', 'Evron', ',', 'an', 'computer', 'security', 'researcher', 'for', 'an', 'Israeli-based', 'firm', ',', 'Beyond', 'Security', ',', 'who', 'coordinates', 'an', 'international', 'volunteer', 'effort', 'to', 'fight', 'botnets', '.']
+['``', 'The', 'war', 'to', 'make', 'the', 'Internet', 'safe', 'was', 'lost', 'long', 'ago', ',', 'and', 'we', 'need', 'to', 'figure', 'out', 'what', 'to', 'do', 'now', '.', "''"]
+
+['David', 'Dagon', ',', 'a', 'Georgia', 'Institute', 'of', 'Technology', 'researcher', 'who', 'is', 'a', 'co-founder', 'of', 'Damballa', ',', 'a', 'company', 'focusing', 'on', 'controlling', 'botnets', ',', 'said', 'the', 'consensus', 'among', 'scientists', 'is', 'that', 'botnet', 'programs', 'are', 'present', 'on', 'about', '11', 'percent', 'of', 'the', 'more', 'than', '650', 'million', 'computers', 'attached', 'to', 'the', 'Internet', '.']
+
+['Plagues', 'of', 'viruses', 'and', 'other', 'malicious', 'programs', 'have', 'periodically', 'swept', 'through', 'the', 'Internet', 'since', '1988', ',', 'when', 'there', 'were', 'only', '60,000', 'computers', 'online', '.']
+['Each', 'time', ',', 'computer', 'security', 'managers', 'and', 'users', 'have', 'cleaned', 'up', 'the', 'damage', 'and', 'patched', 'holes', 'in', 'systems', '.']
+
+['In', 'recent', 'years', ',', 'however', ',', 'such', 'attacks', 'have', 'become', 'endemic', ',', 'forcing', 'increasingly', 'stringent', 'security', 'responses', '.']
+['And', 'the', 'emergence', 'of', 'botnets', 'has', 'alarmed', 'not', 'just', 'computer', 'security', 'experts', ',', 'but', 'also', 'specialists', 'who', 'created', 'the', 'early', 'Internet', 'infrastructure', '.']
+
+['David', 'J.', 'Farber', ',', 'a', 'Carnegie', 'Mellon', 'computer', 'scientist', 'who', 'was', 'an', 'Internet', 'pioneer', ',', 'said', ':', '``', 'It', "'s", 'an', 'insidious', 'threat', ',', 'and', 'what', 'worries', 'me', 'is', 'that', 'the', 'scope', 'of', 'the', 'problem', 'is', 'still', 'not', 'clear', 'to', 'most', 'people', '.']
+['The', 'popular', 'machines', 'are', 'so', 'easy', 'to', 'penetrate', ',', 'and', 'that', "'s", 'scary', '.', "''"]
+
+['So', 'far', 'botnets', 'have', 'predominantly', 'infected', 'Windows-based', 'computers', ',', 'although', 'there', 'have', 'been', 'reports', 'of', 'attacks', 'on', 'computers', 'running', 'Linux', 'and', 'Macintosh', 'operating', 'systems', '.']
