@@ -24,7 +24,7 @@ class ContentSelector:
             corresponding files.
         """
         parent_dict = {}
-        for root, files in os.walk(data_dir):
+        for root, dir, files in os.walk(data_dir):
             file_dict = {}
             for file_name in files:
                 file_path = os.path.join(root, file_name)
@@ -89,10 +89,10 @@ class ContentSelector:
         selected_sent = {}
 
         for parent in docset.keys():
-            for filename in docset.keys():
+            for filename in docset[parent].keys():
 
-                sentlist = docset[filename]
-                
+                sentlist = docset[parent][filename]
+
                 # create vectors for each sentence, use cosine similarity to compare them
                 vectorizer = CountVectorizer(stop_words="english")
                 sentence_vectors = vectorizer.fit_transform(sentlist)
@@ -131,3 +131,17 @@ class ContentSelector:
         # Implement a default content selection approach
         # Return selected content
         pass
+
+
+if __name__ == "__main__":
+    selector = ContentSelector(approach='approach1')
+
+    data_directory = r'../data/training'
+    data_directory = os.path.normpath(data_directory)
+
+    # Use the read_data2dic method to read the data from the specified directory
+    docset = selector.read_data2dic(data_directory)
+
+    # Use the select_content method to apply the selected content approach (approach1 in this case)
+    selected_content = selector.select_content(docset)
+    print(selected_content)
