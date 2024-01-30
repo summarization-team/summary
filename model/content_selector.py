@@ -34,8 +34,20 @@ class ContentSelector:
 
                         file_content = file.readlines()
                         sentlist = []
+                        hcount = 0
+                        dcount = 0
                         for line in file_content:
-
+                            
+                            if line[0:8] == "HEADLINE" and hcount == 0:
+                                line = line.strip("\n")
+                                line = line.split()
+                                title = " ".join(line[1:])
+                                hcount+= 1
+                            if line[0:8] == "DATELINE" and dcount == 0:
+                                line = line.strip("\n")
+                                line = line.split()
+                                date = " ".join(line[1:])
+                                dcount += 1
                             # if line in list format, it's a sentence that we want to analyze
                             if line[0] == "[":
                                 line = line.strip("[]\n")
@@ -48,8 +60,13 @@ class ContentSelector:
                                     sentlist.append(sentence)
                             else:
                                 pass
-
-                    file_dict[file_path] = sentlist
+                    if hcount == 1 and dcount == 1:
+                        tuplekey = (title, date)
+                    elif hcount == 1 and dcount == 0:
+                        tuplekey = (title)
+                    else:
+                        tuplekey = (file_path)
+                    file_dict[tuplekey] = sentlist
             
             parent_dict[root] = file_dict
 
@@ -114,7 +131,7 @@ class ContentSelector:
 
                 
                 selected_sent[parent_directory].append({
-                    'file_name': filename,
+                    'file_keyinfo': filename,
                     'file_top_sent': top_sentences
                 })
 
