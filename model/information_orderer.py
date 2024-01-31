@@ -4,6 +4,15 @@ import numpy as np
 
 class InformationOrderer:
     def order_content(self, content):
+        """
+        Orders sentences using Traveling Salesperson
+
+        Args:
+            text (list): The list of sentences.
+
+        Returns:
+            text (list): The list of re-ordered sentences.
+        """
         # Implement content ordering logic
         # Return ordered content
         distances = calc_distances(content)
@@ -11,6 +20,7 @@ class InformationOrderer:
         new_order = []
         for x in best_route:
             new_order.append(content[x])
+        return new_order
         pass
 
 
