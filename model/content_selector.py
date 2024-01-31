@@ -5,6 +5,7 @@ from nltk.corpus import stopwords
 from nltk.stem import PorterStemmer
 from nltk.tokenize import word_tokenize
 from sklearn.metrics.pairwise import cosine_similarity
+from sklearn.feature_extraction.text import CountVectorizer
 import numpy as np
 
 class ContentSelector:
@@ -64,7 +65,36 @@ class ContentSelector:
         return selected_sentences
 
     def select_content_textrank(self, all_documents):
-       pass
+        """
+        Performs TextRank algorithm on each document, returning top 'num_sentences_per_doc' sentences
+        for each document and compiling them into selected_sentences, a list of the top n sentences of each document.
+        """
+        selected_sentences = []
+
+        for doc in all_documents:
+
+            sentlist = [sentence for para in doc for sentence in para]
+
+            # create vectors for each sentence, use cosine similarity to compare them
+            vectorizer = CountVectorizer(stop_words="english")
+            sentence_vectors = vectorizer.fit_transform(sentlist)
+            similarity_matrix = cosine_similarity(sentence_vectors)
+
+            # graph the resulting similarity matrix, then use the TextRank algorithm (thru PageRank) to find top sentence scores
+            graph = nx.from_numpy_array(similarity_matrix)
+            sentence_scores = nx.pagerank(graph, alpha = 0.85, max_iter = 100) 
+            
+            ranked_sentindices = sorted(range(len(sentence_scores)), key=lambda index: sentence_scores[index], reverse=True)
+            top_sentindices = ranked_sentindices[:self.num_sentences_per_doc]
+
+            top_sentences = [sentlist[i] for i in top_sentindices]
+
+            selected_sentences.extend(top_sentences)
+
+        # compiled list of sentences containing the top n sentences per document
+        return selected_sentences
+
+
 
     def select_content(self, all_documents):
         """Selects content based on the specified approach."""
@@ -76,5 +106,5 @@ class ContentSelector:
             raise ValueError(f"Unknown approach: {self.approach}")
 
 # Example usage:
-# selector = ContentSelector(num_sentences_per_doc=3, approach='tfidf')
+# selector = ContentSelector(num_sentences_per_doc=3, approach='textrank')
 # selected_content = selector.select_content(all_documents)
