@@ -3,6 +3,11 @@ import xml.etree.ElementTree as ET
 from nltk.tokenize import sent_tokenize, word_tokenize
 
 
+HEADLINE = 'HEADLINE'
+DATELINE = 'DATELINE'
+SENTENCES = 'SENTENCES'
+
+
 class DocumentProcessor:
     """
     A class for processing XML documents.
@@ -11,10 +16,11 @@ class DocumentProcessor:
     into a structured format suitable for further NLP tasks.
 
     Attributes:
-        input_xml_file (str): The file path of the input XML file.
-        output_dir (str): The directory path where the processed output will be stored.
+        input_path (str): The file path of the input XML file (in case of ingestion) OR Folder path if loading ingested data.
+        output_path (str): The directory path where the processed output will be stored.
+        data_ingested (bool): Flag indicating if data is already ingested.
     """
-    def __init__(self, input_xml_file, output_dir):
+    def __init__(self, input_path, output_path, data_ingested=False):
         """
         Initializes the DocumentProcessor with the given XML file and output directory.
 
@@ -22,18 +28,77 @@ class DocumentProcessor:
         into a structured format suitable for further NLP tasks.
 
         Args:
-            input_xml_file (str): The file path of the input XML file.
-            output_dir (str): The directory path where the processed output will be stored.
+            input_path (str): The file path of the input XML file (in case of ingestion) OR Folder path if loading ingested data.
+            output_path (str): The directory path where the processed output will be stored.
         """
-        self.input_xml_file = input_xml_file
-        self.output_dir = output_dir
+        self.input_path = input_path
+        self.output_path = output_path
+        self.data_ingested = data_ingested
+    
+    def load_or_process_documents(self):
+        """
+        Loads processed data if available, otherwise processes XML documents.
 
-    def process_documents(self):
+        Returns:
+            list: List of processed documents or paths to processed documents.
+        """
+        doc_set = dict()
+        for mode in self.data_ingested:
+            if self.data_ingested[mode]:
+                doc_set[mode] = self.load_processed_data(self.input_path[mode])
+            else:
+                doc_set[mode] = self.process_documents(self.input_path[mode])
+        return doc_set
+
+    def load_processed_data(self, input_path):
+        """
+        Loads processed data from the specified output directory.
+
+        Args:
+            input_path (str): The directory path where the processed output is stored.
+
+        Returns:
+            list: List of paths to processed documents.
+        """
+        processed_docs = dict()
+        for root, dirs, files in os.walk(input_path):
+            if len(files) > 0:
+                processed_docs[root] = dict()
+
+            for file_name in files:
+                file_path = os.path.join(root, file_name)
+
+                if os.path.isfile(file_path):
+                    processed_docs[root][file_name] = dict()
+                    processed_docs[root][file_name][SENTENCES] = []
+                    with open(file_path, 'r') as file:
+                        file_content = file.readlines()
+                        for line in file_content:
+                            line = line.strip().strip("\n").strip(" ")
+                            if len(line) <= 0:
+                                continue
+                            # if line in list format, it's a sentence that we want to analyze
+                            if line[0] == "[":
+                                line = line.strip("[]\n")
+                                word_list = line.split(", ")
+                                word_list = [word.strip("'") for word in word_list]
+                                processed_docs[root][file_name][SENTENCES].append(word_list)
+                            elif HEADLINE in line:
+                                processed_docs[root][file_name][HEADLINE] = line
+                            elif DATELINE in line:
+                                processed_docs[root][file_name][DATELINE] = line
+        return processed_docs
+
+
+    def process_documents(self, input_path):
         """
         Processes the XML documents by parsing and extracting relevant information.
 
         Reads the input XML file, parses its content, and processes it into a structured
         format (DocSets). The processed documents are then saved in the specified output directory.
+
+        Args:
+            input_path (str): The file path of the input XML file.
 
         Returns:
             list: A list of DocSets representing the processed documents.
@@ -41,7 +106,7 @@ class DocumentProcessor:
         # Implement XML parsing and document processing
         # Return a list of DocSets
         docsets = []
-        tree = ET.parse(self.input_xml_file)
+        tree = ET.parse(input_path)
         root = tree.getroot()
 
         # Find all docsetA
@@ -49,8 +114,9 @@ class DocumentProcessor:
             docsetID = docset.get('id')
             docsets.append(docsetID)
             for doc in docset:
+
                 docID = doc.get('id')
-                path = self.output_dir + '/' + docsetID
+                path = self.output_path + '/' + docsetID
                 process_doc(path, docID)
 
         # Find all docsetB
@@ -59,7 +125,7 @@ class DocumentProcessor:
             docsets.append(docsetID)
             for doc in docset:
                 docID = doc.get('id')
-                path = self.output_dir + '/' + docsetID
+                path = self.output_path + '/' + docsetID
                 process_doc(path, docID)
 
         return docsets
