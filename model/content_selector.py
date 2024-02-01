@@ -66,10 +66,9 @@ class ContentSelector:
 
     def select_content_textrank(self, all_documents):
         """
-        Performs TextRank algorithm on each document, returning top 'num_sentences_per_doc' sentences
-        for each document and compiling them into selected_sentences, a list of the top n sentences of each document.
+
         """
-        selected_sentences = []
+        selected_sentences = {}
 
         for doc in all_documents:
 
@@ -89,7 +88,7 @@ class ContentSelector:
 
             top_sentences = [sentlist[i] for i in top_sentindices]
 
-            selected_sentences.extend(top_sentences)
+            selected_sentences[doc] = top_sentences
 
         # compiled list of sentences containing the top n sentences per document
         return selected_sentences
