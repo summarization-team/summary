@@ -64,15 +64,53 @@ class ContentSelector:
 
         return selected_sentences
 
+
+
     def select_content_textrank(self, all_documents):
         """
+        Apply TextRank algorithm to extract the top sentences from a collection of documents.
 
+        Parameters:
+        - all_documents (dict): A dictionary containing document information. 
+                            Each document is identified by a key, and its value is another dictionary.
+                            The inner dictionary has paragraph keys, and each paragraph contains a list of sentences.
+
+        Returns:
+        dict: A dictionary containing the top-ranked sentences for each document.
+            The keys are document names, and the values are lists of selected sentences.
+
+        Notes:
+        This function uses the TextRank algorithm to rank sentences within each document based on cosine similarity.
+        It constructs a similarity matrix between sentences, applies the PageRank algorithm,
+        and selects the top sentences as representatives of the document's content.
+
+        The number of top sentences to be extracted per document is determined by the `num_sentences_per_doc` attribute.
+
+        Example:
+        ```
+        all_documents = {
+            'doc1': {
+                'paragraph1': ['sentence1', 'sentence2', ...],
+                'paragraph2': ['sentence3', 'sentence4', ...],
+                ...
+            },
+            'doc2': {
+                'paragraph1': ['sentence5', 'sentence6', ...],
+                'paragraph2': ['sentence7', 'sentence8', ...],
+                ...
+            },
+            ...
+        }
         """
+
         selected_sentences = {}
 
-        for doc in all_documents:
-
-            sentlist = [sentence for para in doc for sentence in para]
+        for doc in all_documents.keys():
+            sentlist = []
+            for paragraph in doc.keys():
+                for sentence in all_documents[doc][paragraph]:
+                    sentence_str = " ".join(sentence)
+                    sentlist.append(sentence_str)
 
             # create vectors for each sentence, use cosine similarity to compare them
             vectorizer = CountVectorizer(stop_words="english")
@@ -88,9 +126,10 @@ class ContentSelector:
 
             top_sentences = [sentlist[i] for i in top_sentindices]
 
+            # stores top sentences as value in dictionary associated with the doc name as its key
             selected_sentences[doc] = top_sentences
 
-        # compiled list of sentences containing the top n sentences per document
+        # compiled dictionary of the top n sentences for each document
         return selected_sentences
 
 
