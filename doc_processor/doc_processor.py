@@ -5,6 +5,7 @@ from nltk.tokenize import sent_tokenize, word_tokenize
 
 HEADLINE = 'HEADLINE'
 DATELINE = 'DATELINE'
+PARAGRAPH = 'PARAGRAPH-{}'
 SENTENCES = 'SENTENCES'
 
 
@@ -44,10 +45,9 @@ class DocumentProcessor:
         """
         doc_set = dict()
         for mode in self.data_ingested:
-            if self.data_ingested[mode]:
-                doc_set[mode] = self.load_processed_data(self.input_path[mode])
-            else:
-                doc_set[mode] = self.process_documents(self.input_path[mode])
+            if not self.data_ingested[mode]:
+                self.process_documents(self.input_path[mode])
+            doc_set[mode] = self.load_processed_data(self.input_path[mode])
         return doc_set
 
     def load_processed_data(self, input_path):
@@ -70,7 +70,8 @@ class DocumentProcessor:
 
                 if os.path.isfile(file_path):
                     processed_docs[root][file_name] = dict()
-                    processed_docs[root][file_name][SENTENCES] = []
+                    paragraph_count = 0
+                    processed_docs[root][file_name][PARAGRAPH.format(paragraph_count)] = []
                     with open(file_path, 'r') as file:
                         file_content = file.readlines()
                         for line in file_content:
@@ -82,7 +83,11 @@ class DocumentProcessor:
                                 line = line.strip("[]\n")
                                 word_list = line.split(", ")
                                 word_list = [word.strip("'") for word in word_list]
-                                processed_docs[root][file_name][SENTENCES].append(word_list)
+                                if word_list[0] == '``':
+                                    paragraph_count += 1
+                                    processed_docs[root][file_name][PARAGRAPH.format(paragraph_count)] = []
+                                    word_list = word_list[1:]
+                                processed_docs[root][file_name][PARAGRAPH.format(paragraph_count)].append(word_list)
                             elif HEADLINE in line:
                                 processed_docs[root][file_name][HEADLINE] = line
                             elif DATELINE in line:
