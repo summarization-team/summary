@@ -21,7 +21,7 @@ class InformationOrderer:
         for x in best_route:
             new_order.append(content[x])
         return new_order
-        pass
+        
 
 
 def calc_distances(content):
