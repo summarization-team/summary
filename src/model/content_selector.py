@@ -156,8 +156,10 @@ class ContentSelector:
 
         for doc in all_documents.keys():
             sentlist = []
+            sentlist_tok = []
             for paragraph in all_documents[doc].keys():
                 for sentence in all_documents[doc][paragraph]:
+                    sentlist_tok.append(sentence)
                     sentence_str = " ".join(sentence)
                     sentlist.append(sentence_str)
 
@@ -173,13 +175,11 @@ class ContentSelector:
             ranked_sentindices = sorted(range(len(sentence_scores)), key=lambda index: sentence_scores[index], reverse=True)
             top_sentindices = ranked_sentindices[:self.num_sentences_per_doc]
 
-            top_sentences = [sentlist[i] for i in top_sentindices]
+            top_sentences = [sentlist_tok[i] for i in top_sentindices]
 
-            top_sent_wordlists = []
-            for sentence in top_sentences:
-                top_sent_wordlists.append(nltk.word_tokenize(sentence))
+
             # stores top sentences as value in dictionary associated with the doc name as its key
-            selected_sentences[doc] = top_sent_wordlists
+            selected_sentences[doc] = top_sentences
 
         # compiled dictionary of the top n sentences for each document
         return selected_sentences
