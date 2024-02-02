@@ -29,7 +29,7 @@
         "content_realization": {
             "method": "simple",
             "additional_parameters": {
-                "max_length": 100
+                "max_token_length": 100
             }
         }
     }
