@@ -6,21 +6,23 @@ class InformationOrderer:
     def order_content(self, content):
         """
         Orders sentences using Traveling Salesperson
-
+        
         Args:
-            text (list): The list of sentences.
-
+            Dictionary: A dictionary int the form {'file_name': [list of sentences]}
+        
         Returns:
-            text (list): The list of re-ordered sentences.
+            Dictinary with updated order to the list of sentences
         """
         # Implement content ordering logic
         # Return ordered content
-        distances = calc_distances(content)
-        best_route = two_opt(distances)
-        new_order = []
-        for x in best_route:
-            new_order.append(content[x])
-        return new_order
+        for i in content:
+            distances = calc_distances(content[i])
+            best_route = two_opt(distances)
+            new_order = []
+            for x in best_route:
+                new_order.append(content[i][x])
+            content[i] = new_order
+        return content
         
 
 
