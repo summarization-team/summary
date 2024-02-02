@@ -1,19 +1,19 @@
 {
     "document_processing": {
         "data_ingested": {
-            "training": true,
-            "devtest": true,
+            "training": false,
+            "devtest": false,
             "evaltest": true
         },
         "input_xml_file": {
+            "training": "/mnt/dropbox/23-24/575x/Data/Documents/training/2009/UpdateSumm09_test_topics.xml",
+            "devtest": "/mnt/dropbox/23-24/575x/Data/Documents/devtest/GuidedSumm10_test_topics.xml",
+            "evaltest": "/mnt/dropbox/23-24/575x/Data/Documents/evaltest/GuidedSumm11_test_topics.xml"
+        },
+        "output_dir": {
             "training": "../data/training",
             "devtest": "../data/devtest",
             "evaltest": "../data/evaltest"
-        },
-        "output_dir": {
-            "training": "data/training",
-            "devtest": "data/devtest",
-            "evaltest": "data/evaltest"
         }
     },
     "model": {

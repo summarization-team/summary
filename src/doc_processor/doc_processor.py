@@ -46,7 +46,9 @@ class DocumentProcessor:
         doc_set = dict()
         for mode in self.data_ingested:
             if not self.data_ingested[mode]:
-                self.process_documents(self.input_path[mode])
+                print(f"Re-Processing Original Files: {mode}")
+                self.process_documents(self.input_path[mode], mode)
+            print(f"Loading Processed Data:{mode}")
             doc_set[mode] = self.load_processed_data(self.input_path[mode])
         return doc_set
 
@@ -95,7 +97,7 @@ class DocumentProcessor:
         return processed_docs
 
 
-    def process_documents(self, input_path):
+    def process_documents(self, input_path, mode):
         """
         Processes the XML documents by parsing and extracting relevant information.
 
@@ -121,7 +123,7 @@ class DocumentProcessor:
             for doc in docset:
 
                 docID = doc.get('id')
-                path = self.output_path + '/' + docsetID
+                path = self.output_path[mode] + '/' + docsetID
                 process_doc(path, docID)
 
         # Find all docsetB
@@ -130,7 +132,7 @@ class DocumentProcessor:
             docsets.append(docsetID)
             for doc in docset:
                 docID = doc.get('id')
-                path = self.output_path + '/' + docsetID
+                path = self.output_path[mode] + '/' + docsetID
                 process_doc(path, docID)
 
         return docsets
