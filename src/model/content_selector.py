@@ -1,5 +1,6 @@
 import math
 import networkx as nx
+import nltk
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.feature_extraction.text import TfidfVectorizer
@@ -155,8 +156,10 @@ class ContentSelector:
 
         for doc in all_documents.keys():
             sentlist = []
-            for paragraph in doc.keys():
+            sentlist_tok = []
+            for paragraph in all_documents[doc].keys():
                 for sentence in all_documents[doc][paragraph]:
+                    sentlist_tok.append(sentence)
                     sentence_str = " ".join(sentence)
                     sentlist.append(sentence_str)
 
@@ -172,13 +175,15 @@ class ContentSelector:
             ranked_sentindices = sorted(range(len(sentence_scores)), key=lambda index: sentence_scores[index], reverse=True)
             top_sentindices = ranked_sentindices[:self.num_sentences_per_doc]
 
-            top_sentences = [sentlist[i] for i in top_sentindices]
+            top_sentences = [sentlist_tok[i] for i in top_sentindices]
+
 
             # stores top sentences as value in dictionary associated with the doc name as its key
             selected_sentences[doc] = top_sentences
 
         # compiled dictionary of the top n sentences for each document
         return selected_sentences
+    
 
     def select_content(self, all_documents):
         """Selects content based on the specified approach."""
