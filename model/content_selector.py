@@ -8,12 +8,17 @@ import numpy as np
 
 
 HEADLINE = 'HEADLINE'
-DATELINE = 'DATELINE'
 PARAGRAPH = 'PARAGRAPH'
 
 
 class ContentSelector:
+    """
+    A class to select the most important content from a collection of documents.
+    """
     def __init__(self, num_sentences_per_doc, approach='tfidf'):
+        """
+        Initialize the content selector.
+        """
         self.num_sentences_per_doc = num_sentences_per_doc
         self.approach = approach
 
@@ -21,6 +26,13 @@ class ContentSelector:
         """
         Flatten all sentences across all documents, 
         maintaining their document and paragraph context.
+        Args:
+        - documents (dict): A dictionary containing document information. 
+                            Each document is identified by a key, and its value is another dictionary.
+                            The inner dictionary has paragraph keys, and each paragraph contains a list of sentences.
+        Returns:
+        - list: A list of all sentences in the documents, including headlines.
+        - list: A list of tuples, each containing the document name, sentence, and paragraph name.
         """
         corpus = []
         doc_sent_mapping = []
@@ -41,12 +53,25 @@ class ContentSelector:
     def _compute_tfidf(self,corpus):
         """
         Compute TF-IDF scores for a given corpus.
+        Args:
+        - corpus (list): A list of sentences.
+        Returns:
+        - matrix: A matrix of TF-IDF scores for each sentence in the corpus.
         """
         vectorizer = TfidfVectorizer()
         tfidf_matrix = vectorizer.fit_transform(corpus)
         return tfidf_matrix
     
     def _select_top_sentences(self, tfidf_matrix, doc_sent_mapping):
+        """
+        Select the top sentences from a collection of documents based on their TF-IDF scores.
+        Args:
+        - tfidf_matrix: A matrix of TF-IDF scores for each sentence in the corpus.
+        - doc_sent_mapping: A list of tuples, each containing the document name, sentence, and paragraph name.
+        Returns:
+        - dict: A dictionary containing the top-ranked sentences for each document.
+            The keys are document names, and the values are lists of selected sentences.
+        """
         doc_scores = {}
         # Initialize doc_scores dictionary to store individual sentence scores per document
         for idx, (doc, sentence, _) in enumerate(doc_sent_mapping):
@@ -64,6 +89,16 @@ class ContentSelector:
         return top_sentences
 
     def select_content_tfidf(self, all_documents):
+        """
+        Apply TF-IDF algorithm to extract the top sentences from a collection of documents.
+        Args:
+        - all_documents (dict): A dictionary containing document information. 
+                            Each document is identified by a key, and its value is another dictionary.
+                            The inner dictionary has paragraph keys, and each paragraph contains a list of sentences.
+        Returns:
+        - dict: A dictionary containing the top-ranked sentences for each document.
+                The keys are document names, and the values are lists of selected sentences.
+        """
         # Preprocess the input including headlines
         corpus, doc_sent_mapping = self._flatten_sentences_with_headlines(all_documents)
 
