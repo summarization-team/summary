@@ -2,6 +2,7 @@ import os
 import xml.etree.ElementTree as ET
 from nltk.tokenize import sent_tokenize, word_tokenize
 
+
 HEADLINE = 'HEADLINE'
 DATELINE = 'DATELINE'
 PARAGRAPH = 'PARAGRAPH-{}'
@@ -20,7 +21,6 @@ class DocumentProcessor:
         output_path (str): The directory path where the processed output will be stored.
         data_ingested (bool): Flag indicating if data is already ingested.
     """
-
     def __init__(self, input_path, output_path, data_ingested=False):
         """
         Initializes the DocumentProcessor with the given XML file and output directory.
@@ -35,7 +35,7 @@ class DocumentProcessor:
         self.input_path = input_path
         self.output_path = output_path
         self.data_ingested = data_ingested
-
+    
     def load_or_process_documents(self):
         """
         Loads processed data if available, otherwise processes XML documents.
@@ -89,10 +89,11 @@ class DocumentProcessor:
                                     word_list = word_list[1:]
                                 processed_docs[root][file_name][PARAGRAPH.format(paragraph_count)].append(word_list)
                             elif HEADLINE in line:
-                                processed_docs[root][file_name][HEADLINE] = line
+                                processed_docs[root][file_name][HEADLINE] = line.replace(HEADLINE + ':', "").strip()
                             elif DATELINE in line:
-                                processed_docs[root][file_name][DATELINE] = line
+                                processed_docs[root][file_name][DATELINE] = line.replace(DATELINE + ':', "").strip()
         return processed_docs
+
 
     def process_documents(self, input_path):
         """
@@ -118,6 +119,7 @@ class DocumentProcessor:
             docsetID = docset.get('id')
             docsets.append(docsetID)
             for doc in docset:
+
                 docID = doc.get('id')
                 path = self.output_path + '/' + docsetID
                 process_doc(path, docID)
@@ -157,16 +159,15 @@ def process_doc(dirPath, docID):
             docXML = docXML.replace(x, '')
         headers = get_doc_headers_AQUAINT(docID, docXML, headerTags)
         newFile = os.path.join(dirPath, docID)
-        if os.stat(newFile).st_size == 0:
-            with open(newFile, 'a') as F:
-                for h in headers:
-                    F.write(h + '\n')
-                paragraphs = separate_paragraphs(docXML)
-                for p in paragraphs:
-                    tokenized = tokenize_text(p)
-                    F.write('\n')
-                    for s in tokenized:
-                        F.write(str(s) + '\n')
+        with open(newFile, 'a') as F:
+            for h in headers:
+                F.write(h + '\n')
+            paragraphs = separate_paragraphs(docXML)
+            for p in paragraphs:
+                tokenized = tokenize_text(p)
+                F.write('\n')
+                for s in tokenized:
+                    F.write(str(s) + '\n')
 
     # AQUAINT 2
     elif (int(get_year(docID)) >= 2004 and int(get_year(docID)) <= 2006):
@@ -181,16 +182,15 @@ def process_doc(dirPath, docID):
                     docXML = docXML.replace(x, '')
                 headers = get_doc_headers_2009(docID, docXML, headerTags)
                 newFile = os.path.join(dirPath, docID)
-                if os.stat(newFile).st_size == 0:
-                    with open(newFile, 'a') as F:
-                        for h in headers:
-                            F.write(h + '\n')
-                        paragraphs = separate_paragraphs(docXML)
-                        for p in paragraphs:
-                            tokenized = tokenize_text(p)
-                            F.write('\n')
-                            for s in tokenized:
-                                F.write(str(s) + '\n')
+                with open(newFile, 'a') as F:
+                    for h in headers:
+                        F.write(h + '\n')
+                    paragraphs = separate_paragraphs(docXML)
+                    for p in paragraphs:
+                        tokenized = tokenize_text(p)
+                        F.write('\n')
+                        for s in tokenized:
+                            F.write(str(s) + '\n')
             except:
                 return
 
@@ -198,16 +198,15 @@ def process_doc(dirPath, docID):
             docXML = docXML.replace(x, '')
         headers = get_doc_headers_AQUAINT2(docID, docXML, headerTags)
         newFile = os.path.join(dirPath, docID)
-        if os.stat(newFile).st_size == 0:
-            with open(newFile, 'a') as F:
-                for h in headers:
-                    F.write(h + '\n')
-                paragraphs = separate_paragraphs(docXML)
-                for p in paragraphs:
-                    tokenized = tokenize_text(p)
-                    F.write('\n')
-                    for s in tokenized:
-                        F.write(str(s) + '\n')
+        with open(newFile, 'a') as F:
+            for h in headers:
+                F.write(h + '\n')
+            paragraphs = separate_paragraphs(docXML)
+            for p in paragraphs:
+                tokenized = tokenize_text(p)
+                F.write('\n')
+                for s in tokenized:
+                    F.write(str(s) + '\n')
     # 2009 files
     else:
         file = get_2009_file(docID)
@@ -216,16 +215,15 @@ def process_doc(dirPath, docID):
             docXML = docXML.replace(x, '')
         headers = get_doc_headers_2009(docID, docXML, headerTags)
         newFile = os.path.join(dirPath, docID)
-        if os.stat(newFile).st_size == 0:
-            with open(newFile, 'a') as F:
-                for h in headers:
-                    F.write(h + '\n')
-                paragraphs = separate_paragraphs(docXML)
-                for p in paragraphs:
-                    tokenized = tokenize_text(p)
-                    F.write('\n')
-                    for s in tokenized:
-                        F.write(str(s) + '\n')
+        with open(newFile, 'a') as F:
+            for h in headers:
+                F.write(h + '\n')
+            paragraphs = separate_paragraphs(docXML)
+            for p in paragraphs:
+                tokenized = tokenize_text(p)
+                F.write('\n')
+                for s in tokenized:
+                    F.write(str(s) + '\n')
 
 
 def get_year(docID):
