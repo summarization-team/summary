@@ -1,68 +1,81 @@
 import math
 import networkx as nx
-from collections import Counter
-from nltk.corpus import stopwords
-from nltk.stem import PorterStemmer
-from nltk.tokenize import word_tokenize
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import linear_kernel
 import numpy as np
+
+
+HEADLINE = 'HEADLINE'
+DATELINE = 'DATELINE'
+PARAGRAPH = 'PARAGRAPH'
+
 
 class ContentSelector:
     def __init__(self, num_sentences_per_doc, approach='tfidf'):
         self.num_sentences_per_doc = num_sentences_per_doc
         self.approach = approach
-        self.stop_words = set(stopwords.words('english'))
-        self.stemmer = PorterStemmer()
 
-    def preprocess(self, text):
-        """Preprocesses the text by tokenization, stemming, and removing stopwords."""
-        words = word_tokenize(text)
-        words = [self.stemmer.stem(w.lower()) for w in words if w.isalpha() and w.lower() not in self.stop_words]
-        return words
+    def _flatten_sentences_with_headlines(self, documents):
+        """
+        Flatten all sentences across all documents, 
+        maintaining their document and paragraph context.
+        """
+        corpus = []
+        doc_sent_mapping = []
+        for doc in documents:
+            if HEADLINE in documents[doc]:
+                headline = " ".join(documents[doc][HEADLINE])  # Convert headline tokens to a string
+                corpus.append(headline)  # Add headline to the corpus
+                doc_sent_mapping.append((doc, documents[doc][HEADLINE], "headline"))
+            for para in documents[doc]:
+                if para == HEADLINE:
+                    continue  # Skip since we've already processed the headline
+                for sentence in documents[doc][para]:
+                    flat_sentence = " ".join(sentence)
+                    corpus.append(flat_sentence)
+                    doc_sent_mapping.append((doc, sentence, para))
+        return corpus, doc_sent_mapping
+    
+    def _compute_tfidf(self,corpus):
+        """
+        Compute TF-IDF scores for a given corpus.
+        """
+        vectorizer = TfidfVectorizer()
+        tfidf_matrix = vectorizer.fit_transform(corpus)
+        return tfidf_matrix
+    
+    def _select_top_sentences(self, tfidf_matrix, doc_sent_mapping):
+        doc_scores = {}
+        # Initialize doc_scores dictionary to store individual sentence scores per document
+        for idx, (doc, sentence, _) in enumerate(doc_sent_mapping):
+            if doc not in doc_scores:
+                doc_scores[doc] = []
+            sentence_score = np.sum(tfidf_matrix[idx].toarray())
+            doc_scores[doc].append((sentence, sentence_score))
 
-    def compute_tf(self, document):
-        """Computes Term Frequency (TF) for a given document."""
-        tf_scores = {}
-        word_counts = Counter(document)
-        total_words = len(document)
-        for word, count in word_counts.items():
-            tf_scores[word] = count / float(total_words)
-        return tf_scores
-
-    def compute_idf(self, all_documents):
-        """Computes Inverse Document Frequency (IDF) for all documents."""
-        idf_scores = {}
-        total_docs = sum(len(docs) for docs in all_documents)
-        word_doc_counts = Counter(word for docs in all_documents for doc in docs for word in set(doc))
-        for word, count in word_doc_counts.items():
-            idf_scores[word] = math.log(total_docs / float(count))
-        return idf_scores
+        top_sentences = {}
+        # For each document, sort its sentences by their scores and select the top n
+        for doc, scores in doc_scores.items():
+            sorted_scores = sorted(scores, key=lambda x: x[1], reverse=True)
+            top_sentences[doc] = [sentence for sentence, _ in sorted_scores[:self.num_sentences_per_doc]]
+        
+        return top_sentences
 
     def select_content_tfidf(self, all_documents):
-        """Selects the most relevant content from all documents based on TF-IDF scores."""
-        flattened_docs = [sentence for doc in all_documents for para in doc for sentence in para]
-        processed_docs = [self.preprocess(doc) for doc in flattened_docs]
-        idf_scores = self.compute_idf(processed_docs)
+        # Preprocess the input including headlines
+        corpus, doc_sent_mapping = self._flatten_sentences_with_headlines(all_documents)
 
-        doc_sentences_scores = []
-        for doc in all_documents:
-            doc_scores = []
-            for para in doc:
-                for sentence in para:
-                    processed_sentence = self.preprocess(sentence)
-                    tf_scores = self.compute_tf(processed_sentence)
-                    tf_idf_score = sum(tf_scores[word] * idf_scores.get(word, 0) for word in processed_sentence)
-                    doc_scores.append((tf_idf_score, sentence))
-            doc_sentences_scores.append(doc_scores)
+        # Compute TF-IDF including headlines
+        tfidf_matrix = self._compute_tfidf(corpus)
 
-        selected_sentences = []
-        for doc_scores in doc_sentences_scores:
-            doc_scores.sort(key=lambda x: x[0], reverse=True)
-            top_sentences = [sentence for _, sentence in doc_scores[:self.num_sentences_per_doc]]
-            selected_sentences.extend(top_sentences)
+        # Select top n sentences per document including consideration for headlines
+        top_sentences = self._select_top_sentences(tfidf_matrix, doc_sent_mapping)
 
-        return selected_sentences
+        # Output
+        return top_sentences
+        
 
     def select_content_textrank(self, all_documents):
         """
@@ -94,8 +107,6 @@ class ContentSelector:
         # compiled list of sentences containing the top n sentences per document
         return selected_sentences
 
-
-
     def select_content(self, all_documents):
         """Selects content based on the specified approach."""
         if self.approach == 'tfidf':
@@ -105,6 +116,3 @@ class ContentSelector:
         else:
             raise ValueError(f"Unknown approach: {self.approach}")
 
-# Example usage:
-# selector = ContentSelector(num_sentences_per_doc=3, approach='textrank')
-# selected_content = selector.select_content(all_documents)

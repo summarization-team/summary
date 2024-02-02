@@ -18,7 +18,7 @@
     },
     "model": {
         "content_selection": {
-            "approach": "approach1",
+            "approach": "tfidf",
             "additional_parameters": {
                 "num_sentences_per_doc": 3
             }

@@ -22,7 +22,8 @@ def main(config):
     docsets = doc_processor.load_or_process_documents()
 
     # Summarization
-    content_selector = ContentSelector(config['model']['content_selection']['approach'])
+    content_selector = ContentSelector(config['model']['content_selection']['additional_parameters']['num_sentences_per_doc'],
+                                       config['model']['content_selection']['approach'])
     information_orderer = InformationOrderer()
     content_realizer = ContentRealizer()
 
@@ -31,7 +32,8 @@ def main(config):
         if not data_ingested[mode]:
             continue
         for doc_set in docsets[mode]:
-            selected_content = content_selector.select_content(docsets[mode][doc_set])
+            selected_content = \
+                content_selector.select_content(docsets[mode][doc_set])
             ordered_content = information_orderer.order_content(selected_content)
             summary = content_realizer.realize_content(ordered_content)
             summaries.append(summary)

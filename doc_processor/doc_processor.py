@@ -89,9 +89,9 @@ class DocumentProcessor:
                                     word_list = word_list[1:]
                                 processed_docs[root][file_name][PARAGRAPH.format(paragraph_count)].append(word_list)
                             elif HEADLINE in line:
-                                processed_docs[root][file_name][HEADLINE] = line
+                                processed_docs[root][file_name][HEADLINE] = line.replace(HEADLINE + ':', "").strip()
                             elif DATELINE in line:
-                                processed_docs[root][file_name][DATELINE] = line
+                                processed_docs[root][file_name][DATELINE] = line.replace(DATELINE + ':', "").strip()
         return processed_docs
 
 
