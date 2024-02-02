@@ -38,7 +38,7 @@ def calc_distances(content):
     """
     sentences = []
     for s in content:
-        sentences.append(set(word_tokenize(s)))
+        sentences.append(set(s))
         
     distances = [ [0]*len(sentences) for i in range(len(sentences))]
     
