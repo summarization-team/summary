@@ -2,15 +2,17 @@ import json
 import os
 from doc_processor.doc_processor import DocumentProcessor
 from model.content_selector import ContentSelector
-from model.information_orderer import InformationOrderer
-from model.content_realizer import ContentRealizer
+# from model.information_orderer import InformationOrderer
+from model.content_realizer import ContentRealizer, get_realization_info
+from tqdm import tqdm
+
 
 def load_config(config_path):
     with open(config_path, 'r') as file:
         return json.load(file)
 
-def main(config):
 
+def main(config):
     doc_config = config['document_processing']
 
     # Document Processing
@@ -22,25 +24,31 @@ def main(config):
     docsets = doc_processor.load_or_process_documents()
 
     # Summarization
-    content_selector = ContentSelector(config['model']['content_selection']['additional_parameters']['num_sentences_per_doc'],
-                                       config['model']['content_selection']['approach'])
-    information_orderer = InformationOrderer()
-    content_realizer = ContentRealizer()
+    content_selector = ContentSelector(
+        config['model']['content_selection']['additional_parameters']['num_sentences_per_doc'],
+        config['model']['content_selection']['approach'])
+    # information_orderer = InformationOrderer()
+    content_realizer = ContentRealizer(
+        get_realization_info(config['model']['content_realization'])
+    )
 
-    summaries = []
+    summaries = {}
     for mode in data_ingested:
         if not data_ingested[mode]:
             continue
-        for doc_set in docsets[mode]:
+        for doc_set in tqdm(docsets[mode], desc=f"Summarizing {mode}"):
             selected_content = \
                 content_selector.select_content(docsets[mode][doc_set])
-            ordered_content = information_orderer.order_content(selected_content)
+            # ordered_content = information_orderer.order_content(selected_content)
+            ordered_content = selected_content
             summary = content_realizer.realize_content(ordered_content)
-            summaries.append(summary)
+            print(summary)
+            # summaries.set(summary)
 
-
+    print(summaries)
     # Output results
     # ...
+
 
 if __name__ == "__main__":
     config = load_config(os.path.join('..', 'config.json'))

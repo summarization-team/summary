@@ -11,9 +11,9 @@
             "evaltest": "/mnt/dropbox/23-24/575x/Data/Documents/evaltest/GuidedSumm11_test_topics.xml"
         },
         "output_dir": {
-            "training": "data/training",
-            "devtest": "data/devtest",
-            "evaltest": "data/evaltest"
+            "training": "../data/training",
+            "devtest": "../data/devtest",
+            "evaltest": "../data/evaltest"
         }
     },
     "model": {
