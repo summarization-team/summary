@@ -27,7 +27,10 @@
             "method": "simple_heuristic"
         },
         "content_realization": {
-            "method": "default"
+            "method": "simple",
+            "additional_parameters": {
+                "max_token_length": 100
+            }
         }
     }
 }
