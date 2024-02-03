@@ -2,7 +2,7 @@ import json
 import os
 from doc_processor.doc_processor import DocumentProcessor
 from model.content_selector import ContentSelector
-# from model.information_orderer import InformationOrderer
+from model.information_orderer import InformationOrderer
 from model.content_realizer import ContentRealizer, get_realization_info
 from tqdm import tqdm
 
@@ -27,25 +27,24 @@ def main(config):
     content_selector = ContentSelector(
         config['model']['content_selection']['additional_parameters']['num_sentences_per_doc'],
         config['model']['content_selection']['approach'])
-    # information_orderer = InformationOrderer()
+    information_orderer = InformationOrderer()
     content_realizer = ContentRealizer(
         get_realization_info(config['model']['content_realization'])
     )
 
-    summaries = {}
     for mode in data_ingested:
         if not data_ingested[mode]:
             continue
         for doc_set in tqdm(docsets[mode], desc=f"Summarizing {mode}"):
             selected_content = \
                 content_selector.select_content(docsets[mode][doc_set])
-            # ordered_content = information_orderer.order_content(selected_content)
-            ordered_content = selected_content
+            ordered_content = information_orderer.order_content(selected_content)
             summary = content_realizer.realize_content(ordered_content)
-            print(summary)
-            # summaries.set(summary)
+            if 'SUMMARY' not in docsets[mode][doc_set]:
+                docsets[mode][doc_set]['SUMMARY'] = summary
+            else:
+                raise Warning(f"Summary already exists for {doc_set}")
 
-    print(summaries)
     # Output results
     # ...
 
