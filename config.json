@@ -29,5 +29,6 @@
         "content_realization": {
             "method": "default"
         }
-    }
+    },
+    "output_dir": "../outputs/D3"
 }
