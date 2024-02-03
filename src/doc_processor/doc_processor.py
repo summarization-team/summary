@@ -2,7 +2,6 @@ import os
 import xml.etree.ElementTree as ET
 from nltk.tokenize import sent_tokenize, word_tokenize
 
-
 HEADLINE = 'HEADLINE'
 DATELINE = 'DATELINE'
 PARAGRAPH = 'PARAGRAPH-{}'
@@ -21,6 +20,7 @@ class DocumentProcessor:
         output_path (str): The directory path where the processed output will be stored.
         data_ingested (bool): Flag indicating if data is already ingested.
     """
+
     def __init__(self, input_path, output_path, data_ingested=False):
         """
         Initializes the DocumentProcessor with the given XML file and output directory.
@@ -35,7 +35,7 @@ class DocumentProcessor:
         self.input_path = input_path
         self.output_path = output_path
         self.data_ingested = data_ingested
-    
+
     def load_or_process_documents(self):
         """
         Loads processed data if available, otherwise processes XML documents.
@@ -49,7 +49,8 @@ class DocumentProcessor:
                 print(f"Re-Processing Original Files: {mode}")
                 self.process_documents(self.input_path[mode], mode)
             print(f"Loading Processed Data:{mode}")
-            doc_set[mode] = self.load_processed_data(self.input_path[mode])
+
+            doc_set[mode] = self.load_processed_data(self.output_path[mode])
         return doc_set
 
     def load_processed_data(self, input_path):
@@ -96,7 +97,7 @@ class DocumentProcessor:
                                 processed_docs[root][file_name][DATELINE] = line.replace(DATELINE + ':', "").strip()
         return processed_docs
 
-
+      
     def process_documents(self, input_path, mode):
         """
         Processes the XML documents by parsing and extracting relevant information.
@@ -121,7 +122,6 @@ class DocumentProcessor:
             docsetID = docset.get('id')
             docsets.append(docsetID)
             for doc in docset:
-
                 docID = doc.get('id')
                 path = self.output_path[mode] + '/' + docsetID
                 process_doc(path, docID)
