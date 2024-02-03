@@ -49,6 +49,7 @@ class DocumentProcessor:
                 print(f"Re-Processing Original Files: {mode}")
                 self.process_documents(self.input_path[mode], mode)
             print(f"Loading Processed Data:{mode}")
+
             doc_set[mode] = self.load_processed_data(self.output_path[mode])
         return doc_set
 
@@ -96,6 +97,7 @@ class DocumentProcessor:
                                 processed_docs[root][file_name][DATELINE] = line.replace(DATELINE + ':', "").strip()
         return processed_docs
 
+      
     def process_documents(self, input_path, mode):
         """
         Processes the XML documents by parsing and extracting relevant information.

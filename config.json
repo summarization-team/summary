@@ -1,8 +1,8 @@
 {
     "document_processing": {
         "data_ingested": {
-            "training": true,
-            "devtest": true,
+            "training": false,
+            "devtest": false,
             "evaltest": true
         },
         "input_xml_file": {
