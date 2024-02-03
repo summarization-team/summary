@@ -112,9 +112,7 @@ class SimpleJoinMethod(RealizationMethod):
         detokenizer = TreebankWordDetokenizer()
         detokenized_sentences = [detokenizer.detokenize(sentence) for sentence in sentences]
 
-        summary = ' '.join(detokenized_sentences)
-
-        return summary
+        return detokenized_sentences
 
 
 class SentenceCompressionMethod(RealizationMethod):
