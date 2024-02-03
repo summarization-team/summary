@@ -40,7 +40,25 @@ def main(config):
 
 
     # Output results
-    # ...
+    output_dir = config['output_dir']
+
+    if not os.path.exists(output_dir):
+        os.mkdir(output_dir)
+
+    i = 0
+    for summary in summaries[:5]:
+        # Output file name: [id_part1]-A.M.100.[id_part2].[unique_integer]
+        # Given topic ID, `id_part1` is first five char and `id_part2` is final.
+        # Unique integer comes from content selection method.
+        # e.g., D0901A -> D0901-A.M.100.A.{1,2}
+        # topic_id = parent_dir.split('-')[0]
+        # id_part1, id_part2 = topic_id[:-1], topic_id[-1]
+        # output_filepath = output_dir + f'/{id_part1}-A.M.100.{id_part2}'
+        output_filepath = output_dir + '/' + str(i)
+        with open(output_filepath, 'w', encoding='utf-8') as outfile:
+            outfile.write(summary)
+        i += 1
+
 
 if __name__ == "__main__":
     config = load_config(os.path.join('..', 'config.json'))
