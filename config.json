@@ -32,5 +32,6 @@
                 "max_token_length": 100
             }
         }
-    }
+    },
+    "output_dir": "../outputs/D3"
 }

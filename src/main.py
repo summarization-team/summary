@@ -12,6 +12,25 @@ def load_config(config_path):
         return json.load(file)
 
 
+def output_results(docsets, output_dir):
+    if not os.path.exists(output_dir):
+        os.mkdir(output_dir)
+
+    approach =  config['model']['content_selection']['approach']
+    unique = 1 if approach == 'tfidf' else 2
+
+    for mode, data in docsets.items():
+        for full_dir, content in data.items():
+            parent_dir = full_dir.split('/')[-1]
+            summary = content['SUMMARY']
+            topic_id = parent_dir.split('-')[0]
+            id_part1, id_part2 = topic_id[:-1], topic_id[-1]
+            output_filepath = output_dir + f'/{id_part1}-A.M.100.{id_part2}.{unique}'
+            with open(output_filepath, 'w', encoding='utf-8') as outfile:
+                for sentence in summary:
+                    outfile.write(sentence + '\n')
+
+
 def main(config):
     doc_config = config['document_processing']
 
@@ -46,7 +65,7 @@ def main(config):
                 raise Warning(f"Summary already exists for {doc_set}")
 
     # Output results
-    # ...
+    output_results(docsets=docsets, output_dir=config['output_dir'])
 
 
 if __name__ == "__main__":
