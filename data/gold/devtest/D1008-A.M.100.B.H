@@ -1,0 +1,3 @@
+The Chesapeake Bay's once thriving populations of fish, crabs, and oysters are vanishing and the industries surrounding them have all but collapsed, because the Bay has been over harvested and is heavily polluted from sewage, animal manure, and fertilizers from farms.
+An agreement made in 2000 among the Environmental Protection Agency, Washington, D.C., Maryland, Virginia, and Pennsylvania to clean up the Bay has stagnated and after four years most efforts are still in the planning stage.
+In the past government regulators set population targets for each species separately; now they look at the Bay as one single ecosystem.

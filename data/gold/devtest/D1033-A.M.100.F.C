@@ -1,0 +1,3 @@
+On July 25, 2005 South Korean President Roh Moo-Hyun called for a "thorough" investigation by the National Intelligence Service (NIS) into allegations that intelligence officials had, in 1997, illegally taped conversations between Hong Seok-Hyun, South Korean Ambassador to the U.S. and Lee Hak-soo, a high ranking official of Samsung, the country's largest business conglomerate.
+Revelation of the recorded conversations involving an illegal political slush fund caused Hong to resign as ambassador.
+On August 5 NIS released interim results from its ongoing investigation admitting it had taped influential figures as late as 2002, but not under President Roh's administration.
