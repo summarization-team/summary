@@ -47,12 +47,16 @@ def main(config):
     approach =  config['model']['content_selection']['approach']
     unique = 1 if approach == 'tfidf' else 2
 
-    for parent_dir, summary in summaries.items():
-        topic_id = parent_dir.split('-')[0]
-        id_part1, id_part2 = topic_id[:-1], topic_id[-1]
-        output_filepath = output_dir + f'/{id_part1}-A.M.100.{id_part2}.{unique}'
-        with open(output_filepath, 'w', encoding='utf-8') as outfile:
-            outfile.write(summary)
+    for mode, data in summaries.items():
+        for full_dir, content in data.items():
+            parent_dir = full_dir.split('/')[-1]
+            summary = content['SUMMARY']
+            topic_id = parent_dir.split('-')[0]
+            id_part1, id_part2 = topic_id[:-1], topic_id[-1]
+            output_filepath = output_dir + f'/{id_part1}-A.M.100.{id_part2}.{unique}'
+            with open(output_filepath, 'w', encoding='utf-8') as outfile:
+                for sentence in summary:
+                    outfile.write(sentence + '\n')
 
 if __name__ == "__main__":
     config = load_config(os.path.join('..', 'config.json'))
