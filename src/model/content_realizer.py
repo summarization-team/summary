@@ -6,12 +6,22 @@ for simple joining of tokenized sentences and a placeholder for sentence compres
 """
 
 import string
+import re
+import ast
 from nltk.tokenize.treebank import TreebankWordDetokenizer
 from abc import ABC, abstractmethod
 
 
 def is_punctuation(word):
     return all(char in string.punctuation for char in word)
+
+
+def clean_string(input_string):
+    # Replace 's
+    cleaned_string = re.sub(r'"\'s"', "'s", input_string)
+    # Replace "''"
+    cleaned_string = re.sub(r'"\'\'"', "''", cleaned_string)
+    return cleaned_string
 
 
 def get_realization_info(realization_config):
@@ -98,6 +108,7 @@ class SimpleJoinMethod(RealizationMethod):
             sentences = self._truncate_sentences(content=sentences,
                                                  max_token_length=self.additional_parameters['max_token_length'])
 
+        sentences = [[clean_string(token) for token in sentence] for sentence in sentences]
         detokenizer = TreebankWordDetokenizer()
         detokenized_sentences = [detokenizer.detokenize(sentence) for sentence in sentences]
 
