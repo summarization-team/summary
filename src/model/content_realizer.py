@@ -92,11 +92,11 @@ class SimpleJoinMethod(RealizationMethod):
         Returns:
             str: The realized content as a single string.
         """
+        sentences = [s for s_list in content.values() for s in s_list]
+
         if "max_token_length" in self.additional_parameters:
-            sentences = self._truncate_sentences(content=content.values(),
+            sentences = self._truncate_sentences(content=sentences,
                                                  max_token_length=self.additional_parameters['max_token_length'])
-        else:
-            sentences = content
 
         detokenizer = TreebankWordDetokenizer()
         detokenized_sentences = [detokenizer.detokenize(sentence) for sentence in sentences]
