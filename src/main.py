@@ -54,7 +54,19 @@ def output_results(docsets, output_dir):
 
 
 def calculate_rouge_scores(metrics, docsets, mode, reference_summaries_path, results_dir):
-
+    """
+    Calculate ROUGE scores for the generated summaries.
+    Args:
+        metrics (list): A list of ROUGE metrics to calculate.
+        docsets (dict): A dictionary of document sets, where each document set is represented as a dictionary
+            with the following keys:
+                - 'FULL': The full document set.
+                - 'REDUCED': The reduced document set.
+                - 'SUMMARY': The summary of the document set.
+        mode (str): The mode for which the ROUGE scores are calculated.
+        reference_summaries_path (str): The path to the reference summaries.
+        results_dir (str): The directory to which the results should be written.
+    """
     if not os.path.exists(results_dir):
         os.mkdir(results_dir)
     scorer = rouge_scorer.RougeScorer(metrics, use_stemmer=True)
