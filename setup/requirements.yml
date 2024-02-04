@@ -11,6 +11,8 @@ dependencies:
   - nltk
   - spacy
   - scikit-learn  
+  - absl-py
+  - six>=1.14
   - pip
   - pip:
     - contractions
