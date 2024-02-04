@@ -46,7 +46,7 @@ def output_results(docsets, output_dir):
             parent_dir = full_dir.split('/')[-1]
             summary = content['SUMMARY']
             topic_id = parent_dir.split('-')[0]
-            id_part1, id_part2 = topic_id[:-1].split('\\')[1], topic_id[-1]
+            id_part1, id_part2 = topic_id[:-1], topic_id[-1]
             output_filepath = output_dir + f'/{id_part1}-A.M.100.{id_part2}.{unique}'
             with open(output_filepath, 'w', encoding='utf-8') as outfile:
                 for sentence in summary:
@@ -81,7 +81,7 @@ def calculate_rouge_scores(metrics, docsets, mode, reference_summaries_path, res
     for dir in docsets[mode]:
         parent_dir = dir.split('/')[-1]
         topic_id = parent_dir.split('-')[0]
-        id_part1, id_part2 = topic_id[:-1].split('\\')[1], topic_id[-1]
+        id_part1, id_part2 = topic_id[:-1], topic_id[-1]
         summary_file_name = f'{id_part1}-A.M.100.{id_part2}'
         summary_file_names.append(summary_file_name)
         generated_summary = '\n'.join(docsets[mode][dir]['SUMMARY'])
@@ -94,7 +94,7 @@ def calculate_rouge_scores(metrics, docsets, mode, reference_summaries_path, res
         gold_summary_path = ''
         for filename in matching_filenames:
             gold_summary_path = os.path.join(reference_summaries_path, filename)
-            with open(gold_summary_path, 'r') as gold_file:
+            with open(gold_summary_path, 'r', encoding='cp1252') as gold_file:
                 gold_summary = gold_file.read().strip()
                 scores = scorer.score(gold_summary, generated_summary)
                 scores_dict[metrics[0]][summary_file_name]['R'] += scores[metrics[0]].recall
