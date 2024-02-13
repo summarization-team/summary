@@ -15,5 +15,6 @@ dependencies:
   - six>=1.14
   - rouge-score
   - pip
+  - os
   - pip:
     - contractions
