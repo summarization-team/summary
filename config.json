@@ -24,7 +24,7 @@
             }
         },
         "information_ordering": {
-            "method": "simple_heuristic"
+            "approach": "entity_grid"
         },
         "content_realization": {
             "method": "simple",
