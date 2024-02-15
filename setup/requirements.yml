@@ -14,9 +14,12 @@ dependencies:
   - absl-py
   - six>=1.14
   - rouge-score
+<<<<<<< HEAD
   - torch
   - transformers
   - os
+=======
+>>>>>>> b314d55f99ed51c3ff844be8bb107cd21602f755
   - pip
   - pip:
     - contractions
