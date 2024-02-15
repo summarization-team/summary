@@ -1,0 +1,1 @@
+On Tuesday, April 19, white smoke puffed from the Sistine Chapel chimney, signaling the election of a new pope. After four ballots, Roman Catholic cardinals elected German-born Joseph Ratzinger, a renowned theologian and hard-line enforcer of Catholic Church doctrine. Ratzinger took the name Pope Benedict XVI. 
