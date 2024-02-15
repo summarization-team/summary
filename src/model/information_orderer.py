@@ -3,7 +3,10 @@ from nltk.tokenize import word_tokenize
 import numpy as np
 
 class InformationOrderer:
-    def order_content(self, content):
+    def __init__(self, approach='TSP'):
+        self.approach = approach
+
+    def order_content_TSP(self, content):
         """
         Orders sentences using Traveling Salesperson
         
@@ -23,7 +26,29 @@ class InformationOrderer:
                 new_order.append(content[i][x])
             content[i] = new_order
         return content
+    
+    def order_content_entity_grid(self, content):
+        """
+        Orders sentences using the Entity Grid approach (Barzilay and Lapata, 2008).
         
+        Args:
+            Dictionary: A dictionary in the form {'file_name': [list of sentences]}
+            
+        Returns:
+            Dictionary with updated order to the list of sentences.
+        """
+        ## FILL THIS OUT
+        return content
+
+    def order_content(self, content):
+        """Orders content based on the specified approach."""
+        if self.approach == 'TSP':
+            return self.order_content_TSP(content)
+        elif self.approach == 'entity_grid':
+            return self.order_content_entity_grid(content)
+        else:
+            raise ValueError(f"Unknown approach: {self.approach}")
+
 
 
 def calc_distances(content):
