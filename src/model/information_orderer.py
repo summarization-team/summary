@@ -1,6 +1,7 @@
 from nltk.metrics import masi_distance
 from nltk.tokenize import word_tokenize
 import numpy as np
+import random
 
 class InformationOrderer:
     def __init__(self, approach='TSP'):
@@ -40,12 +41,30 @@ class InformationOrderer:
         ## FILL THIS OUT
         return content
 
+    def order_content_random(self, content):
+        """
+        Orders sentences randomly.
+        
+        Args:
+            Dictionary: A dictionary in the form {'file_name': [list of sentences]}
+            
+        Returns:
+            Dictionary with updated order to the list of sentences.
+        """
+        ## FILL THIS OUT
+        random.seed(2152024)
+        for k in content.keys():
+            random.shuffle(content[k])
+        return content
+
     def order_content(self, content):
         """Orders content based on the specified approach."""
         if self.approach == 'TSP':
             return self.order_content_TSP(content)
         elif self.approach == 'entity_grid':
             return self.order_content_entity_grid(content)
+        elif self.approach == 'random':
+            return self.order_content_random(content)
         else:
             raise ValueError(f"Unknown approach: {self.approach}")
 
