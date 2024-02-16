@@ -8,7 +8,6 @@ from src.model.content_realizer import (
     get_realization_info
 )
 
-
 class TestContentRealization(unittest.TestCase):
     def test_is_punctuation(self):
         self.assertTrue(is_punctuation("!!!"))
@@ -22,26 +21,51 @@ class TestContentRealization(unittest.TestCase):
         method = SimpleJoinMethod(additional_parameters={})
         content = {"sentences": [["This", "is", "a", "test", "."], ["Another", "sentence", "."]]}
         realized_content = method.realize(content)
-        self.assertEqual(realized_content, ["This is a test.", "Another sentence."])
-
-    def test_sentence_compression_method_not_implemented(self):
-        method = SentenceCompressionMethod(additional_parameters={})
-        content = {"sentences": [["This", "sentence", "will", "not", "be", "compressed", "."]]}
-        with self.assertRaises(NotImplementedError):
-            method.realize(content)
+        self.assertIsInstance(realized_content, str)
+        self.assertIn("This is a test.", realized_content)
+        self.assertIn("Another sentence.", realized_content)
 
     def test_content_realizer_with_simple_join(self):
         method = SimpleJoinMethod(additional_parameters={})
         realizer = ContentRealizer(method=method)
         content = {"sentences": [["This", "is", "simple", "join", "."]]}
         realized_content = realizer.realize_content(content)
-        self.assertEqual(realized_content, ["This is simple join."])
+        self.assertIn("This is simple join.", realized_content)
 
     def test_get_realization_info(self):
         config = {'method': 'simple', 'additional_parameters': {}}
         method = get_realization_info(config)
         self.assertIsInstance(method, SimpleJoinMethod)
 
+    # Updated Sentence Compression Tests to use model_id from config
+    def setUp(self):
+        # Updated to include model_id in the configuration
+        self.compression_method = SentenceCompressionMethod(additional_parameters={'model_id': 't5-small'})
+
+    def test_compression_single_sentence(self):
+        content = {"sentences": [["This", "is", "a", "very", "long", "sentence", "that", "should", "be", "compressed", "to", "something", "shorter", "."]]}
+        compressed_content = self.compression_method.realize(content)
+        self.assertIsInstance(compressed_content, str)
+        self.assertTrue(len(compressed_content) < len(' '.join(content["sentences"][0])))
+        self.assertNotEqual(compressed_content, '')
+
+    def test_compression_multiple_sentences(self):
+        content = {
+            "sentences": [
+                ["This", "is", "the", "first", "long", "sentence", "that", "needs", "compression", "."],
+                ["Here", "is", "another", "sentence", "that", "also", "requires", "compression", "."]
+            ]
+        }
+        compressed_content = self.compression_method.realize(content)
+        self.assertIsInstance(compressed_content, str)
+        original_content_length = sum(len(' '.join(sentence)) for sentence in content["sentences"])
+        self.assertTrue(len(compressed_content) < original_content_length)
+        self.assertNotEqual(compressed_content, '')
+
+    def test_compression_with_empty_input(self):
+        content = {"sentences": []}
+        compressed_content = self.compression_method.realize(content)
+        self.assertEqual(compressed_content, '')
 
 if __name__ == '__main__':
     unittest.main()
