@@ -117,8 +117,9 @@ class EntityGrid:
         return random_ordering
 
 class InformationOrderer:
-    def __init__(self, approach='TSP'):
+    def __init__(self, approach, training_data_path):
         self.approach = approach
+        self.training_data_path = training_data_path
 
     def order_content_TSP(self, content):
         """
@@ -151,7 +152,7 @@ class InformationOrderer:
         Returns:
             Dictionary with updated order to the list of sentences.
         """
-        EG = EntityGrid(GOLD_TRAINING)
+        EG = EntityGrid(self.training_data_path)
         for k in content.keys():
             num_sentences = len(content[k])
 
