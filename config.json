@@ -26,7 +26,9 @@
         "information_ordering": {
             "approach": "entity_grid",
             "additional_parameters": {
-                "training_data_path": "../data/gold/training"
+                "training_data_path": "../data/gold/training",
+                "all_possible_permutations_threshold": 3,
+                "max_permutations": 10
             }
         },
         "content_realization": {
