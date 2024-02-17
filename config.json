@@ -24,7 +24,12 @@
             }
         },
         "information_ordering": {
-            "method": "simple_heuristic"
+            "approach": "entity_grid",
+            "additional_parameters": {
+                "training_data_path": "../data/gold/training",
+                "all_possible_permutations_threshold": 3,
+                "max_permutations": 10
+            }
         },
         "content_realization": {
             "method": "simple",
@@ -36,9 +41,9 @@
     "evaluation": {
         "metrics": ["rouge1", "rouge2"],
         "data_subset": "devtest",
-        "results_dir": "../results/D3",
+        "results_dir": "../results/D4",
         "reference_summaries_path": "../data/gold/devtest/",
         "generated_summaries_path": "../data/devtest/generated_summaries/"
     },
-    "output_dir": "../outputs/D3"
+    "output_dir": "../outputs/D4"
 }
