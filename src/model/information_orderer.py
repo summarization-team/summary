@@ -10,14 +10,13 @@ from copy import deepcopy
 import numpy as np
 import os, re
 
-# Set filepath for training data. (Put this into config eventually.)
-GOLD_TRAINING = '../data/gold/training'
-
 # Set random seed.
 seed(2162024)
 
 class EntityGrid:
-    def __init__(self, training_data_filepath):
+    def __init__(self, training_data_filepath, threshold, max_permutations):
+        self.threshold = threshold
+        self.max_permutations = max_permutations
         data = self.read_data(training_data_filepath)
         X, y = self.build_training_data(data)
         
@@ -26,9 +25,19 @@ class EntityGrid:
 
     def read_data(self, directory_path):
         """
-        Return list of lists.
-        Outer list represents single summary file.
-        Inner list is sentences in that summary.
+        Reads gold standard summaries from files in `directory_path` and extracts relevant information.
+
+        Args:
+            directory_path (str): The path to the directory containing the files.
+
+        Returns:
+            list: A list of dictionaries, where each dictionary contains information about a text file.
+                Each dictionary has the following keys:
+                    - 'summary_id' (str): The filename.
+                    - 'original_order' (list of str): The sentences in the original order.
+                    - 'named_entities' (list of str): The named entities extracted from the text.
+                    - 'num_sentences' (int): The number of sentences in the text.
+                    - 'num_entities' (int): The number of named entities extracted from the text.
         """
         data = []
         for filename in os.listdir(directory_path):
@@ -59,6 +68,21 @@ class EntityGrid:
 
     def build_training_data(self, data):
         """
+        Builds training data from the provided summary data.
+
+        Args:
+            data (list): A list of dictionaries, where each dictionary contains information about a text file.
+                Each dictionary should have the following keys:
+                    - 'original_order' (list of str): The sentences in the original order.
+                    - 'named_entities' (list of str): The named entities extracted from the text.
+                    - 'num_sentences' (int): The number of sentences in the text.
+                    - 'num_entities' (int): The number of named entities extracted from the text.
+
+        Returns:
+            tuple: A tuple containing the training data X and corresponding labels y.
+                - X (numpy.ndarray): A 2D array where each row represents a vectorized version of a summary.
+                - y (numpy.ndarray): A 1D array containing the labels for each summary vector in X.
+                    A label of 1 indicates proper ordering, while a label of 0 indicates random ordering.
         """
         X_list = []
         y_list = []
@@ -81,8 +105,9 @@ class EntityGrid:
             for ordering in orderings:
                 vector = create_vector(ordering, named_entities, num_sentences, num_entities)
                 X_list.append(vector)
-                y_list.append(0)
+                y_list.append(0) # Random ordering
 
+        # Convert to NumPy ndarrays.
         X = np.vstack(X_list)
         y = np.array(y_list)
         
@@ -91,18 +116,27 @@ class EntityGrid:
 
     def get_orderings(self, sentences, num_sentences):
         """
+        Generates possible orderings of sentences.
+
+        Args:
+            sentences (list of str): The sentences to be reordered.
+            num_sentences (int): The number of sentences.
+
+        Returns:
+            list: A list of tuples, where each tuple represents a possible ordering of the sentences.
         """
-        # If num_sentences <= 3, use all possible permutations
-        if num_sentences <= 3:
+        # If num_sentences <= `threshold``, use all possible permutations.
+        if num_sentences <= self.threshold:
             orderings = list(permutations(sentences))
             orderings.remove(tuple(sentences))
         
-        # Otherwise, use shuffle and select 10 possible permutations.
+        # Otherwise, shuffle and select `max_permutations` possible permutations.
         else:
             i = 0
             orderings = []
-            while i < 10:
+            while i < self.max_permutations:
                 test = self.generate_random_ordering(sentences)
+                # Don't use a permutation that matches the original.
                 if test != sentences and test not in orderings:
                     orderings.append(test)
                     i += 1
@@ -111,15 +145,27 @@ class EntityGrid:
 
 
     def generate_random_ordering(self, sentences):
-        """Shuffle list of sentences and return."""
+        """
+        Generates a random ordering of sentences.
+
+        Args:
+            sentences (list of str): The sentences to be shuffled.
+
+        Returns:
+            list of str: A randomly shuffled list of sentences.
+        """
+        # Create a deep copy of the list to shuffle and return.
         random_ordering = deepcopy(sentences)
         shuffle(random_ordering)
         return random_ordering
 
+
 class InformationOrderer:
-    def __init__(self, approach, training_data_path):
+    def __init__(self, approach, training_data_path, threshold, max_permutations):
         self.approach = approach
         self.training_data_path = training_data_path
+        self.threshold = threshold
+        self.max_permutations = max_permutations
 
     def order_content_TSP(self, content):
         """
@@ -152,7 +198,7 @@ class InformationOrderer:
         Returns:
             Dictionary with updated order to the list of sentences.
         """
-        EG = EntityGrid(self.training_data_path)
+        EG = EntityGrid(self.training_data_path, self.threshold, self.max_permutations)
         for k in content.keys():
             num_sentences = len(content[k])
 
@@ -163,13 +209,12 @@ class InformationOrderer:
         
             else:
                 # Check that every item in `content[k]` is a list.
-                # If it is not a list, print `content[k]` and break.
+                # If it is not, it is likely an untokenized headline.
+                # Tokenize it and replace the element in the list.
                 for i, item in enumerate(content[k]):
                     if type(item) != list:
-                        # print(content[k])
-                        # print(item)
                         content[k][i] = word_tokenize(item)
-                        # print(content[k])
+
                 # Get the named entities in the content.
                 named_entities = get_entities(content[k], tokenized=True)
                 num_entities = len(named_entities)
@@ -184,11 +229,14 @@ class InformationOrderer:
                     vector = create_vector(sentences, named_entities, num_sentences, num_entities)
                     X_list.append(vector)
 
+                # Convert to a NumPy array.
                 X = np.array(X_list)
 
                 # Use model to predict most likely ordering.
                 probabilities = EG.model.predict_proba(X)[:,1]
                 best_idx = np.argmax(probabilities)
+
+                # Replace `content[k]` with the most likely ordering.
                 content[k] = orderings[best_idx]
 
         return content
@@ -281,11 +329,24 @@ def path_distance(route, distances):
     return result
 
 def get_entities(summary, tokenized=False):
-    """Extract and return NEs from a list of sentences."""
+    """
+    Extracts named entities from the given summary.
+
+    Args:
+        summary (list of str or list of list of str): The summary text. If `tokenized` is False, it should be a list of strings (sentences).
+                                                      If `tokenized` is True, it should be a list of lists of strings (tokenized sentences).
+        tokenized (bool, optional): Indicates whether the summary is already tokenized. Defaults to False.
+
+    Returns:
+        list of str: A list of extracted named entities.
+    """
+    # Tokenize sentences if necessary.
     if not tokenized:
         tokens = [word_tokenize(s) for s in summary]
     else:
         tokens = summary
+    
+    # Tag sentences and identify/extract named entities.
     tags = pos_tag_sents(tokens)
     entities = ne_chunk_sents(tags, binary=True)
     NE = []
@@ -296,7 +357,7 @@ def get_entities(summary, tokenized=False):
                 if entity_name not in NE:
                     NE.append(entity_name)
 
-    # If no NEs are extracted, just use nouns instead. (e.g., 34, 254)
+    # If no NEs are extracted, just use nouns instead.
     if len(NE) == 0:
         is_noun = lambda pos: pos[:2] == 'NN'
         for tagged_sent in tags:
@@ -308,12 +369,20 @@ def get_entities(summary, tokenized=False):
 
 def build_grid(sentences, entities):
     """
-    Construct and return entity grid as NumPy array.
-    num_columns = len(entities)
-    num_rows = len(sentences)
-    Cell is 1 if entity present, 0 otherwise.
+    Builds a binary grid indicating the presence of entities in sentences.
+
+    Args:
+        sentences (list of str): The sentences to be analyzed.
+        entities (list of str): The entities to be searched for in the sentences.
+
+    Returns:
+        numpy.ndarray: A binary grid where each row corresponds to a sentence and each column corresponds to an entity.
+                       The value at position (i, j) is 1 if the entity j is present in sentence i, otherwise 0.
     """
+    # Initialize empty array.
     array = [[0 for _ in entities] for _ in sentences]
+    
+    # Iterate through sentences and entities to fill in array.
     for i, sentence in enumerate(sentences):
         for j, entity in enumerate(entities):
             check = re.search(r'\b' + entity + r'\b', sentence)
@@ -324,10 +393,22 @@ def build_grid(sentences, entities):
 
 def create_vector(sentences, entities, num_sentences, num_entities):
     """
-    From grid, create dictionary of transitions."""
+    Creates a feature vector representing the transition patterns of entities between sentences.
 
+    Args:
+        sentences (list of str): The sentences in the summary.
+        entities (list of str): The named entities extracted from the summary.
+        num_sentences (int): The number of sentences in the summary.
+        num_entities (int): The number of named entities in the summary.
+
+    Returns:
+        numpy.ndarray: A feature vector representing the transition patterns of entities between sentences.
+    """
+
+    # Build the entity grid.
     grid = build_grid(sentences, entities)
 
+    # Use the following transition lookups.
     lookup = {
         (0, 0): 0,
         (0, 1): 1,
@@ -335,16 +416,20 @@ def create_vector(sentences, entities, num_sentences, num_entities):
         (1, 1): 3
     }
 
+    # Initialize an empty vector.
     values = [0 for _ in range(len(lookup))]
 
+    # Calculate the total number of possible transitions.
     num_transitions = num_entities * (num_sentences - 1)
     
+    # Increment each transition type in the vector.
     for j in range(num_entities):
         for i in range(num_sentences - 1):
             transition = grid[i:i+2, j]
             k = lookup[tuple(transition)]
             values[k] += 1
 
+    # Convert the vector from counts to probabilities.
     vector = np.array(values) / num_transitions
 
     return vector
