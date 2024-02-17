@@ -2,7 +2,7 @@ import json
 import os
 import re
 
-#from rouge_score import rouge_scorer
+from rouge_score import rouge_scorer
 from tqdm import tqdm
 
 from doc_processor.doc_processor import DocumentProcessor
@@ -171,12 +171,12 @@ def main(config):
     # Output results
     output_results(docsets=docsets, output_dir=config['output_dir'])
 
-    # # Calculate ROUGE scores
-    # metrics = config['evaluation']['metrics']
-    # reference_summaries_path = config['evaluation']['reference_summaries_path']
-    # results_dir = config['evaluation']['results_dir']
-    # data_subset = config['evaluation']['data_subset']
-    # calculate_rouge_scores(metrics, docsets, data_subset, reference_summaries_path, results_dir)
+    # Calculate ROUGE scores
+    metrics = config['evaluation']['metrics']
+    reference_summaries_path = config['evaluation']['reference_summaries_path']
+    results_dir = config['evaluation']['results_dir']
+    data_subset = config['evaluation']['data_subset']
+    calculate_rouge_scores(metrics, docsets, data_subset, reference_summaries_path, results_dir)
 
 
 if __name__ == "__main__":
