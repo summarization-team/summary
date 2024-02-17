@@ -18,7 +18,7 @@
     },
     "model": {
         "content_selection": {
-            "approach": "textrank",
+            "approach": "tfidf",
             "additional_parameters": {
                 "num_sentences_per_doc": 3
             }
@@ -43,5 +43,5 @@
         "reference_summaries_path": "../data/gold/devtest/",
         "generated_summaries_path": "../data/devtest/generated_summaries/"
     },
-    "output_dir": "../outputs/D4/EG"
+    "output_dir": "../outputs/D4"
 }
