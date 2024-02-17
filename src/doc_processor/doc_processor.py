@@ -116,24 +116,37 @@ class DocumentProcessor:
         docsets = []
         tree = ET.parse(input_path)
         root = tree.getroot()
-
-        # Find all docsetA
-        for docset in root.iter('docsetA'):
-            docsetID = docset.get('id')
-            docsets.append(docsetID)
-            for doc in docset:
-                docID = doc.get('id')
+        
+        for topic in root.iter('topic'):
+            description = ''
+            if topic.find('title'):
+                description += 'title: ' + topic.find('title').text + '\n'
+            if topic.find('narrative'):
+                description += 'narrative: ' + topic.find('narrative').text + '\n'
+            
+            # Find all docsetA
+            for docset in topic.iter('docsetA'):
+                docsetID = docset.get('id')
+                docsets.append(docsetID)
                 path = self.output_path[mode] + '/' + docsetID
-                process_doc(path, docID)
-
-        # Find all docsetB
-        for docset in root.iter('docsetB'):
-            docsetID = docset.get('id')
-            docsets.append(docsetID)
-            for doc in docset:
-                docID = doc.get('id')
+                descriptionFile = os.path.join(path, 'description.txt') 
+                with open(descriptionFile, 'a') as F:
+                    F.write(description)
+                for doc in docset:
+                    docID = doc.get('id')
+                    process_doc(path, docID)
+        
+            # Find all docsetB
+            for docset in topic.iter('docsetB'):
+                docsetID = docset.get('id')
+                docsets.append(docsetID)
                 path = self.output_path[mode] + '/' + docsetID
-                process_doc(path, docID)
+                descriptionFile = os.path.join(path, 'description.txt') 
+                with open(descriptionFile, 'a') as F:
+                    F.write(description)
+                for doc in docset:
+                    docID = doc.get('id')
+                    process_doc(path, docID)
 
         return docsets
 
