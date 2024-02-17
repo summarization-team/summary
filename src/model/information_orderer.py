@@ -161,11 +161,9 @@ class EntityGrid:
 
 
 class InformationOrderer:
-    def __init__(self, approach, training_data_path, threshold, max_permutations):
-        self.approach = approach
-        self.training_data_path = training_data_path
-        self.threshold = threshold
-        self.max_permutations = max_permutations
+    def __init__(self, params):
+        self.approach = params['approach']
+        self.additional_params = params['additional_parameters']
 
     def order_content_TSP(self, content):
         """
@@ -188,17 +186,26 @@ class InformationOrderer:
             content[i] = new_order
         return content
     
-    def order_content_entity_grid(self, content):
+    def order_content_entity_grid(self, content, additional_params):
         """
         Orders sentences using the Entity Grid approach (Barzilay and Lapata, 2008).
         
         Args:
-            Dictionary: A dictionary in the form {'file_name': [list of sentences]}
+            content: A dictionary in the form {'file_name': [list of sentences]}
+            additional_params: A dictionary in the form {
+                'training_data_path': str,
+                'all_possible_permutations_threshold': int,
+                'max_permutations': int
+            }
             
         Returns:
             Dictionary with updated order to the list of sentences.
         """
-        EG = EntityGrid(self.training_data_path, self.threshold, self.max_permutations)
+        EG = EntityGrid(
+            additional_params['training_data_path'], 
+            additional_params['all_possible_permutations_threshold'],
+            additional_params['max_permutations']
+        )
         for k in content.keys():
             num_sentences = len(content[k])
 
@@ -260,7 +267,7 @@ class InformationOrderer:
         if self.approach == 'TSP':
             return self.order_content_TSP(content)
         elif self.approach == 'entity_grid':
-            return self.order_content_entity_grid(content)
+            return self.order_content_entity_grid(content, self.additional_params)
         elif self.approach == 'random':
             return self.order_content_random(content)
         else:
