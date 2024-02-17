@@ -10,6 +10,7 @@ import re
 import ast
 from nltk.tokenize.treebank import TreebankWordDetokenizer
 from abc import ABC, abstractmethod
+from transformers import pipeline
 
 
 def is_punctuation(word):
@@ -116,23 +117,19 @@ class SimpleJoinMethod(RealizationMethod):
 
 
 class SentenceCompressionMethod(RealizationMethod):
-    """
-    Placeholder for a future sentence compression realization method.
-
-    This method is intended to implement advanced sentence compression techniques and
-    is currently not implemented.
-    """
+    def __init__(self, additional_parameters):
+        super().__init__(additional_parameters)
+        self.compression_pipeline = pipeline("summarization", model=additional_parameters['model_id'])
 
     def realize(self, content):
-        """Realizes content using sentence compression.
-
-        Args:
-            content (list of list of str): A list of sentences, where each sentence is represented as a list of tokens.
-
-        Raises:
-            NotImplementedError: Indicates that the method is not yet implemented.
-        """
-        raise NotImplementedError("Sentence compression method is not yet implemented.")
+        sentences = [s for s_list in content.values() for s in s_list]
+        compressed_sentences = []
+        for sentence in sentences:
+            sentence_str = ' '.join(sentence)
+            #TODO parameterize min_length, max_length, do_sample
+            compressed = self.compression_pipeline(sentence_str, min_length=5, max_length=50, do_sample=False)[0]['summary_text']
+            compressed_sentences.append(compressed)
+        return ' '.join(compressed_sentences)
 
 
 class ContentRealizer:

@@ -27,18 +27,21 @@
             "method": "simple_heuristic"
         },
         "content_realization": {
-            "method": "simple",
+            "method": "sentence_compression",
             "additional_parameters": {
-                "max_token_length": 100
+                "model_id": "t5-small",
+                "max_token_length": 100,
+                "min_token_length": 5,
+                "do_sample": false
             }
         }
     },
     "evaluation": {
         "metrics": ["rouge1", "rouge2"],
         "data_subset": "devtest",
-        "results_dir": "../results/D3",
+        "results_dir": "../results/D5",
         "reference_summaries_path": "../data/gold/devtest/",
         "generated_summaries_path": "../data/devtest/generated_summaries/"
     },
-    "output_dir": "../outputs/D3"
+    "output_dir": "../outputs/D5"
 }
