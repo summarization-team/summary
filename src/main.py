@@ -149,7 +149,8 @@ def main(config):
         config['model']['content_selection']['additional_parameters']['num_sentences_per_doc'],
         config['model']['content_selection']['approach'])
     information_orderer = InformationOrderer(
-        config['model']['information_ordering']['approach'])
+        config['model']['information_ordering']['approach'],
+        config['model']['information_ordering']['additional_parameters']['training_data_path'])
     content_realizer = ContentRealizer(
         get_realization_info(config['model']['content_realization'])
     )
