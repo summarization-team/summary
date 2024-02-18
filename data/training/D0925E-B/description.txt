@@ -1,2 +1,0 @@
-title: Apple Computer switch to Intel chips
-narrative: Trace plans for and progress of the switch to Intel chips by Apple Computer.

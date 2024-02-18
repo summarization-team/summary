@@ -1,2 +1,0 @@
-title: Huygens probe
-narrative: Track the progress of the Huygen space probe.

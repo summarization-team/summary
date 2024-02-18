@@ -6,6 +6,11 @@ HEADLINE = 'HEADLINE'
 DATELINE = 'DATELINE'
 PARAGRAPH = 'PARAGRAPH-{}'
 SENTENCES = 'SENTENCES'
+TITLE = 'title'
+NARRATIVE = 'narrative'
+CATEGORY = 'category'
+DESCRIPTION_FILE = 'description.txt'
+DESCRIPTION = 'DESCRIPTION'
 
 
 class DocumentProcessor:
@@ -72,6 +77,21 @@ class DocumentProcessor:
                 file_path = os.path.join(root, file_name)
 
                 if os.path.isfile(file_path):
+                    if file_name == DESCRIPTION_FILE:
+                        with open(file_path, 'r') as file:
+                            file_content = file.readlines()
+                            title = ''
+                            narrative = ''
+                            category = ''
+                            for line in file_content:
+                                if TITLE in line:
+                                    title = line.replace(TITLE + ':', "").strip()
+                                elif NARRATIVE in line:
+                                    narrative = line.replace(NARRATIVE + ':', "").strip()
+                                elif CATEGORY in line:
+                                    category = line.replace(CATEGORY + ':', "").strip()
+                            processed_docs[root][DESCRIPTION] = ' '.join([title, narrative, category])
+                        continue
                     processed_docs[root][file_name] = dict()
                     paragraph_count = 0
                     processed_docs[root][file_name][PARAGRAPH.format(paragraph_count)] = []

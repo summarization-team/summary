@@ -1,28 +1,28 @@
 import networkx as nx
-from sklearn.metrics.pairwise import cosine_similarity
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.metrics.pairwise import linear_kernel
 import numpy as np
 import torch
-from transformers import BertTokenizer, BertModel
-from scipy.spatial.distance import cosine
 from sentence_transformers import SentenceTransformer
-
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
+from transformers import BertTokenizer, BertModel
 
 HEADLINE = 'HEADLINE'
 PARAGRAPH = 'PARAGRAPH'
+DESCRIPTION = 'DESCRIPTION'
+DATELINE = 'DATELINE'
 
 
 class ContentSelector:
     """
     A class to select the most important content from a collection of documents.
     """
-    def __init__(self, num_sentences_per_doc, approach='tfidf'):
+    def __init__(self, num_sentences_per_doc, approach='tfidf', similarity_threshold=0.5):
         """
         Initialize the content selector.
         """
         self.num_sentences_per_doc = num_sentences_per_doc
         self.approach = approach
+        self.similarity_threshold = similarity_threshold
 
     def _flatten_sentences_with_headlines(self, documents):
         """
@@ -39,12 +39,14 @@ class ContentSelector:
         corpus = []
         doc_sent_mapping = []
         for doc in documents:
+            if DESCRIPTION in doc:
+                continue  # Skip since we don't want to include description sentences in the summary
             if HEADLINE in documents[doc]:
-                headline = " ".join(documents[doc][HEADLINE])  # Convert headline tokens to a string
+                headline = documents[doc][HEADLINE]  # Convert headline tokens to a string
                 corpus.append(headline)  # Add headline to the corpus
                 doc_sent_mapping.append((doc, documents[doc][HEADLINE], "headline"))
             for para in documents[doc]:
-                if para == HEADLINE:
+                if para == HEADLINE or para == DATELINE:
                     continue  # Skip since we've already processed the headline
                 for sentence in documents[doc][para]:
                     flat_sentence = " ".join(sentence)
@@ -112,7 +114,6 @@ class ContentSelector:
 
         # Output
         return top_sentences
-        
 
     def get_sentence_embeddings(self, sentlist, tokenizer, model):
         """
@@ -145,7 +146,6 @@ class ContentSelector:
             cls_embeddings = outputs.last_hidden_state[:, 0, :]
             embeddings.extend(cls_embeddings.cpu().numpy())
         return embeddings
-
 
     def select_content_textrank(self, all_documents, min_sent_len):
         """
@@ -210,35 +210,36 @@ class ContentSelector:
         # Load the pre-trained model
         model = SentenceTransformer('all-MiniLM-L6-v2')
 
-        selected_sentences = {}
-        for doc in all_documents.keys():
-            # Retrieve the document's headline
-            headline = all_documents[doc][HEADLINE]
-            # Retrieve the document's paragraphs and sentences
-            paragraphs = [all_documents[doc][para] for para in all_documents[doc] if para != HEADLINE]
-            # Flatten the list of sentences
-            sentences = [sentence for paragraph in paragraphs for sentence in paragraph]
-            # Compute the sentence embeddings
-            sentence_embeddings = self.get_sentence_embeddings(sentences, self.tokenizer, self.model)
-            headline_embedding = self.get_sentence_embeddings([headline], self.tokenizer, self.model)[0]
-            # Compute the cosine similarity between the headline and each sentence
-            similarities = cosine_similarity(sentence_embeddings, [headline_embedding])
-            # Select the top n sentences based on their similarity to the headline
-            top_indices = np.argsort(similarities.flatten())[-self.num_sentences_per_doc:]
-            top_sentences = [sentences[i] for i in top_indices]
-            # Store the selected sentences in the dictionary
-            selected_sentences[doc] = top_sentences
-        return selected_sentences
+        # Preprocess and embed the documents
+        all_embeddings = self._preprocess_and_embed_with_titles(model, all_documents)
+
+        # Calculate the topic embedding
+        topic_embedding = model.encode([all_documents[DESCRIPTION]])[0]
+
+        # Calculate the similarities between the topic and the document sentences
+        self._calculate_similarities(all_embeddings, topic_embedding)
+
+        # Apply LexRank to select the top sentences based on the similarities
+        return self._apply_lexrank(all_embeddings)
     
     def _preprocess_and_embed_with_titles(self, model, all_documents):
+        """
+        Preprocesses and embeds the documents using the provided model.
+        Args:
+        - model: A pre-trained model capable of generating sentence embeddings.
+        - all_documents (dict): A dictionary containing document information.
+        Returns:
+        - dict: A dictionary containing the preprocessed and embedded documents.
+        """
         all_embeddings = {}
         for doc in all_documents.keys():
             sentences = []
+            if DESCRIPTION in doc:
+                continue  # Skip since we don't want to include description sentences in the summary
             if HEADLINE in all_documents[doc]:
-                headline = " ".join(all_documents[doc][HEADLINE])  # Convert headline tokens to a string
-                sentences.append(headline)
+                sentences.append(all_documents[doc][HEADLINE])
             for para in all_documents[doc]:
-                if para == HEADLINE:
+                if para == HEADLINE or para == DATELINE:
                     continue  # Skip since we've already processed the headline
                 for sentence in all_documents[doc][para]:
                     flat_sentence = " ".join(sentence)
@@ -247,9 +248,61 @@ class ContentSelector:
             embeddings = model.encode(sentences)
             all_embeddings[doc] = {'sentences': sentences, 'embeddings': embeddings}
         return all_embeddings
+    
+    def _calculate_similarities(self, all_embeddings, topic_embedding):
+        """
+        Calculates the similarities between the topic and the document sentences.
+        Args:
+        - all_embeddings (dict): A dictionary containing the preprocessed and embedded documents.
+        - topic_embedding (np.array): The embedding of the topic.
+        """
+        for doc_id, data in all_embeddings.items():
+            embeddings = data['embeddings']
+            # Calculate similarity with the topic
+            topic_similarities = cosine_similarity(embeddings, [topic_embedding]).flatten()
+            # Calculate inter-sentence similarity
+            sentence_similarities = cosine_similarity(embeddings)
+            
+            all_embeddings[doc_id]['topic_similarities'] = topic_similarities
+            all_embeddings[doc_id]['sentence_similarities'] = sentence_similarities
+
+    def _apply_lexrank(self, all_embeddings):
+        """
+        Applies LexRank to select the top sentences based on the similarities.
+        Args:
+        - all_embeddings (dict): A dictionary containing the preprocessed and embedded documents.
+        Returns:
+        - dict: A dictionary where each key is a document ID and the corresponding value is a list of top sentences selected by LexRank.
+        """
+        selected_sentences = {}
+        for doc_id, data in all_embeddings.items():
+            sentence_similarities = data['sentence_similarities']
+            # Apply threshold
+            graph = np.where(sentence_similarities >= self.similarity_threshold, 1, 0)
+            
+            # Calculate LexRank scores (simplified example using degree centrality)
+            scores = np.sum(graph, axis=0)
+            
+            if np.sum(scores) == 0:  # Fallback if no sentences have scores
+                ranked_indices = range(min(self.num_sentences_per_doc, len(data['sentences'])))
+            else:
+                ranked_indices = np.argsort(scores)[-self.num_sentences_per_doc:]
+            
+            sentences = [data['sentences'][i] for i in ranked_indices]
+            top_sentences = []
+            for sentence in sentences:
+                if len(sentence) > 0:
+                    top_sentences.append(sentence)
+            selected_sentences[doc_id] = top_sentences
+            
+        return selected_sentences
 
     def select_content(self, all_documents):
-        """Selects content based on the specified approach."""
+        """
+        Selects top sentences from each document based on the specified approach.
+        Args:
+        - all_documents (dict): A dictionary containing document IDs as keys and their corresponding paragraphs and sentences as values.
+        """
         if self.approach == 'tfidf':
             return self.select_content_tfidf(all_documents)
         elif self.approach == 'textrank':

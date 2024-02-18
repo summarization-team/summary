@@ -38,8 +38,13 @@ def output_results(docsets, output_dir):
     if not os.path.exists(output_dir):
         os.mkdir(output_dir)
 
-    approach =  config['model']['content_selection']['approach']
-    unique = 1 if approach == 'tfidf' else 2
+    approach = config['model']['content_selection']['approach']
+    if approach == 'tfidf':
+        unique = 1
+    elif approach == 'textrank':
+        unique = 2
+    else:
+        unique = 3
 
     for mode, data in docsets.items():
         for full_dir, content in data.items():
@@ -47,7 +52,7 @@ def output_results(docsets, output_dir):
             summary = content['SUMMARY']
             topic_id = parent_dir.split('-')[0]
             id_part1, id_part2 = topic_id[:-1], topic_id[-1]
-            output_filepath = output_dir + f'/{id_part1}-A.M.100.{id_part2}.{unique}'
+            output_filepath = os.path.join(output_dir, f'{id_part1}-A.M.100.{id_part2}.{unique}')
             with open(output_filepath, 'w', encoding='utf-8') as outfile:
                 for sentence in summary:
                     outfile.write(sentence + '\n')
@@ -74,7 +79,13 @@ def calculate_rouge_scores(metrics, docsets, mode, reference_summaries_path, res
     
     scores_dict = {metrics[0]: {AVERAGE_R:0, AVERAGE_P: 0, AVERAGE_F1: 0}, 
                    metrics[1]: {AVERAGE_R:0, AVERAGE_P: 0, AVERAGE_F1: 0}}
-    unique = 1 if config['model']['content_selection']['approach'] == 'tfidf' else 2
+    approach = config['model']['content_selection']['approach']
+    if approach == 'tfidf':
+        unique = 1
+    elif approach == 'textrank':
+        unique = 2
+    else:
+        unique = 3
     results_path = os.path.join(results_dir, RESULTS_FILE_NAME.format(unique))
     summary_file_names = []
 
@@ -147,7 +158,8 @@ def main(config):
     # Summarization
     content_selector = ContentSelector(
         config['model']['content_selection']['additional_parameters']['num_sentences_per_doc'],
-        config['model']['content_selection']['approach'])
+        config['model']['content_selection']['approach'],
+        config['model']['content_selection']['additional_parameters']['similarity_threshold'])
     information_orderer = InformationOrderer(config['model']['information_ordering'])
     content_realizer = ContentRealizer(
         get_realization_info(config['model']['content_realization'])

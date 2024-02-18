@@ -1,14 +1,16 @@
-from nltk.metrics import masi_distance
-from nltk.tokenize import word_tokenize, sent_tokenize, TreebankWordDetokenizer
-from nltk.tag import pos_tag_sents
-from nltk.chunk import ne_chunk_sents
-from nltk.tree import Tree
+import os
+import re
+from copy import deepcopy
 from itertools import permutations
 from random import seed, shuffle
-from sklearn.linear_model import LogisticRegression
-from copy import deepcopy
+
 import numpy as np
-import os, re
+from nltk.chunk import ne_chunk_sents
+from nltk.metrics import masi_distance
+from nltk.tag import pos_tag_sents
+from nltk.tokenize import word_tokenize, sent_tokenize, TreebankWordDetokenizer
+from nltk.tree import Tree
+from sklearn.linear_model import LogisticRegression
 
 # Set random seed.
 seed(2162024)
