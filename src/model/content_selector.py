@@ -6,6 +6,7 @@ import numpy as np
 import torch
 from transformers import BertTokenizer, BertModel
 from scipy.spatial.distance import cosine
+from sentence_transformers import SentenceTransformer
 
 
 HEADLINE = 'HEADLINE'
@@ -196,6 +197,56 @@ class ContentSelector:
         # compiled dictionary of the top n sentences for each document
         return selected_sentences
     
+    def select_content_topic_focused(self, all_documents):
+        """
+        Selects top sentences from each document based on topic-focused approach.
+
+        Args:
+            all_documents (dict): A dictionary containing document IDs as keys and their corresponding paragraphs and sentences as values.
+
+        Returns:
+            dict: A dictionary where each key is a document ID and the corresponding value is a list of top sentences selected by the topic-focused approach.
+        """
+        # Load the pre-trained model
+        model = SentenceTransformer('all-MiniLM-L6-v2')
+
+        selected_sentences = {}
+        for doc in all_documents.keys():
+            # Retrieve the document's headline
+            headline = all_documents[doc][HEADLINE]
+            # Retrieve the document's paragraphs and sentences
+            paragraphs = [all_documents[doc][para] for para in all_documents[doc] if para != HEADLINE]
+            # Flatten the list of sentences
+            sentences = [sentence for paragraph in paragraphs for sentence in paragraph]
+            # Compute the sentence embeddings
+            sentence_embeddings = self.get_sentence_embeddings(sentences, self.tokenizer, self.model)
+            headline_embedding = self.get_sentence_embeddings([headline], self.tokenizer, self.model)[0]
+            # Compute the cosine similarity between the headline and each sentence
+            similarities = cosine_similarity(sentence_embeddings, [headline_embedding])
+            # Select the top n sentences based on their similarity to the headline
+            top_indices = np.argsort(similarities.flatten())[-self.num_sentences_per_doc:]
+            top_sentences = [sentences[i] for i in top_indices]
+            # Store the selected sentences in the dictionary
+            selected_sentences[doc] = top_sentences
+        return selected_sentences
+    
+    def _preprocess_and_embed_with_titles(self, model, all_documents):
+        all_embeddings = {}
+        for doc in all_documents.keys():
+            sentences = []
+            if HEADLINE in all_documents[doc]:
+                headline = " ".join(all_documents[doc][HEADLINE])  # Convert headline tokens to a string
+                sentences.append(headline)
+            for para in all_documents[doc]:
+                if para == HEADLINE:
+                    continue  # Skip since we've already processed the headline
+                for sentence in all_documents[doc][para]:
+                    flat_sentence = " ".join(sentence)
+                    sentences.append(flat_sentence)
+            # Encode all sentences, including the title
+            embeddings = model.encode(sentences)
+            all_embeddings[doc] = {'sentences': sentences, 'embeddings': embeddings}
+        return all_embeddings
 
     def select_content(self, all_documents):
         """Selects content based on the specified approach."""
@@ -204,5 +255,7 @@ class ContentSelector:
         elif self.approach == 'textrank':
             min_sent_len = 8
             return self.select_content_textrank(all_documents, min_sent_len)
+        elif self.approach == 'topic_focused':
+            return self.select_content_topic_focused(all_documents)
         else:
             raise ValueError(f"Unknown approach: {self.approach}")

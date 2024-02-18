@@ -16,6 +16,7 @@ dependencies:
   - rouge-score
   - torch
   - transformers
+  - sentence-transformers
   - os
   - pip
   - pip:
