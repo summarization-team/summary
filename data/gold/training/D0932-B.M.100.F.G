@@ -1,0 +1,1 @@
+More nations are fighting the distribution and use of plastic bags. Techniques being used include campaigns to change peoples' habits and enlisting voluntary merchant participation. In nations where bans are not working, stricter enforcement is being urged, as is the expanded use of biodegradable and natural fiber bags. 

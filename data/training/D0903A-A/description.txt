@@ -1,0 +1,2 @@
+title: solar power
+narrative: Track the growth of solar power worldwide in both plans for facilities and actual production of energy.
