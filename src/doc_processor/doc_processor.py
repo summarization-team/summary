@@ -117,23 +117,37 @@ class DocumentProcessor:
         tree = ET.parse(input_path)
         root = tree.getroot()
 
-        # Find all docsetA
-        for docset in root.iter('docsetA'):
-            docsetID = docset.get('id')
-            docsets.append(docsetID)
-            for doc in docset:
-                docID = doc.get('id')
+        for topic in root.iter('topic'):
+            description = ''
+            description += 'title: ' + topic.find('title').text.strip() + '\n'
+            if len(topic.findall('narrative')) > 0:
+                description += 'narrative: ' + topic.find('narrative').text.strip() + '\n'
+    
+            # Find all docsetA
+            for docset in topic.iter('docsetA'):
+                docsetID = docset.get('id')
+                docsets.append(docsetID)
                 path = self.output_path[mode] + '/' + docsetID
-                process_doc(path, docID)
+                
+                for doc in docset:
+                    docID = doc.get('id')
+                    process_doc(path, docID)
+                descriptionFile = os.path.join(path, 'description.txt') 
+                with open(descriptionFile, 'a') as F:
+                    F.write(description)
 
-        # Find all docsetB
-        for docset in root.iter('docsetB'):
-            docsetID = docset.get('id')
-            docsets.append(docsetID)
-            for doc in docset:
-                docID = doc.get('id')
+            # Find all docsetB
+            for docset in topic.iter('docsetB'):
+                docsetID = docset.get('id')
+                docsets.append(docsetID)
                 path = self.output_path[mode] + '/' + docsetID
-                process_doc(path, docID)
+                
+                for doc in docset:
+                    docID = doc.get('id')
+                    process_doc(path, docID)
+                descriptionFile = os.path.join(path, 'description.txt') 
+                with open(descriptionFile, 'a') as F:
+                    F.write(description)
 
         return docsets
 
@@ -161,8 +175,8 @@ def process_doc(dirPath, docID):
             docXML = docXML.replace(x, '')
         headers = get_doc_headers_AQUAINT(docID, docXML, headerTags)
         newFile = os.path.join(dirPath, docID)
-        if os.stat(newFile).st_size == 0:
-            with open(newFile, 'a') as F:
+        with open(newFile, 'a') as F:
+            if os.stat(newFile).st_size == 0:
                 for h in headers:
                     F.write(h + '\n')
                 paragraphs = separate_paragraphs(docXML)
@@ -174,19 +188,23 @@ def process_doc(dirPath, docID):
 
     # AQUAINT 2
     elif (int(get_year(docID)) >= 2004 and int(get_year(docID)) <= 2006):
-        file = get_AQUAINT2_file(docID)
+        
         try:
-            docXML = get_doc_AQUAINT2(docID, file)
+            file = get_AQUAINT2_file(docID)
+            if file.is_file():
+                docXML = get_doc_AQUAINT2(docID, file)
+            else: raise Exception()
         # if not found in AQUAINT 2 try 2009 corpus
         except:
             try:
+                file = get_2009_file(docID)
                 docXML = get_doc_2009(docID, file)
                 for x in remove_these:
                     docXML = docXML.replace(x, '')
                 headers = get_doc_headers_2009(docID, docXML, headerTags)
                 newFile = os.path.join(dirPath, docID)
-                if os.stat(newFile).st_size == 0:
-                    with open(newFile, 'a') as F:
+                with open(newFile, 'a') as F:
+                    if os.stat(newFile).st_size == 0:
                         for h in headers:
                             F.write(h + '\n')
                         paragraphs = separate_paragraphs(docXML)
@@ -195,6 +213,7 @@ def process_doc(dirPath, docID):
                             F.write('\n')
                             for s in tokenized:
                                 F.write(str(s) + '\n')
+                return
             except:
                 return
 
@@ -202,8 +221,9 @@ def process_doc(dirPath, docID):
             docXML = docXML.replace(x, '')
         headers = get_doc_headers_AQUAINT2(docID, docXML, headerTags)
         newFile = os.path.join(dirPath, docID)
-        if os.stat(newFile).st_size == 0:
-            with open(newFile, 'a') as F:
+        
+        with open(newFile, 'a') as F:
+            if os.stat(newFile).st_size == 0:
                 for h in headers:
                     F.write(h + '\n')
                 paragraphs = separate_paragraphs(docXML)
@@ -220,8 +240,8 @@ def process_doc(dirPath, docID):
             docXML = docXML.replace(x, '')
         headers = get_doc_headers_2009(docID, docXML, headerTags)
         newFile = os.path.join(dirPath, docID)
-        if os.stat(newFile).st_size == 0:
-            with open(newFile, 'a') as F:
+        with open(newFile, 'a') as F:
+            if os.stat(newFile).st_size == 0:
                 for h in headers:
                     F.write(h + '\n')
                 paragraphs = separate_paragraphs(docXML)
@@ -284,6 +304,7 @@ def get_AQUAINT2_file(docID):
         filePath += docID[4:-5] + 'XIN_ENG'
     else:
         filePath += docID[:7].lower() + '_' + docID[-13:-7] + '.xml'
+        
     return filePath
 
 
