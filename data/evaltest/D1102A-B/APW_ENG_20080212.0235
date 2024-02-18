@@ -1,0 +1,41 @@
+DOCTYPE: NEWS STORY
+DATETIME: 2008-02-12
+HEADLINE: Web security report says known vulnerabilities fall because
+criminals pay to hide them
+
+['BOSTON', '2008-02-12', '05:18:00', 'UTC']
+
+['A', 'new', 'Internet', 'security', 'analysis', 'finds', 'that', 'computer', 'vulnerabilities', 'decreased', 'last', 'year', 'for', 'perhaps', 'the', 'first', 'time', ',', 'though', 'the', 'researchers', 'behind', 'the', 'report', 'caution', 'that', 'there', 'has', 'been', 'no', 'improvement', 'in', 'Web', 'safety', '.']
+
+['The', 'annual', '``', 'X-Force', "''", 'report', ',', 'released', 'Monday', 'by', 'Internet', 'Security', 'Systems', ',', 'part', 'of', 'IBM', 'Corp.', ',', 'says', 'network', 'and', 'software', 'vendors', 'acknowledged', '6,437', 'security', 'flaws', 'in', '2007', ',', 'down', '5.4', 'percent', 'from', 'the', 'prior', 'year', '.']
+
+['Chris', 'Rouland', ',', 'ISS', "'s", 'chief', 'technology', 'officer', ',', 'said', 'that', 'in', 'at', 'least', '10', 'years', 'of', 'counting', 'he', 'had', 'not', 'seen', 'that', 'figure', 'drop', '.']
+
+['Even', 'with', 'the', 'decline', ',', 'the', 'number', 'of', 'vulnerabilities', 'remains', 'well', 'beyond', 'the', '4,824', 'Rouland', "'s", 'group', 'tallied', 'just', 'two', 'years', 'earlier', '.']
+
+['Rouland', 'contends', 'the', '2007', 'number', 'would', 'have', 'been', 'higher', 'if', 'not', 'for', 'the', 'emergence', 'of', 'a', 'black', 'market', 'that', 'will', 'pay', 'up', 'to', '$', '100,000', '(', 'euro68,766', ')', 'to', 'computer', 'whizzes', 'who', 'find', 'such', 'threats', 'and', 'sell', 'the', 'information', 'to', 'criminal', 'gangs', 'eager', 'to', 'exploit', 'them', '.']
+
+['Security', 'companies', 'have', 'expressed', 'unease', 'about', 'the', 'marketplace', 'for', 'discovered', 'security', 'vulnerabilities', 'that', 'has', 'sprung', 'up', 'in', 'recent', 'years', '--', 'even', 'if', 'criminals', 'are', 'not', 'the', 'customers', '.']
+
+['Some', 'researchers', 'fear', 'software', 'vendors', 'are', 'now', 'buying', 'information', 'on', 'the', 'vulnerabilities', 'so', 'they', 'can', 'fix', 'them', 'without', 'anyone', 'noticing', '.']
+
+['In', 'other', 'words', ',', 'Rouland', 'fears', ',', '``', 'it', 'is', 'profitable', 'not', 'to', '(', 'publicly', ')', 'report', 'a', 'vulnerability', '.', "''"]
+
+['Rouland', 'acknowledged', 'there', "'s", 'no', 'way', 'to', 'tell', 'how', 'many', 'security', 'holes', 'are', 'going', 'undocumented', '.']
+
+['Another', 'security', 'researcher', ',', 'Richard', 'Jacobs', 'of', 'Sophos', 'PLC', ',', 'questioned', 'how', 'much', 'difference', 'undisclosed', 'vulnerabilities', 'make', 'for', 'companies', ',', 'government', 'agencies', 'and', 'everyday', 'computer', 'users', '.']
+['Jacobs', ',', 'Sophos', "'", 'chief', 'technology', 'officer', ',', 'said', 'corporate', 'technology', 'staffs', 'often', 'take', 'months', 'or', 'years', 'to', 'patch', 'even', 'widely', 'publicized', 'holes', '.']
+
+['In', 'any', 'case', ',', 'Toby', 'Weiss', ',', 'CEO', 'of', 'Application', 'Security', 'Inc.', ',', 'a', 'database', 'security', 'vendor', ',', 'said', 'the', 'drop', 'in', 'total', 'vulnerabilities', 'was', 'less', 'important', 'than', 'ISS', "'s", 'finding', 'that', 'critical', 'security', 'holes', '--', 'those', 'that', 'let', 'an', 'outside', 'attacker', 'do', 'the', 'most', 'damage', 'on', 'a', 'computer', 'network', '--', 'jumped', '28', 'percent', 'in', '2007', '.']
+
+['Counting', 'the', 'total', 'number', 'of', 'vulnerabilities', ',', 'Weiss', 'said', ',', '``', 'is', 'old-school', 'thinking', '.', "''"]
+
+['``', 'Do', 'you', 'think', 'Societe', 'Generale', 'cares', 'that', 'there', "'s", '6,000', 'vulnerabilities', ',', 'or', 'the', 'few', 'weak', 'controls', 'they', 'had', 'that', 'cost', 'them', 'billions', 'of', 'dollars', '?', "''"]
+['Weiss', 'said', ',', 'referring', 'to', 'the', 'French', 'bank', 'that', 'recently', 'said', 'a', 'rogue', 'employee', "'s", 'unauthorized', 'trades', 'cost', 'it', 'more', 'than', '$', '7', 'billion', '(', 'euro4.81', 'billion', ')', '.']
+['``', 'That', "'s", 'what', 'really', 'matters', '.', "''"]
+
+['--', '--', '--']
+
+['On', 'the', 'Net', ':']
+
+['IBM', 'Internet', 'Security', 'Systems', ':']
