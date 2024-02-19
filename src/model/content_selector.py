@@ -5,6 +5,7 @@ from sentence_transformers import SentenceTransformer
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 from transformers import BertTokenizer, BertModel
+from nltk.tokenize import word_tokenize
 
 HEADLINE = 'HEADLINE'
 PARAGRAPH = 'PARAGRAPH'
@@ -166,6 +167,8 @@ class ContentSelector:
         selected_sentences = {}
 
         for doc in all_documents.keys():
+            if DESCRIPTION in doc:
+                continue
             sentlist = []
             sentlist_tok = []
             for paragraph in all_documents[doc].keys():
@@ -292,7 +295,7 @@ class ContentSelector:
             top_sentences = []
             for sentence in sentences:
                 if len(sentence) > 0:
-                    top_sentences.append(sentence)
+                    top_sentences.append(word_tokenize(sentence))
             selected_sentences[doc_id] = top_sentences
             
         return selected_sentences
