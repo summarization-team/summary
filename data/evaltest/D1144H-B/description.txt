@@ -1,1 +1,2 @@
 title: Toy Recall
+category: Health and Safety

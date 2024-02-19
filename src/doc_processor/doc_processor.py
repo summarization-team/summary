@@ -122,6 +122,14 @@ class DocumentProcessor:
             description += 'title: ' + topic.find('title').text.strip() + '\n'
             if len(topic.findall('narrative')) > 0:
                 description += 'narrative: ' + topic.find('narrative').text.strip() + '\n'
+            if topic.get('category') != None:
+                categoryNum = topic.get('category')
+                categoryFile = os.path.join(os.path.dirname(input_path), 'categories.txt')
+                with open(categoryFile) as F:
+                    for line in F:
+                        if line[:3] == (categoryNum + '. '):
+                            category = line[3:-2]
+                            description += 'category: ' + category
     
             # Find all docsetA
             for docset in topic.iter('docsetA'):

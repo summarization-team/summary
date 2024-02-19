@@ -1,1 +1,2 @@
 title: Mad Cow Disease
+category: Health and Safety

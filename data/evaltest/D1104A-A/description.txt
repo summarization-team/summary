@@ -1,1 +1,2 @@
 title: Pet Food Recall
+category: Health and Safety
