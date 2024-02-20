@@ -151,9 +151,12 @@ def main(config):
     input_xml_file = doc_config['input_xml_file']
     output_dir = doc_config['output_dir']
     data_ingested = doc_config.get('data_ingested', False)
+    data_ingested = {k:v for k, v in data_ingested.items() if k in ['training', 'devtest']}
 
     doc_processor = DocumentProcessor(input_xml_file, output_dir, data_ingested)
     docsets = doc_processor.load_or_process_documents()
+
+    docsets = {k:v for k, v in docsets.items() if k in ['training', 'devtest']}
 
     # Summarization
     content_selector = ContentSelector(
