@@ -24,14 +24,14 @@
             }
         },
         "information_ordering": {
-            "method": "simple_heuristic"
+            "method": "TSP"
         },
         "content_realization": {
             "method": "sentence_compression",
             "additional_parameters": {
-                "model_id": "t5-small",
-                "max_token_length": 100,
-                "min_token_length": 5,
+                "model_id": "t5-base",
+                "max_length": 100,
+                "min_length": 5,
                 "do_sample": false
             }
         }
