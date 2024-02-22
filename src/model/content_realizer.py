@@ -29,8 +29,8 @@ def clean_string(input_string):
 def get_realization_info(realization_config):
     if realization_config['method'] == 'simple':
         return SimpleJoinMethod(additional_parameters=realization_config['additional_parameters'])
-    elif realization_config['method'] == 'sentence_compression':
-        return SentenceCompressionMethod(additional_parameters=realization_config['additional_parameters'])
+    elif realization_config['method'] == 'advanced':
+        return AdvancedRealizationMethod(additional_parameters=realization_config['additional_parameters'])
     else:
         raise ValueError(f"Unknown realization strategy: {realization_config['method']}")
 
@@ -130,7 +130,7 @@ class SimpleJoinMethod(RealizationMethod):
         return detokenized_sentences
 
 
-class SentenceCompressionMethod(RealizationMethod):
+class AdvancedRealizationMethod(RealizationMethod):
     def __init__(self, additional_parameters):
         super().__init__(additional_parameters)
         self.tokenizer = AutoTokenizer.from_pretrained(additional_parameters['model_id'], model_max_length=512)

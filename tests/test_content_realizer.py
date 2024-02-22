@@ -1,7 +1,7 @@
 import unittest
 from src.model.content_realizer import (
     SimpleJoinMethod,
-    SentenceCompressionMethod,
+    AdvancedRealizationMethod,
     is_punctuation,
     clean_string,
     ContentRealizer,
@@ -33,14 +33,14 @@ class TestContentRealization(unittest.TestCase):
         self.assertIn("This is simple join.", realized_content)
 
     def test_get_realization_info(self):
-        config = {'method': 'simple', 'additional_parameters': {}}
+        config = {'approach': 'simple', 'additional_parameters': {}}
         method = get_realization_info(config)
         self.assertIsInstance(method, SimpleJoinMethod)
 
     # Updated Sentence Compression Tests to use model_id from config
     def setUp(self):
         # Updated to include model_id in the configuration
-        self.compression_method = SentenceCompressionMethod(
+        self.compression_method = AdvancedRealizationMethod(
             additional_parameters= {
                 'model_id': 't5-base',
                 'compression_method':'neural',
