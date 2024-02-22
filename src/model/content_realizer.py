@@ -9,8 +9,9 @@ import string
 import re
 import ast
 from nltk.tokenize.treebank import TreebankWordDetokenizer
+from nltk.tokenize import sent_tokenize
 from abc import ABC, abstractmethod
-from transformers import pipeline
+from transformers import pipeline, AutoTokenizer
 
 
 def is_punctuation(word):
@@ -119,19 +120,19 @@ class SimpleJoinMethod(RealizationMethod):
 class SentenceCompressionMethod(RealizationMethod):
     def __init__(self, additional_parameters):
         super().__init__(additional_parameters)
+        # self.tokenizer = AutoTokenizer(additional_parameters['model_id'])
         self.compression_pipeline = pipeline("summarization", model=additional_parameters['model_id'])
 
     def realize(self, content):
+        detokenizer = TreebankWordDetokenizer()
         sentences = [s for s_list in content.values() for s in s_list]
-        compressed_sentences = []
-        for sentence in sentences:
-            sentence_str = ' '.join(sentence)
-            #TODO parameterize min_length, max_length, do_sample
-            compressed = self.compression_pipeline(
-                sentence_str, min_length=self.additional_parameters['min_length'], max_length=self.additional_parameters['max_length'], do_sample=self.additional_parameters['do_sample'])[0]['summary_text']
-            compressed_sentences.append(compressed)
-        return ' '.join(compressed_sentences)
-
+        sentences = [[clean_string(token) for token in sentence] for sentence in sentences]
+        detokenized_sentences = [detokenizer.detokenize(sentence) for sentence in sentences]
+        sentence_str = ' '.join(detokenized_sentences)
+        compressed_str = self.compression_pipeline(
+            sentence_str, min_length=self.additional_parameters['min_length'], max_length=self.additional_parameters['max_length'], do_sample=self.additional_parameters['do_sample'])[0]['summary_text']
+        compressed_sentences = sent_tokenize(compressed_str)
+        return compressed_sentences
 
 class ContentRealizer:
     """

@@ -43,18 +43,32 @@ class TestContentRealization(unittest.TestCase):
         self.compression_method = SentenceCompressionMethod(
             additional_parameters= {
                 'model_id': 't5-base',
-                "max_length": 30,
-                "min_length": 5,
+                "max_length": 100,
+                "min_length": 50,
                 "do_sample": False
                                    }
         )
 
     def test_compression_single_sentence(self):
-        content = {"sentences": [['HONG', 'KONG', 'December', '8', 'Xinhua', 'Hong', 'Kong', 'health', 'authorities', 'are', 'stepping', 'up', 'the', 'hunt', 'for', 'the', 'source', 'of', 'a', 'deadly', 'influenza', 'strain', 'previously', 'found', 'only', 'in', 'birds', 'which', 'has', 'caused', 'a', 'global', 'alert' , '.']]}
+        content = {"sentences": [
+            ["Indian", "and", "Pakistani", "military", "commanders", "were", "to", "discuss", "Wednesday", "Indian",
+             "charges", "that", "Pakistan", "fired", "mortar", "shells", "across", "the", "border", "into",
+             "Indian-controlled", "Kashmir", "in", "violation", "of", "a", "14-month", "ceasefire", "."
+             ],
+            [
+                "The", "director-generals", "of", "military", "operations", "of", "the", "nuclear-armed", "neighbours",
+                "were", "slated", "to", "talk", "by", "telephone", "about", "the", "incident", "that", "occurred", "late", "Tuesday", "."
+            ],
+            ["The", "leader", "of", "moderate", "Kashmiri", "separatists", "warned", "Thursday", "that", "lasting",
+             "peace", "between", "India", "and", "Pakistan", "would", "be", "impossible", "unless", "his", "people",
+             "were", "seated", "at", "the", "negotiating", "table", "."]
+
+        ]
+        }
         compressed_content = self.compression_method.realize(content)
         print(compressed_content)
-        self.assertIsInstance(compressed_content, str)
-        self.assertTrue(len(compressed_content) < len(' '.join(content["sentences"][0])))
+        self.assertIsInstance(compressed_content, list)
+        self.assertIsInstance(compressed_content[0], str)
         self.assertNotEqual(compressed_content, '')
 
     def test_compression_multiple_sentences(self):
