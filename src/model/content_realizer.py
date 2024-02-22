@@ -127,7 +127,8 @@ class SentenceCompressionMethod(RealizationMethod):
         for sentence in sentences:
             sentence_str = ' '.join(sentence)
             #TODO parameterize min_length, max_length, do_sample
-            compressed = self.compression_pipeline(sentence_str, min_length=5, max_length=50, do_sample=False)[0]['summary_text']
+            compressed = self.compression_pipeline(
+                sentence_str, min_length=self.additional_parameters['min_length'], max_length=self.additional_parameters['max_length'], do_sample=self.additional_parameters['do_sample'])[0]['summary_text']
             compressed_sentences.append(compressed)
         return ' '.join(compressed_sentences)
 
