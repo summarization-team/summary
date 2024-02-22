@@ -33,9 +33,12 @@
             }
         },
         "content_realization": {
-            "method": "simple",
+            "method": "sentence_compression",
             "additional_parameters": {
-                "max_token_length": 100
+                "model_id": "t5-base",
+                "max_length": 100,
+                "min_length": 5,
+                "do_sample": false
             }
         }
     },

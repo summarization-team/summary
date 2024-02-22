@@ -19,5 +19,8 @@ dependencies:
   - sentence-transformers
   - os
   - pip
+  - pytorch  # Add PyTorch to ensure compatibility with the transformers library
+  - transformers  # This will attempt to get the latest version available on conda channels
+  - datasets  # Hugging Face datasets library
   - pip:
     - contractions
