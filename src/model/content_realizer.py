@@ -120,8 +120,8 @@ class SimpleJoinMethod(RealizationMethod):
 class SentenceCompressionMethod(RealizationMethod):
     def __init__(self, additional_parameters):
         super().__init__(additional_parameters)
-        # self.tokenizer = AutoTokenizer(additional_parameters['model_id'])
-        self.compression_pipeline = pipeline("summarization", model=additional_parameters['model_id'])
+        self.tokenizer = AutoTokenizer.from_pretrained(additional_parameters['model_id'], model_max_length=512)
+        self.compression_pipeline = pipeline("summarization", model=additional_parameters['model_id'], tokenizer=self.tokenizer)
 
     def realize(self, content):
         detokenizer = TreebankWordDetokenizer()
@@ -130,7 +130,11 @@ class SentenceCompressionMethod(RealizationMethod):
         detokenized_sentences = [detokenizer.detokenize(sentence) for sentence in sentences]
         sentence_str = ' '.join(detokenized_sentences)
         compressed_str = self.compression_pipeline(
-            sentence_str, min_length=self.additional_parameters['min_length'], max_length=self.additional_parameters['max_length'], do_sample=self.additional_parameters['do_sample'])[0]['summary_text']
+            sentence_str,
+            min_length=self.additional_parameters['min_length'],
+            max_length=self.additional_parameters['max_length'],
+            do_sample=self.additional_parameters['do_sample']
+        )[0]['summary_text']
         compressed_sentences = sent_tokenize(compressed_str)
         return compressed_sentences
 

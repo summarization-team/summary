@@ -51,17 +51,20 @@ class TestContentRealization(unittest.TestCase):
 
     def test_compression_single_sentence(self):
         content = {"sentences": [
-            ["Indian", "and", "Pakistani", "military", "commanders", "were", "to", "discuss", "Wednesday", "Indian",
-             "charges", "that", "Pakistan", "fired", "mortar", "shells", "across", "the", "border", "into",
-             "Indian-controlled", "Kashmir", "in", "violation", "of", "a", "14-month", "ceasefire", "."
+            [
+                "Indian", "and", "Pakistani", "military", "commanders", "were", "to", "discuss", "Wednesday", "Indian",
+                 "charges", "that", "Pakistan", "fired", "mortar", "shells", "across", "the", "border", "into",
+                 "Indian-controlled", "Kashmir", "in", "violation", "of", "a", "14-month", "ceasefire", "."
              ],
             [
                 "The", "director-generals", "of", "military", "operations", "of", "the", "nuclear-armed", "neighbours",
                 "were", "slated", "to", "talk", "by", "telephone", "about", "the", "incident", "that", "occurred", "late", "Tuesday", "."
             ],
-            ["The", "leader", "of", "moderate", "Kashmiri", "separatists", "warned", "Thursday", "that", "lasting",
-             "peace", "between", "India", "and", "Pakistan", "would", "be", "impossible", "unless", "his", "people",
-             "were", "seated", "at", "the", "negotiating", "table", "."]
+            [
+                "The", "leader", "of", "moderate", "Kashmiri", "separatists", "warned", "Thursday", "that", "lasting",
+                 "peace", "between", "India", "and", "Pakistan", "would", "be", "impossible", "unless", "his", "people",
+                 "were", "seated", "at", "the", "negotiating", "table", "."
+            ]
 
         ]
         }
