@@ -71,10 +71,15 @@ All arguments for the system are passed through the config file (`config.json`):
 - Primary Task
 
   - `"document_processing"`: identifies arguments associated with ingesting and processing the original ACQUAINT and ACQUAINT-2 files.
-    - `"data_ingested"`: if any of the value sare set to `true`, the system will load cached data from `data/`
+    - `"data_ingested"`: if any of the values are set to `true`, the system will load cached data from `data/`
     - `"input_xml_file"`: identifies the location on _patas_ for the XML files which identify the training, devtest, and evaltest documents.
     - `"output_dir"`: identifies the directories in which to write out preprocessed files from the corpora
-  - `"model"`: arguments associated with the core summarization features of the system
+  - `"model"`: arguments associated with the core summarization features of the system.
+    - `"content_selection"`: arguments associated with the content selection component.
+      - `"approach"`: identifies the content selection approach to use (`"tf-idf"`, `"textrank"`, or `"topic_focused"`).
+      - `"additional_parameters"`: parameters associated with `"approach"`.
+    - `"information_ordering"`: argument associated with the information ordering component.
+      - `"approach"`: identifies the information ordering approach to use (`"random"`, `"TSP"`, or `"entity_grid"`).
   - `"evaluation"`: identifies the evaluation metrics and associated output paths for results.
   - `"output_dir"`: identifies the directory where the system summaries are written.
 

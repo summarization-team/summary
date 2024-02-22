@@ -14,6 +14,10 @@ dependencies:
   - absl-py
   - six>=1.14
   - rouge-score
+  - torch
+  - transformers
+  - sentence-transformers
+  - os
   - pip
   - pytorch  # Add PyTorch to ensure compatibility with the transformers library
   - transformers  # This will attempt to get the latest version available on conda channels

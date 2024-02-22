@@ -6,6 +6,11 @@ HEADLINE = 'HEADLINE'
 DATELINE = 'DATELINE'
 PARAGRAPH = 'PARAGRAPH-{}'
 SENTENCES = 'SENTENCES'
+TITLE = 'title'
+NARRATIVE = 'narrative'
+CATEGORY = 'category'
+DESCRIPTION_FILE = 'description.txt'
+DESCRIPTION = 'DESCRIPTION'
 
 
 class DocumentProcessor:
@@ -72,6 +77,21 @@ class DocumentProcessor:
                 file_path = os.path.join(root, file_name)
 
                 if os.path.isfile(file_path):
+                    if file_name == DESCRIPTION_FILE:
+                        with open(file_path, 'r') as file:
+                            file_content = file.readlines()
+                            title = ''
+                            narrative = ''
+                            category = ''
+                            for line in file_content:
+                                if TITLE in line:
+                                    title = line.replace(TITLE + ':', "").strip()
+                                elif NARRATIVE in line:
+                                    narrative = line.replace(NARRATIVE + ':', "").strip()
+                                elif CATEGORY in line:
+                                    category = line.replace(CATEGORY + ':', "").strip()
+                            processed_docs[root][DESCRIPTION] = ' '.join([title, narrative, category])
+                        continue
                     processed_docs[root][file_name] = dict()
                     paragraph_count = 0
                     processed_docs[root][file_name][PARAGRAPH.format(paragraph_count)] = []
@@ -117,23 +137,37 @@ class DocumentProcessor:
         tree = ET.parse(input_path)
         root = tree.getroot()
 
-        # Find all docsetA
-        for docset in root.iter('docsetA'):
-            docsetID = docset.get('id')
-            docsets.append(docsetID)
-            for doc in docset:
-                docID = doc.get('id')
+        for topic in root.iter('topic'):
+            description = ''
+            description += 'title: ' + topic.find('title').text.strip() + '\n'
+            if len(topic.findall('narrative')) > 0:
+                description += 'narrative: ' + topic.find('narrative').text.strip() + '\n'
+    
+            # Find all docsetA
+            for docset in topic.iter('docsetA'):
+                docsetID = docset.get('id')
+                docsets.append(docsetID)
                 path = self.output_path[mode] + '/' + docsetID
-                process_doc(path, docID)
+                
+                for doc in docset:
+                    docID = doc.get('id')
+                    process_doc(path, docID)
+                descriptionFile = os.path.join(path, 'description.txt') 
+                with open(descriptionFile, 'a') as F:
+                    F.write(description)
 
-        # Find all docsetB
-        for docset in root.iter('docsetB'):
-            docsetID = docset.get('id')
-            docsets.append(docsetID)
-            for doc in docset:
-                docID = doc.get('id')
+            # Find all docsetB
+            for docset in topic.iter('docsetB'):
+                docsetID = docset.get('id')
+                docsets.append(docsetID)
                 path = self.output_path[mode] + '/' + docsetID
-                process_doc(path, docID)
+                
+                for doc in docset:
+                    docID = doc.get('id')
+                    process_doc(path, docID)
+                descriptionFile = os.path.join(path, 'description.txt') 
+                with open(descriptionFile, 'a') as F:
+                    F.write(description)
 
         return docsets
 
@@ -161,8 +195,8 @@ def process_doc(dirPath, docID):
             docXML = docXML.replace(x, '')
         headers = get_doc_headers_AQUAINT(docID, docXML, headerTags)
         newFile = os.path.join(dirPath, docID)
-        if os.stat(newFile).st_size == 0:
-            with open(newFile, 'a') as F:
+        with open(newFile, 'a') as F:
+            if os.stat(newFile).st_size == 0:
                 for h in headers:
                     F.write(h + '\n')
                 paragraphs = separate_paragraphs(docXML)
@@ -185,8 +219,8 @@ def process_doc(dirPath, docID):
                     docXML = docXML.replace(x, '')
                 headers = get_doc_headers_2009(docID, docXML, headerTags)
                 newFile = os.path.join(dirPath, docID)
-                if os.stat(newFile).st_size == 0:
-                    with open(newFile, 'a') as F:
+                with open(newFile, 'a') as F:
+                    if os.stat(newFile).st_size == 0:
                         for h in headers:
                             F.write(h + '\n')
                         paragraphs = separate_paragraphs(docXML)
@@ -202,8 +236,9 @@ def process_doc(dirPath, docID):
             docXML = docXML.replace(x, '')
         headers = get_doc_headers_AQUAINT2(docID, docXML, headerTags)
         newFile = os.path.join(dirPath, docID)
-        if os.stat(newFile).st_size == 0:
-            with open(newFile, 'a') as F:
+        
+        with open(newFile, 'a') as F:
+            if os.stat(newFile).st_size == 0:
                 for h in headers:
                     F.write(h + '\n')
                 paragraphs = separate_paragraphs(docXML)
@@ -220,8 +255,8 @@ def process_doc(dirPath, docID):
             docXML = docXML.replace(x, '')
         headers = get_doc_headers_2009(docID, docXML, headerTags)
         newFile = os.path.join(dirPath, docID)
-        if os.stat(newFile).st_size == 0:
-            with open(newFile, 'a') as F:
+        with open(newFile, 'a') as F:
+            if os.stat(newFile).st_size == 0:
                 for h in headers:
                     F.write(h + '\n')
                 paragraphs = separate_paragraphs(docXML)

@@ -18,13 +18,19 @@
     },
     "model": {
         "content_selection": {
-            "approach": "tfidf",
+            "approach": "topic_focused",
             "additional_parameters": {
-                "num_sentences_per_doc": 3
+                "num_sentences_per_doc": 3,
+                "similarity_threshold": 0.5
             }
         },
         "information_ordering": {
-            "method": "TSP"
+            "approach": "TSP",
+            "additional_parameters": {
+                "training_data_path": "../data/gold/training",
+                "all_possible_permutations_threshold": 3,
+                "max_permutations": 10
+            }
         },
         "content_realization": {
             "method": "sentence_compression",
@@ -39,9 +45,9 @@
     "evaluation": {
         "metrics": ["rouge1", "rouge2"],
         "data_subset": "devtest",
-        "results_dir": "../results/D5",
+        "results_dir": "../results/D4",
         "reference_summaries_path": "../data/gold/devtest/",
         "generated_summaries_path": "../data/devtest/generated_summaries/"
     },
-    "output_dir": "../outputs/D5"
+    "output_dir": "../outputs/D4"
 }
