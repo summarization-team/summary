@@ -86,6 +86,19 @@ class RealizationMethod(ABC):
 
         return truncated_content
 
+    @staticmethod
+    def _compress(content, method, transformers_pipeline=None, **kwargs):
+        if method == 'neural':
+            compressed_content =  transformers_pipeline(
+                content,
+                min_length=kwargs.get('min_length', 5),
+                max_length=kwargs.get('max_length', 100),
+                do_sample=kwargs.get('do_sample', False)
+            )[0]['summary_text']
+        else:
+            return NotImplementedError("neural compression is the only implemented method for compression")
+
+        return compressed_content
 
 class SimpleJoinMethod(RealizationMethod):
     """
@@ -129,12 +142,14 @@ class SentenceCompressionMethod(RealizationMethod):
         sentences = [[clean_string(token) for token in sentence] for sentence in sentences]
         detokenized_sentences = [detokenizer.detokenize(sentence) for sentence in sentences]
         sentence_str = ' '.join(detokenized_sentences)
-        compressed_str = self.compression_pipeline(
-            sentence_str,
+        compressed_str = self._compress(
+            content=sentence_str,
+            method=self.additional_parameters['compression_method'],
+            transformers_pipeline=self.compression_pipeline,
             min_length=self.additional_parameters['min_length'],
             max_length=self.additional_parameters['max_length'],
             do_sample=self.additional_parameters['do_sample']
-        )[0]['summary_text']
+        )
         compressed_sentences = sent_tokenize(compressed_str)
         return compressed_sentences
 

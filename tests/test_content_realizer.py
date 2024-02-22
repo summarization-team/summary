@@ -43,6 +43,7 @@ class TestContentRealization(unittest.TestCase):
         self.compression_method = SentenceCompressionMethod(
             additional_parameters= {
                 'model_id': 't5-base',
+                'compression_method':'neural',
                 "max_length": 100,
                 "min_length": 50,
                 "do_sample": False
