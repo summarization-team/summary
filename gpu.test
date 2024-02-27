@@ -1,0 +1,4 @@
+device list: ['cuda:0', 'cpu']
+device name: 0
+res:[{'label': 'POSITIVE', 'score': 0.9971315860748291}]
+made it to end

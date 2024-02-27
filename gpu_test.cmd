@@ -1,8 +1,7 @@
 executable = scripts/test.sh
 getenv = True
-error = gpu_test.error
-log = gpu_test.log
-output = gpu_test.out
+error = condor_logs/gpu_test.error
+log =  condor_logs/gpu_test.log
 notification = always
 transfer_executable = false
 request_memory = 8*1024
