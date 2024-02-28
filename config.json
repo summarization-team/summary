@@ -18,7 +18,7 @@
     },
     "model": {
         "content_selection": {
-            "approach": "textrank",
+            "approach": "topic_focused",
             "additional_parameters": {
                 "num_sentences_per_doc": 3,
                 "similarity_threshold": 0.5

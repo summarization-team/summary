@@ -1,6 +1,6 @@
 import torch
 from transformers import pipeline, BertModel, BertTokenizer
-
+from sentence_transformers import SentenceTransformer
 
 def get_available_devices():
     devices = []
@@ -87,16 +87,17 @@ def get_sentence_embeddings(sentlist, tokenizer, model, device):
     return embeddings
 
 
-device = torch.device(0 if torch.cuda.is_available() else "cpu")
-tokenizer = AutoTokenizer.from_pretrained('distilbert-base-uncased')
-model = AutoModel.from_pretrained('distilbert-base-uncased')
-
-sentence = ["Your example sentence here.", "Another example here."]
-embeddings = get_bert_sentence_embeddings(sentence, model, tokenizer, device)
-# embeddings = get_sentence_embeddings(sentence, tokenizer, model, device)
+# device = torch.device(0 if torch.cuda.is_available() else "cpu")
+# tokenizer = AutoTokenizer.from_pretrained('distilbert-base-uncased')
+# model = AutoModel.from_pretrained('distilbert-base-uncased')
 #
-device_list = get_available_devices()
-device = get_device()
+sentence = ["Your example sentence here.", "Another example here."]
+# embeddings = get_bert_sentence_embeddings(sentence, model, tokenizer, device)
+# # embeddings = get_sentence_embeddings(sentence, tokenizer, model, device)
+# #
+# device_list = get_available_devices()
+# device = get_device()
+
 
 # # Create the pipeline
 # sentiment_pipeline = pipeline(task="sentiment-analysis", device=device)
@@ -104,9 +105,12 @@ device = get_device()
 # # Use the pipeline for inference
 # results = sentiment_pipeline("I love using Hugging Face Transformers!")
 
-with open('gpu6.test', 'w', encoding='utf-8') as outfile:
-    outfile.write(f"device list: {device_list}\n")
-    outfile.write(f"device name: {device}\n")
-    # outfile.write(f"res:{results}\n")
-    outfile.write(f"embeddings: {embeddings}\n")
+model = SentenceTransformer('all-MiniLM-L6-v2')
+# embeddings = model.encode(sentence)
+
+with open('gpu7.test', 'w', encoding='utf-8') as outfile:
+    # outfile.write(f"device list: {device_list}\n")
+    # outfile.write(f"device name: {device}\n")
+    # # outfile.write(f"res:{results}\n")
+    # outfile.write(f"embeddings: {embeddings}\n")
     outfile.write("made it to end")

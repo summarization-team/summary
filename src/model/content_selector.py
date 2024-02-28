@@ -226,7 +226,8 @@ class ContentSelector:
             dict: A dictionary where each key is a document ID and the corresponding value is a list of top sentences selected by the topic-focused approach.
         """
         # Load the pre-trained model
-        model = SentenceTransformer('all-MiniLM-L6-v2')
+        # model = SentenceTransformer('all-MiniLM-L6-v2')
+        model = SentenceTransformer('paraphrase-distilroberta-base-v1')
 
         # Preprocess and embed the documents
         all_embeddings = self._preprocess_and_embed_with_titles(model, all_documents)
