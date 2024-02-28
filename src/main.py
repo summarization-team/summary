@@ -73,13 +73,9 @@ def calculate_rouge_scores(metrics, docsets, mode, reference_summaries_path, res
     
     scores_dict = {metrics[0]: {AVERAGE_R:0, AVERAGE_P: 0, AVERAGE_F1: 0}, 
                    metrics[1]: {AVERAGE_R:0, AVERAGE_P: 0, AVERAGE_F1: 0}}
-    approach = config['model']['content_selection']['approach']
-    if approach == 'tfidf':
-        unique = 1
-    elif approach == 'textrank':
-        unique = 2
-    else:
-        unique = 3
+
+    unique = f"{config['model']['content_selection']['approach']}-{config['model']['information_ordering']['approach']}-{config['model']['content_realization']['method']}"
+
     results_path = os.path.join(results_dir, RESULTS_FILE_NAME.format(unique))
     summary_file_names = []
 
