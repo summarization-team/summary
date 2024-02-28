@@ -11,8 +11,23 @@ import ast
 from nltk.tokenize.treebank import TreebankWordDetokenizer
 from nltk.tokenize import sent_tokenize
 from abc import ABC, abstractmethod
+import torch
 from transformers import pipeline, AutoTokenizer
 
+
+def get_device():
+    """
+    Checks for GPU availability and returns the appropriate device ('cuda' or 'cpu').
+
+    Returns:
+        str: The device type. 'cuda' if a GPU is available, otherwise 'cpu'.
+    """
+    if torch.cuda.is_available():
+        # If a GPU is available, return 'cuda' to use it
+        return 0
+    else:
+        # If no GPU is available, default to using the CPU
+        return 1
 
 def is_punctuation(word):
     return all(char in string.punctuation for char in word)
@@ -52,7 +67,7 @@ class RealizationMethod(ABC):
         pass
 
     @staticmethod
-    def _truncate_sentences(content, max_token_length):
+    def _truncate_sentences(content, max_length):
         """
         Truncate a list of sentences to meet a specified maximum word count.
 
@@ -61,8 +76,8 @@ class RealizationMethod(ABC):
         word count reaches or exceeds the specified maximum word count.
 
         Args:
-            content (list of list of str): A list of sentences, where each sentence is a list of words.
-            max_token_length (int): The maximum word count to which the sentences should be truncated.
+            content (list of list of str): A list of sentencesd, where each sentence is a list of words.
+            max_length (int): The maximum word count to which the sentences should be truncated.
 
         Returns:
             list of list of str: A truncated list of sentences that collectively have a word count less
@@ -78,7 +93,7 @@ class RealizationMethod(ABC):
                 if not is_punctuation(word):
                     sentence_word_count += 1
 
-            if total_word_count + sentence_word_count <= max_token_length:
+            if total_word_count + sentence_word_count <= max_length:
                 truncated_content.append(sentence)
                 total_word_count += sentence_word_count
             else:
@@ -89,7 +104,7 @@ class RealizationMethod(ABC):
     @staticmethod
     def _compress(content, method, transformers_pipeline=None, **kwargs):
         if method == 'neural':
-            compressed_content =  transformers_pipeline(
+            compressed_content = transformers_pipeline(
                 content,
                 min_length=kwargs.get('min_length', 5),
                 max_length=kwargs.get('max_length', 100),
@@ -119,9 +134,9 @@ class SimpleJoinMethod(RealizationMethod):
         """
         sentences = [s for s_list in content.values() for s in s_list]
 
-        if "max_token_length" in self.additional_parameters:
+        if "max_length" in self.additional_parameters:
             sentences = self._truncate_sentences(content=sentences,
-                                                 max_token_length=self.additional_parameters['max_token_length'])
+                                                 max_length=self.additional_parameters['max_length'])
 
         sentences = [[clean_string(token) for token in sentence] for sentence in sentences]
         detokenizer = TreebankWordDetokenizer()
@@ -133,8 +148,14 @@ class SimpleJoinMethod(RealizationMethod):
 class AdvancedRealizationMethod(RealizationMethod):
     def __init__(self, additional_parameters):
         super().__init__(additional_parameters)
+        device = get_device()
         self.tokenizer = AutoTokenizer.from_pretrained(additional_parameters['model_id'], model_max_length=512)
-        self.compression_pipeline = pipeline("summarization", model=additional_parameters['model_id'], tokenizer=self.tokenizer)
+        self.compression_pipeline = pipeline(
+            task="summarization",
+            model=additional_parameters['model_id'],
+            tokenizer=self.tokenizer,
+            device=device
+        )
 
     def realize(self, content):
         detokenizer = TreebankWordDetokenizer()
