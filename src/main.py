@@ -38,13 +38,7 @@ def output_results(docsets, output_dir):
     if not os.path.exists(output_dir):
         os.mkdir(output_dir)
 
-    approach = config['model']['content_selection']['approach']
-    if approach == 'tfidf':
-        unique = 1
-    elif approach == 'textrank':
-        unique = 2
-    else:
-        unique = 3
+    unique = f"{config['model']['content_selection']['approach']}-{config['model']['information_ordering']['approach']}-{config['model']['content_realization']['method']}"
 
     for mode, data in docsets.items():
         for full_dir, content in data.items():
