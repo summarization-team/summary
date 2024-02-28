@@ -176,9 +176,6 @@ class ContentSelector:
             dict: A dictionary where each key is a document ID and the corresponding value is a list of top sentences selected by TextRank algorithm.
         """
 
-        with open('gpu_content_realization1.test', 'w', encoding='utf-8') as outfile:
-            outfile.write(f"device: {self.device}")
-
         selected_sentences = {}
 
         for doc in all_documents.keys():
