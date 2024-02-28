@@ -190,5 +190,5 @@ def main(config):
 
 
 if __name__ == "__main__":
-    config = load_config(os.path.join('..', 'config.json'))
+    config = load_config(os.path.join('config.json'))
     main(config)
