@@ -17,7 +17,7 @@ dependencies:
   - os
   - pip
   - pytorch=1.12.1  # Add PyTorch to ensure compatibility with the transformers library
-  - transformers  # This will attempt to get the latest version available on conda channels
-  - sentence-transformers
+  - transformers=4.17.0  # This will attempt to get the latest version available on conda channels
+  - sentence-transformers=1.0.2
   - pip:
     - contractions
