@@ -33,7 +33,7 @@
             }
         },
         "content_realization": {
-            "method": "simple",
+            "method": "advanced",
             "additional_parameters": {
                 "compression_method": "neural",
                 "model_id": "t5-base",

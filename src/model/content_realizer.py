@@ -27,7 +27,10 @@ def get_device():
         return 0
     else:
         # If no GPU is available, default to using the CPU
-        return 1
+        return "cpu"
+
+def set_device(self):
+    return torch.device(0 if torch.cuda.is_available() else "cpu")
 
 def is_punctuation(word):
     return all(char in string.punctuation for char in word)
