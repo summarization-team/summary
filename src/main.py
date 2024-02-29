@@ -20,9 +20,37 @@ AVERAGE_F1 = 'Average_F'
 
 
 def load_config(config_path):
-    with open(config_path, 'r') as file:
-        return json.load(file)
+    """
+    Load config from a given path.
 
+    Args:
+        config_path (str): The path to the config file.
+
+    Returns:
+        dict: The loaded config if successful, otherwise None.
+    """
+    try:
+        with open(config_path, 'r') as f:
+            return json.load(f)
+    except FileNotFoundError:
+        return None
+
+
+def load_config_with_fallback(primary_path, fallback_path):
+    """
+    Load config from the primary path and fallback to the fallback path if unsuccessful.
+
+    Args:
+        primary_path (str): The primary path to try loading the config from.
+        fallback_path (str): The fallback path to try loading the config from if the primary path fails.
+
+    Returns:
+        dict: The loaded config if successful, otherwise None.
+    """
+    config = load_config(primary_path)
+    if config is None:
+        config = load_config(fallback_path)
+    return config
 
 def output_results(docsets, output_dir):
     """
@@ -182,5 +210,5 @@ def main(config):
 
 
 if __name__ == "__main__":
-    config = load_config(os.path.join('config.json'))
+    config = load_config_with_fallback(primary_path='config.json', fallback_path=os.path.join('..', 'config.json'))
     main(config)
