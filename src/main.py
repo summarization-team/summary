@@ -149,7 +149,9 @@ def main(config):
     content_selector = ContentSelector(
         config['model']['content_selection']['additional_parameters']['num_sentences_per_doc'],
         config['model']['content_selection']['approach'],
-        config['model']['content_selection']['additional_parameters']['similarity_threshold'])
+        config['model']['content_selection']['additional_parameters']['similarity_threshold'],
+        config['model']['content_selection']['additional_parameters']['model_id']
+    )
     information_orderer = InformationOrderer(config['model']['information_ordering'])
     content_realizer = ContentRealizer(
         get_realization_info(config['model']['content_realization'])
