@@ -18,10 +18,11 @@
     },
     "model": {
         "content_selection": {
-            "approach": "topic_focused",
+            "approach": "textrank",
             "additional_parameters": {
-                "num_sentences_per_doc": 3,
-                "similarity_threshold": 0.5
+                "num_sentences_per_doc": 6,
+                "similarity_threshold": 0.5,
+                "model_id": "distilbert-base-cased"
             }
         },
         "information_ordering": {
@@ -33,7 +34,7 @@
             }
         },
         "content_realization": {
-            "method": "advanced",
+            "method": "simple",
             "additional_parameters": {
                 "compression_method": "neural",
                 "model_id": "t5-base",

@@ -31,17 +31,21 @@ class ContentSelector:
         self.device = None
 
         if approach == 'textrank':
-            self.set_model()
-            self.set_tokenizer()
+            self.set_model(model_id)
+            self.set_tokenizer(model_id)
             self.set_device()
             self.model.to(self.device)
             self.model.eval()  # Set the model to evaluation mode
+        elif approach == 'topic_focused':
+            self.set_model(model_id)
 
-    def set_model(self, model_id='distilbert-base-cased'):
-        # Load pre-trained model
-        self.model = AutoModel.from_pretrained(model_id)
+    def set_model(self, model_id):
+        if self.approach == 'textrank':
+            self.model = AutoModel.from_pretrained(model_id)
+        elif self.approach == 'topic_focused':
+            self.model = SentenceTransformer(model_id)
 
-    def set_tokenizer(self, model_id='distilbert-base-cased'):
+    def set_tokenizer(self, model_id):
         # Load pre-trained model tokenizer
         self.tokenizer = AutoTokenizer.from_pretrained(model_id)
 
@@ -175,6 +179,7 @@ class ContentSelector:
         Returns:
             dict: A dictionary where each key is a document ID and the corresponding value is a list of top sentences selected by TextRank algorithm.
         """
+
 
         selected_sentences = {}
 
