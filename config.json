@@ -20,7 +20,7 @@
         "content_selection": {
             "approach": "tfidf",
             "additional_parameters": {
-                "num_sentences_per_doc": 3,
+                "num_sentences_per_doc": 5,
                 "similarity_threshold": 0.5,
                 "model_id": "distilbert-base-cased"
             }
@@ -34,7 +34,7 @@
             }
         },
         "content_realization": {
-            "method": "generative",
+            "method": "simple",
             "additional_parameters": {
                 "compression_method": "neural",
                 "model_id": "gpt-3.5-turbo",
@@ -53,5 +53,5 @@
         "reference_summaries_path": "data/gold/devtest/",
         "generated_summaries_path": "data/devtest/generated_summaries/"
     },
-    "output_dir": "outputs/D5/devtest"
+    "output_dir": "outputs/D5"
 }
