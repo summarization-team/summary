@@ -25,23 +25,23 @@ from tenacity import (
 openai.api_key = os.environ["OPENAI_API_KEY"]
 
 
-def get_device():
+def output_device_name(device):
+    with open('condor_logs/D5_gpu_realizer.test', 'w', encoding='utf-8') as outfile:
+        outfile.write(f"device={device}")
+
+
+def set_device():
     """
-    Checks for GPU availability and returns the appropriate device ('cuda' or 'cpu').
+    Determines and sets the computing device for tensor operations.
+
+    If a CUDA-capable GPU is available, it sets the device to the GPU (device 0).
+    Otherwise, it falls back to the CPU.
 
     Returns:
-        str: The device type. 'cuda' if a GPU is available, otherwise 'cpu'.
+        torch.device: The device (GPU or CPU) where tensor operations will be performed.
     """
-    if torch.cuda.is_available():
-        # If a GPU is available, return 'cuda' to use it
-        return 0
-    else:
-        # If no GPU is available, default to using the CPU
-        return "cpu"
-
-
-def set_device(self):
-    return torch.device(0 if torch.cuda.is_available() else "cpu")
+    # return torch.device(0 if torch.cuda.is_available() else 'cpu')
+    return 0 if torch.cuda.is_available() else -1
 
 
 def is_punctuation(word):
@@ -245,7 +245,8 @@ class AdvancedRealizationMethod(RealizationMethod):
 
     def __init__(self, additional_parameters):
         super().__init__(additional_parameters)
-        device = get_device()
+        device = set_device()
+        output_device_name(device)
         self.tokenizer = AutoTokenizer.from_pretrained(additional_parameters['model_id'], model_max_length=512)
         self.compression_pipeline = pipeline(
             task="summarization",
@@ -253,6 +254,7 @@ class AdvancedRealizationMethod(RealizationMethod):
             tokenizer=self.tokenizer,
             device=device
         )
+        
 
     def realize(self, content):
         """Compresses and realizes the provided content into a concise form using a pre-defined compression pipeline.

@@ -36,6 +36,7 @@ class ContentSelector:
             self.set_device()
             self.model.to(self.device)
             self.model.eval()  # Set the model to evaluation mode
+            self.output_device_name()
         elif approach == 'topic_focused':
             self.set_model(model_id)
 
@@ -51,6 +52,10 @@ class ContentSelector:
 
     def set_device(self):
         self.device = torch.device(0 if torch.cuda.is_available() else "cpu")
+
+    def output_device_name(self):
+        with open('condor_logs/D5_gpu_selector.test', 'w', encoding='utf-8') as outfile:
+            outfile.write(f"device={self.device}")
 
     def _flatten_sentences_with_headlines(self, documents):
         """
@@ -272,7 +277,7 @@ class ContentSelector:
 
     def _calculate_similarities(self, all_embeddings, topic_embedding):
         """
-        Calculates the similarities between the topic and the document sentences.
+        Calculates the similarities between the topic and the document sentences.d
         Args:
         - all_embeddings (dict): A dictionary containing the preprocessed and embedded documents.
         - topic_embedding (np.array): The embedding of the topic.
