@@ -24,16 +24,23 @@ from tenacity import (
 
 openai.api_key = os.environ["OPENAI_API_KEY"]
 
-def set_device():
-    """
-    Determines and sets the computing device for tensor operations.
 
-    If a CUDA-capable GPU is available, it sets the device to the GPU (device 0).
-    Otherwise, it falls back to the CPU.
+def get_device():
+    """
+    Checks for GPU availability and returns the appropriate device ('cuda' or 'cpu').
 
     Returns:
-        torch.device: The device (GPU or CPU) where tensor operations will be performed.
+        str: The device type. 'cuda' if a GPU is available, otherwise 'cpu'.
     """
+    if torch.cuda.is_available():
+        # If a GPU is available, return 'cuda' to use it
+        return 0
+    else:
+        # If no GPU is available, default to using the CPU
+        return "cpu"
+
+
+def set_device(self):
     return torch.device(0 if torch.cuda.is_available() else "cpu")
 
 
@@ -238,7 +245,7 @@ class AdvancedRealizationMethod(RealizationMethod):
 
     def __init__(self, additional_parameters):
         super().__init__(additional_parameters)
-        device = set_device()
+        device = get_device()
         self.tokenizer = AutoTokenizer.from_pretrained(additional_parameters['model_id'], model_max_length=512)
         self.compression_pipeline = pipeline(
             task="summarization",
@@ -338,7 +345,7 @@ class GenerativeRealizationMethod(RealizationMethod):
             model=self.model_id,
             temperature=self.additional_parameters.get('temperature', 0.0),
             n=self.additional_parameters.get('temperature', 1),
-            max_tokens=round(self.additional_parameters.get('max_length', 100)*1.3)
+            max_tokens=round(self.additional_parameters.get('max_length', 100) * 1.3)
         )
 
         response_tokenized = sent_tokenize(response)
