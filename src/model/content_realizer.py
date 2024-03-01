@@ -93,7 +93,7 @@ def get_realization_info(realization_config):
     Raises:
         ValueError: If the specified method is not supported.
     """
-    if realization_config['method'] == 'simple':
+    if realization_config['method'] == 'simple' or realization_config['method'] == 'baseline':
         return SimpleJoinMethod(additional_parameters=realization_config['additional_parameters'])
     elif realization_config['method'] == 'advanced':
         return AdvancedRealizationMethod(additional_parameters=realization_config['additional_parameters'])

@@ -318,6 +318,37 @@ class ContentSelector:
 
         return selected_sentences
 
+    def select_content_baseline(self, all_documents):
+        """
+        Apply TF-IDF algorithm to extract the top sentences from a collection of documents.
+        Args:
+        - all_documents (dict): A dictionary containing document information.
+                            Each document is identified by a key, and its value is another dictionary.
+                            The inner dictionary has paragraph keys, and each paragraph contains a list of sentences.
+        Returns:
+        - dict: A dictionary containing the top-ranked sentences for each document.
+                The keys are document names, and the values are lists of selected sentences.
+        """
+        # Preprocess the input including headlines
+        # Sort the keys alphabetically
+        sorted_doc_ids = sorted([x for x in all_documents.keys() if x[-1].isdigit()])
+
+        # Pick the first key
+        first_doc = sorted_doc_ids[0]
+
+        selected_document = all_documents[first_doc]
+
+        selected_sentences = {}
+        selected_sentences[first_doc] = []
+
+        for key, list_of_sentences in selected_document.items():
+            if 'PARAGRAPH' in key:
+                for sentence in list_of_sentences:
+                    if len(selected_sentences[first_doc]) <= 5:
+                        selected_sentences[first_doc].append(sentence)
+
+        return selected_sentences
+
     def select_content(self, all_documents):
         """
         Selects top sentences from each document based on the specified approach.
@@ -331,5 +362,7 @@ class ContentSelector:
             return self.select_content_textrank(all_documents, min_sent_len)
         elif self.approach == 'topic_focused':
             return self.select_content_topic_focused(all_documents)
+        elif self.approach == 'baseline':
+            return self.select_content_baseline(all_documents)
         else:
             raise ValueError(f"Unknown approach: {self.approach}")
