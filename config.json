@@ -18,9 +18,9 @@
     },
     "model": {
         "content_selection": {
-            "approach": "textrank",
+            "approach": "tfidf",
             "additional_parameters": {
-                "num_sentences_per_doc": 6,
+                "num_sentences_per_doc": 3,
                 "similarity_threshold": 0.5,
                 "model_id": "distilbert-base-cased"
             }
@@ -34,13 +34,15 @@
             }
         },
         "content_realization": {
-            "method": "simple",
+            "method": "generative",
             "additional_parameters": {
                 "compression_method": "neural",
-                "model_id": "t5-base",
+                "model_id": "gpt-3.5-turbo",
                 "max_length": 100,
                 "min_length": 20,
-                "do_sample": false
+                "do_sample": false,
+                "temperature": 0.0,
+                "n": 1
             }
         }
     },

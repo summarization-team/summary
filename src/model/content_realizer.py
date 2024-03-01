@@ -5,6 +5,7 @@ It includes an abstract base class for realization methods and concrete implemen
 for simple joining of tokenized sentences and a placeholder for sentence compression.
 """
 
+import os
 import string
 import re
 import ast
@@ -14,6 +15,14 @@ from abc import ABC, abstractmethod
 import torch
 from transformers import pipeline, AutoTokenizer
 
+import openai
+from tenacity import (
+    retry,
+    stop_after_attempt,
+    wait_random_exponential,
+)  #
+
+openai.api_key = os.environ["OPENAI_API_KEY"]
 
 def set_device():
     """
@@ -60,6 +69,12 @@ def clean_string(input_string):
     return cleaned_string
 
 
+@retry(wait=wait_random_exponential(min=1, max=60), stop=stop_after_attempt(6))
+def completion_with_backoff(**kwargs):
+    response = openai.chat.completions.create(**kwargs)
+    return response.choices[0].message.content
+
+
 def get_realization_info(realization_config):
     """
     Retrieves the realization method based on the provided configuration.
@@ -82,6 +97,8 @@ def get_realization_info(realization_config):
         return SimpleJoinMethod(additional_parameters=realization_config['additional_parameters'])
     elif realization_config['method'] == 'advanced':
         return AdvancedRealizationMethod(additional_parameters=realization_config['additional_parameters'])
+    elif realization_config['method'] == 'generative':
+        return GenerativeRealizationMethod(additional_parameters=realization_config['additional_parameters'])
     else:
         raise ValueError(f"Unknown realization strategy: {realization_config['method']}")
 
@@ -218,6 +235,7 @@ class AdvancedRealizationMethod(RealizationMethod):
         NotImplementedError: If the specified compression method in `additional_parameters` is not supported.
 
     """
+
     def __init__(self, additional_parameters):
         super().__init__(additional_parameters)
         device = set_device()
@@ -270,6 +288,83 @@ class AdvancedRealizationMethod(RealizationMethod):
         )
         compressed_sentences = sent_tokenize(compressed_str)
         return compressed_sentences
+
+
+class GenerativeRealizationMethod(RealizationMethod):
+    """
+    A realization method that uses OpenAI's GPT model for generating content, with the engine specified
+    as an additional parameter. This allows for the dynamic selection of the GPT engine (e.g., GPT-3.5-turbo).
+
+    This method leverages the generative capabilities of a specified GPT model to realize content based on
+    tokenized input sentences. It transforms the list of tokenized sentences into a prompt for the model,
+    and uses the model's response as the realized content.
+
+    Attributes:
+        additional_parameters (dict): Configuration parameters for the GPT model, including the engine name,
+                                      settings for the generation process such as temperature, max tokens, etc.,
+                                      and the API key sourced from an environment variable.
+    """
+
+    def __init__(self, additional_parameters):
+        """
+        Initializes the GenerativeRealizationMethod method with specific parameters for the GPT model.
+
+        Args:
+            additional_parameters (dict): A dictionary containing parameters for content generation,
+                                          including the model engine name and settings for the generation process.
+                                          The API key is sourced from the OPENAI_API_KEY environment variable.
+        """
+        super().__init__(additional_parameters)
+        self.api_key = os.getenv("OPENAI_API_KEY")
+        self.model_id = additional_parameters.get('model_id', 'gpt-3.5-turbo')
+
+    def realize(self, content):
+        """
+        Realizes the given content using the specified GPT model.
+
+        Args:
+            content (dict): A dictionary where each key maps to a list of tokenized sentences,
+                            which will be used to construct the prompt for the model.
+
+        Returns:
+            str: The generated content as a single string, based on the model's response to the prompt.
+        """
+        detokenizer = TreebankWordDetokenizer()
+        prompt_sentences = [s for s_list in content.values() for s in s_list]
+        prompt_sentences = detokenizer.detokenize([' '.join(sentence) for sentence in prompt_sentences])
+
+        response = self._get_completion(
+            concatenated_sentences=prompt_sentences,
+            model=self.model_id,
+            temperature=self.additional_parameters.get('temperature', 0.0),
+            n=self.additional_parameters.get('temperature', 1),
+            max_tokens=round(self.additional_parameters.get('max_length', 100)*1.3)
+        )
+
+        response_tokenized = sent_tokenize(response)
+        return response_tokenized
+
+    def _get_completion(self, concatenated_sentences, model, temperature, n, max_tokens):
+        prompt = f"""
+        Your task is mutli-document summarizaiton. Specifically, you will be addressing the "content realization" \
+        step of an extractive summarization system. You will be provided a set of sentences \
+        that have been extracted from news articles pertaining to a particular topic or event. \
+        These sentences have also been ordered. You should return a narrative string. \
+        First, edit the sentences to ensure that they flow coherently. Second, enhance readability \
+        and resolve coreferences. Third, compress or fuse the sentences as necessary. Do not add subsatntive \
+        information or context not present in the selected content below. Your output must not exceed 100 words.
+
+        Selected Content: '''{concatenated_sentences}'''
+        """
+        messages = [{"role": "user", "content": prompt}]
+        completion = completion_with_backoff(
+            model=model,
+            messages=messages,
+            temperature=temperature,
+            # n=n,
+            max_tokens=max_tokens
+        )
+        return completion
 
 
 class ContentRealizer:
