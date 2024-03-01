@@ -24,6 +24,11 @@ from tenacity import (
 
 openai.api_key = os.environ["OPENAI_API_KEY"]
 
+def output_device_name(device):
+    with open('condor_logs/D5_gpu_realizer.test', 'w', encoding='utf-8') as outfile:
+        outfile.write(f"device={device}")
+
+
 def set_device():
     """
     Determines and sets the computing device for tensor operations.
@@ -34,7 +39,8 @@ def set_device():
     Returns:
         torch.device: The device (GPU or CPU) where tensor operations will be performed.
     """
-    return torch.device(0 if torch.cuda.is_available() else "cpu")
+    # return torch.device(0 if torch.cuda.is_available() else 'cpu')
+    return 0 if torch.cuda.is_available() else -1
 
 
 def is_punctuation(word):
@@ -239,6 +245,7 @@ class AdvancedRealizationMethod(RealizationMethod):
     def __init__(self, additional_parameters):
         super().__init__(additional_parameters)
         device = set_device()
+        output_device_name(device)
         self.tokenizer = AutoTokenizer.from_pretrained(additional_parameters['model_id'], model_max_length=512)
         self.compression_pipeline = pipeline(
             task="summarization",

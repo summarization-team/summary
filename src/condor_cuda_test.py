@@ -25,7 +25,7 @@ def get_device():
         return 0
     else:
         # If no GPU is available, default to using the CPU
-        return "cpu"
+        return -1
 
 
 from transformers import AutoTokenizer, AutoModel
@@ -96,21 +96,20 @@ sentence = ["Your example sentence here.", "Another example here."]
 # # embeddings = get_sentence_embeddings(sentence, tokenizer, model, device)
 # #
 # device_list = get_available_devices()
-# device = get_device()
+device = get_device()
 
 
-# # Create the pipeline
-# sentiment_pipeline = pipeline(task="sentiment-analysis", device=device)
-#
-# # Use the pipeline for inference
-# results = sentiment_pipeline("I love using Hugging Face Transformers!")
+# Create the pipeline
+summarization_pipeline = pipeline(task="summarization", model='t5-large', device=device)
 
-model = SentenceTransformer('all-MiniLM-L6-v2')
-# embeddings = model.encode(sentence)
+# Use the pipeline for inference
+results = summarization_pipeline(
+    'I love using Hugging Face Transformers every day regardless of the day especially today!')
 
-with open('gpu7.test', 'w', encoding='utf-8') as outfile:
+
+with open('gpu_condor_testing_file.test', 'w', encoding='utf-8') as outfile:
     # outfile.write(f"device list: {device_list}\n")
-    # outfile.write(f"device name: {device}\n")
-    # # outfile.write(f"res:{results}\n")
+    outfile.write(f"device name: {device}\n")
+    outfile.write(f"res:{results}\n")
     # outfile.write(f"embeddings: {embeddings}\n")
     outfile.write("made it to end")
