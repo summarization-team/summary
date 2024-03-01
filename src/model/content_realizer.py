@@ -22,6 +22,7 @@ from tenacity import (
     wait_random_exponential,
 )  #
 
+openai.api_key = os.environ["OPENAI_API_KEY"]
 
 def set_device():
     """
@@ -70,8 +71,8 @@ def clean_string(input_string):
 
 @retry(wait=wait_random_exponential(min=1, max=60), stop=stop_after_attempt(6))
 def completion_with_backoff(**kwargs):
-    response = openai.ChatCompletion.create(**kwargs)
-    return response.choices[0].message["content"]
+    response = openai.chat.completions.create(**kwargs)
+    return response.choices[0].message.content
 
 
 def get_realization_info(realization_config):
@@ -337,11 +338,11 @@ class GenerativeRealizationMethod(RealizationMethod):
             model=self.model_id,
             temperature=self.additional_parameters.get('temperature', 0.0),
             n=self.additional_parameters.get('temperature', 1),
-            max_tokens=round(self.additional_parameters.get('max_length', 130)*1.4)
+            max_tokens=round(self.additional_parameters.get('max_length', 100)*1.3)
         )
 
         response_tokenized = sent_tokenize(response)
-        return response
+        return response_tokenized
 
     def _get_completion(self, concatenated_sentences, model, temperature, n, max_tokens):
         prompt = f"""
@@ -349,13 +350,20 @@ class GenerativeRealizationMethod(RealizationMethod):
         step of an extractive summarization system. You will be provided a set of sentences \
         that have been extracted from news articles pertaining to a particular topic or event. \
         These sentences have also been ordered. You should return a narrative string. \
-        First, review the sentences to ensure that the flow coherently. Second, enhance readability. \
-        Third, compress or fuse the sentences as necessary. Your output should be no more than 100 words.
+        First, edit the sentences to ensure that they flow coherently. Second, enhance readability \
+        and resolve coreferences. Third, compress or fuse the sentences as necessary. Do not add subsatntive \
+        information or context not present in the selected content below. Your output must not exceed 100 words.
 
         Selected Content: '''{concatenated_sentences}'''
         """
         messages = [{"role": "user", "content": prompt}]
-        completion = completion_with_backoff(model=model, messages=messages, temperature=temperature, n=n, max_tokens=max_tokens)
+        completion = completion_with_backoff(
+            model=model,
+            messages=messages,
+            temperature=temperature,
+            # n=n,
+            max_tokens=max_tokens
+        )
         return completion
 
 
