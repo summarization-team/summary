@@ -24,6 +24,7 @@ from tenacity import (
 
 openai.api_key = os.environ["OPENAI_API_KEY"]
 
+
 def output_device_name(device):
     with open('condor_logs/D5_gpu_realizer.test', 'w', encoding='utf-8') as outfile:
         outfile.write(f"device={device}")
@@ -99,7 +100,7 @@ def get_realization_info(realization_config):
     Raises:
         ValueError: If the specified method is not supported.
     """
-    if realization_config['method'] == 'simple':
+    if realization_config['method'] == 'simple' or realization_config['method'] == 'baseline':
         return SimpleJoinMethod(additional_parameters=realization_config['additional_parameters'])
     elif realization_config['method'] == 'advanced':
         return AdvancedRealizationMethod(additional_parameters=realization_config['additional_parameters'])
@@ -253,6 +254,7 @@ class AdvancedRealizationMethod(RealizationMethod):
             tokenizer=self.tokenizer,
             device=device
         )
+        
 
     def realize(self, content):
         """Compresses and realizes the provided content into a concise form using a pre-defined compression pipeline.
@@ -345,7 +347,7 @@ class GenerativeRealizationMethod(RealizationMethod):
             model=self.model_id,
             temperature=self.additional_parameters.get('temperature', 0.0),
             n=self.additional_parameters.get('temperature', 1),
-            max_tokens=round(self.additional_parameters.get('max_length', 100)*1.3)
+            max_tokens=round(self.additional_parameters.get('max_length', 100) * 1.3)
         )
 
         response_tokenized = sent_tokenize(response)

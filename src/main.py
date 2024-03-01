@@ -74,7 +74,10 @@ def output_results(docsets, output_dir):
             summary = content['SUMMARY']
             topic_id = parent_dir.split('-')[0]
             id_part1, id_part2 = topic_id[:-1], topic_id[-1]
-            output_filepath = os.path.join(output_dir, f'{id_part1}-A.M.100.{id_part2}.{unique}')
+            mode_output_dir = os.path.join(output_dir, mode)
+            if not os.path.exists(mode_output_dir):
+                os.mkdir(mode_output_dir)
+            output_filepath = os.path.join(mode_output_dir, f'{id_part1}-A.M.100.{id_part2}.{unique}')
             with open(output_filepath, 'w', encoding='utf-8') as outfile:
                 for sentence in summary:
                     outfile.write(sentence + '\n')
