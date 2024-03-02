@@ -182,30 +182,9 @@ class EntityGrid:
         else:
             tokens = summary
         
-        """NLTK approach"""
-        # # Tag sentences and identify/extract named entities.
-        # tags = pos_tag_sents(tokens)
-        # entities = ne_chunk_sents(tags, binary=True)
-        # NE = []
-        # for entity in entities:
-        #     for subtree in entity:
-        #         if isinstance(subtree, Tree):
-        #             entity_name = " ".join([word for word, tag in subtree.leaves()])
-        #             if entity_name not in NE:
-        #                 NE.append(entity_name)
-
-        # # If no NEs are extracted, just use nouns instead.
-        # if len(NE) == 0:
-        #     is_noun = lambda pos: pos[:2] == 'NN'
-        #     for tagged_sent in tags:
-        #         for word, pos in tagged_sent:
-        #             if is_noun(pos) and word not in NE:
-        #                 NE.append(word)
-        
-        # return NE
-
-        """spaCy approach"""
         entities = []
+        
+        # Extract all named entities.
         for sentence in tokens:
             doc = spacy.tokens.Doc(nlp.vocab, words=sentence)
             doc = nlp.get_pipe('ner')(doc)
@@ -499,7 +478,3 @@ def path_distance(route, distances):
     for c in range(1, len(route)):
         result += distances[route[c-1]][route[c]]
     return result
-
-
-if __name__ == '__main__':
-    EntityGrid('../../data/gold/training', 3, 10, True)
