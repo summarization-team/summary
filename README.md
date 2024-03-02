@@ -76,10 +76,29 @@ All arguments for the system are passed through the config file (`config.json`):
     - `"output_dir"`: identifies the directories in which to write out preprocessed files from the corpora
   - `"model"`: arguments associated with the core summarization features of the system.
     - `"content_selection"`: arguments associated with the content selection component.
-      - `"approach"`: identifies the content selection approach to use (`"tf-idf"`, `"textrank"`, or `"topic_focused"`).
-      - `"additional_parameters"`: parameters associated with `"approach"`.
+      - `"approach"`: identifies the content selection approach to use (`"tf-idf"`, `"textrank"`, `"topic_focused"`, or `"baseline"`).
+        - `"num_sentences_per_doc"`: max number of sentences to select from each document
+        - `"similarity threshold"`: (`textrank` only) minimum similarity score for inclusion in graph
+        - `"model_id"`: (`textrank`, `topic_focused`) for `textrank` and `topic_focused`, the `transformers` and `sentence-transformers` model identifier, respectively. Recommended models:
+          - `textrank`: `bert-base-cased`, `distilbert-base-cased`, etc.
+          - `topic_focused`: `paraphrase-distilroberta-base-v1`
     - `"information_ordering"`: argument associated with the information ordering component.
-      - `"approach"`: identifies the information ordering approach to use (`"random"`, `"TSP"`, or `"entity_grid"`).
+      - `"approach"`: identifies the information ordering approach to use (`"random"`, `"TSP"`, `"entity_grid"`, `"baseline"`).
+         - `"training_data_path"`: (`"entity_grid"`) path to the directory containing training data
+         - `"all_possible_permutations_threshold"`: (`"entity_grid"`)  if selected sentences are under this threshold, calculate all permutations
+         - `"max_permutations"`: (`"entity_grid"`)  if not under threshold, the maximum number of permutations to search
+    - `"content_realization"`: argument associated with the content realization component.
+      - `"approach"`: identifies the information ordering approach to use (`"simple"`, `"advanced"`, `"generative"`, `"baseline"`).
+         - `"max_length"`: maximum number of word tokens allowed in output
+         - `"min_length"`: (`"advanced"`) minimum word tokens required in output
+         - `"model_id"`: (`"advanced"`, `"generative"`) `transformers` or `openai` identifier for the desired model. Recommended models:
+           - `advanced`: `t5-small`, `t5-base`, etc.
+           - `generative`: `gpt-3.5-turbo`
+         -  `"compression_method"`: (`"advanced"`) defines the method associated with sentence compression must be `"neural"`
+         - `"do_sample"`: (`"advanced"`) enables decoding strategies for next token selection
+         - `"temperature"`: (`"generative"`) a number between 0 and 1 reflecting the sampling temperature for generative approach
+         - `"n"`: (`"generative"`) number of desired responses from the OpenAI api.
+
   - `"evaluation"`: identifies the evaluation metrics and associated output paths for results.
   - `"output_dir"`: identifies the directory where the system summaries are written.
 
