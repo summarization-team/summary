@@ -12,6 +12,9 @@ from nltk.tokenize import word_tokenize, sent_tokenize, TreebankWordDetokenizer
 from nltk.tree import Tree
 from sklearn.linear_model import LogisticRegression
 
+import spacy
+nlp = spacy.load('en_core_web_sm')
+
 # Set random seed.
 seed(2162024)
 
@@ -66,10 +69,17 @@ class EntityGrid:
 
                     # Append `summary_data` to `data`.
                     data.append(summary_data)
-        
         return data
 
     def build_training_data(self, data):
+        """
+        """
+        if self.syntax:
+            self._build_training_data_no_syntax
+        else:
+            self._build_training_data_syntax
+
+    def _build_training_data_no_syntax(self, data):
         """
         Builds training data from the provided summary data.
 
@@ -174,32 +184,46 @@ class EntityGrid:
         Returns:
             list of str: A list of extracted named entities.
         """
+
         # Tokenize sentences if necessary.
         if not tokenized:
             tokens = [word_tokenize(s) for s in summary]
         else:
             tokens = summary
         
-        # Tag sentences and identify/extract named entities.
-        tags = pos_tag_sents(tokens)
-        entities = ne_chunk_sents(tags, binary=True)
-        NE = []
-        for entity in entities:
-            for subtree in entity:
-                if isinstance(subtree, Tree):
-                    entity_name = " ".join([word for word, tag in subtree.leaves()])
-                    if entity_name not in NE:
-                        NE.append(entity_name)
+        """NLTK approach"""
+        # # Tag sentences and identify/extract named entities.
+        # tags = pos_tag_sents(tokens)
+        # entities = ne_chunk_sents(tags, binary=True)
+        # NE = []
+        # for entity in entities:
+        #     for subtree in entity:
+        #         if isinstance(subtree, Tree):
+        #             entity_name = " ".join([word for word, tag in subtree.leaves()])
+        #             if entity_name not in NE:
+        #                 NE.append(entity_name)
 
-        # If no NEs are extracted, just use nouns instead.
-        if len(NE) == 0:
-            is_noun = lambda pos: pos[:2] == 'NN'
-            for tagged_sent in tags:
-                for word, pos in tagged_sent:
-                    if is_noun(pos) and word not in NE:
-                        NE.append(word)
+        # # If no NEs are extracted, just use nouns instead.
+        # if len(NE) == 0:
+        #     is_noun = lambda pos: pos[:2] == 'NN'
+        #     for tagged_sent in tags:
+        #         for word, pos in tagged_sent:
+        #             if is_noun(pos) and word not in NE:
+        #                 NE.append(word)
         
-        return NE
+        # return NE
+
+        """spaCy approach"""
+        entities = []
+        for sentence in tokens:
+            doc = spacy.tokens.Doc(nlp.vocab, words=sentence)
+            doc = nlp.get_pipe('ner')(doc)
+            named_entities = [ent.text for ent in doc.ents]
+            entities.extend(named_entities)
+
+        entities = list(dict.fromkeys(entities))
+        return entities
+
 
     def build_grid(self, sentences, entities):
         """
@@ -445,3 +469,7 @@ def path_distance(route, distances):
     for c in range(1, len(route)):
         result += distances[route[c-1]][route[c]]
     return result
+
+
+if __name__ == '__main__':
+    EntityGrid('../../data/gold/training', 3, 10, False)
