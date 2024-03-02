@@ -16,9 +16,10 @@ from sklearn.linear_model import LogisticRegression
 seed(2162024)
 
 class EntityGrid:
-    def __init__(self, training_data_filepath, threshold, max_permutations):
+    def __init__(self, training_data_filepath, threshold, max_permutations, syntax):
         self.threshold = threshold
         self.max_permutations = max_permutations
+        self.syntax = syntax
         data = self.read_data(training_data_filepath)
         X, y = self.build_training_data(data)
         
@@ -55,7 +56,7 @@ class EntityGrid:
 
                     # Get entities and store in `summary_data`, along with the
                     # number of sentences in the summary and the number entities.
-                    named_entities = get_entities(original_order)
+                    named_entities = self.get_entities(original_order)
                     num_sentences = len(original_order)
                     num_entities = len(named_entities)
 
@@ -96,7 +97,7 @@ class EntityGrid:
             num_entities = summary_data['num_entities']
                 
             # Create vector for original summary and add to dataset.
-            original_vector = create_vector(original_order, named_entities, num_sentences, num_entities)
+            original_vector = self.create_vector(original_order, named_entities, num_sentences, num_entities)
             X_list.append(original_vector)
             y_list.append(1) # Proper ordering
             
@@ -105,7 +106,7 @@ class EntityGrid:
 
             # For each ordering, create a vector and add to dataset.
             for ordering in orderings:
-                vector = create_vector(ordering, named_entities, num_sentences, num_entities)
+                vector = self.create_vector(ordering, named_entities, num_sentences, num_entities)
                 X_list.append(vector)
                 y_list.append(0) # Random ordering
 
@@ -160,6 +161,113 @@ class EntityGrid:
         random_ordering = deepcopy(sentences)
         shuffle(random_ordering)
         return random_ordering
+    
+    def get_entities(self, summary, tokenized=False):
+        """
+        Extracts named entities from the given summary.
+
+        Args:
+            summary (list of str or list of list of str): The summary text. If `tokenized` is False, it should be a list of strings (sentences).
+                                                        If `tokenized` is True, it should be a list of lists of strings (tokenized sentences).
+            tokenized (bool, optional): Indicates whether the summary is already tokenized. Defaults to False.
+
+        Returns:
+            list of str: A list of extracted named entities.
+        """
+        # Tokenize sentences if necessary.
+        if not tokenized:
+            tokens = [word_tokenize(s) for s in summary]
+        else:
+            tokens = summary
+        
+        # Tag sentences and identify/extract named entities.
+        tags = pos_tag_sents(tokens)
+        entities = ne_chunk_sents(tags, binary=True)
+        NE = []
+        for entity in entities:
+            for subtree in entity:
+                if isinstance(subtree, Tree):
+                    entity_name = " ".join([word for word, tag in subtree.leaves()])
+                    if entity_name not in NE:
+                        NE.append(entity_name)
+
+        # If no NEs are extracted, just use nouns instead.
+        if len(NE) == 0:
+            is_noun = lambda pos: pos[:2] == 'NN'
+            for tagged_sent in tags:
+                for word, pos in tagged_sent:
+                    if is_noun(pos) and word not in NE:
+                        NE.append(word)
+        
+        return NE
+
+    def build_grid(self, sentences, entities):
+        """
+        Builds a binary grid indicating the presence of entities in sentences.
+
+        Args:
+            sentences (list of str): The sentences to be analyzed.
+            entities (list of str): The entities to be searched for in the sentences.
+
+        Returns:
+            numpy.ndarray: A binary grid where each row corresponds to a sentence and each column corresponds to an entity.
+                        The value at position (i, j) is 1 if the entity j is present in sentence i, otherwise 0.
+        """
+        # Initialize empty array.
+        array = [[0 for _ in entities] for _ in sentences]
+        
+        # Iterate through sentences and entities to fill in array.
+        for i, sentence in enumerate(sentences):
+            for j, entity in enumerate(entities):
+                check = re.search(r'\b' + entity + r'\b', sentence)
+                if check is not None:
+                    array[i][j] = 1
+        
+        return np.array(array)
+
+    def create_vector(self, sentences, entities, num_sentences, num_entities):
+        """
+        Creates a feature vector representing the transition patterns of entities between sentences.
+
+        Args:
+            sentences (list of str): The sentences in the summary.
+            entities (list of str): The named entities extracted from the summary.
+            num_sentences (int): The number of sentences in the summary.
+            num_entities (int): The number of named entities in the summary.
+
+        Returns:
+            numpy.ndarray: A feature vector representing the transition patterns of entities between sentences.
+        """
+
+        # Build the entity grid.
+        grid = self.build_grid(sentences, entities)
+
+        # Use the following transition lookups.
+        lookup = {
+            (0, 0): 0,
+            (0, 1): 1,
+            (1, 0): 2,
+            (1, 1): 3
+        }
+
+        # Initialize an empty vector.
+        values = [0 for _ in range(len(lookup))]
+
+        # Calculate the total number of possible transitions.
+        num_transitions = num_entities * (num_sentences - 1)
+        
+        # Increment each transition type in the vector.
+        for j in range(num_entities):
+            for i in range(num_sentences - 1):
+                transition = grid[i:i+2, j]
+                k = lookup[tuple(transition)]
+                values[k] += 1
+
+        # Convert the vector from counts to probabilities.
+        vector = np.array(values) / num_transitions
+
+        return vector
+
 
 
 class InformationOrderer:
@@ -206,7 +314,8 @@ class InformationOrderer:
         EG = EntityGrid(
             additional_params['training_data_path'], 
             additional_params['all_possible_permutations_threshold'],
-            additional_params['max_permutations']
+            additional_params['max_permutations'],
+            additional_params['syntax']
         )
         for k in content.keys():
             num_sentences = len(content[k])
@@ -225,7 +334,7 @@ class InformationOrderer:
                         content[k][i] = word_tokenize(item)
 
                 # Get the named entities in the content.
-                named_entities = get_entities(content[k], tokenized=True)
+                named_entities = EG.get_entities(content[k], tokenized=True)
                 num_entities = len(named_entities)
                 
                 # Get permutations.
@@ -235,7 +344,7 @@ class InformationOrderer:
                 X_list = []
                 for ordering in orderings:
                     sentences = [TreebankWordDetokenizer().detokenize(s) for s in ordering]
-                    vector = create_vector(sentences, named_entities, num_sentences, num_entities)
+                    vector = EG.create_vector(sentences, named_entities, num_sentences, num_entities)
                     X_list.append(vector)
 
                 # Convert to a NumPy array.
@@ -336,109 +445,3 @@ def path_distance(route, distances):
     for c in range(1, len(route)):
         result += distances[route[c-1]][route[c]]
     return result
-
-def get_entities(summary, tokenized=False):
-    """
-    Extracts named entities from the given summary.
-
-    Args:
-        summary (list of str or list of list of str): The summary text. If `tokenized` is False, it should be a list of strings (sentences).
-                                                      If `tokenized` is True, it should be a list of lists of strings (tokenized sentences).
-        tokenized (bool, optional): Indicates whether the summary is already tokenized. Defaults to False.
-
-    Returns:
-        list of str: A list of extracted named entities.
-    """
-    # Tokenize sentences if necessary.
-    if not tokenized:
-        tokens = [word_tokenize(s) for s in summary]
-    else:
-        tokens = summary
-    
-    # Tag sentences and identify/extract named entities.
-    tags = pos_tag_sents(tokens)
-    entities = ne_chunk_sents(tags, binary=True)
-    NE = []
-    for entity in entities:
-        for subtree in entity:
-            if isinstance(subtree, Tree):
-                entity_name = " ".join([word for word, tag in subtree.leaves()])
-                if entity_name not in NE:
-                    NE.append(entity_name)
-
-    # If no NEs are extracted, just use nouns instead.
-    if len(NE) == 0:
-        is_noun = lambda pos: pos[:2] == 'NN'
-        for tagged_sent in tags:
-            for word, pos in tagged_sent:
-                if is_noun(pos) and word not in NE:
-                    NE.append(word)
-    
-    return NE
-
-def build_grid(sentences, entities):
-    """
-    Builds a binary grid indicating the presence of entities in sentences.
-
-    Args:
-        sentences (list of str): The sentences to be analyzed.
-        entities (list of str): The entities to be searched for in the sentences.
-
-    Returns:
-        numpy.ndarray: A binary grid where each row corresponds to a sentence and each column corresponds to an entity.
-                       The value at position (i, j) is 1 if the entity j is present in sentence i, otherwise 0.
-    """
-    # Initialize empty array.
-    array = [[0 for _ in entities] for _ in sentences]
-    
-    # Iterate through sentences and entities to fill in array.
-    for i, sentence in enumerate(sentences):
-        for j, entity in enumerate(entities):
-            check = re.search(r'\b' + entity + r'\b', sentence)
-            if check is not None:
-                array[i][j] = 1
-    
-    return np.array(array)
-
-def create_vector(sentences, entities, num_sentences, num_entities):
-    """
-    Creates a feature vector representing the transition patterns of entities between sentences.
-
-    Args:
-        sentences (list of str): The sentences in the summary.
-        entities (list of str): The named entities extracted from the summary.
-        num_sentences (int): The number of sentences in the summary.
-        num_entities (int): The number of named entities in the summary.
-
-    Returns:
-        numpy.ndarray: A feature vector representing the transition patterns of entities between sentences.
-    """
-
-    # Build the entity grid.
-    grid = build_grid(sentences, entities)
-
-    # Use the following transition lookups.
-    lookup = {
-        (0, 0): 0,
-        (0, 1): 1,
-        (1, 0): 2,
-        (1, 1): 3
-    }
-
-    # Initialize an empty vector.
-    values = [0 for _ in range(len(lookup))]
-
-    # Calculate the total number of possible transitions.
-    num_transitions = num_entities * (num_sentences - 1)
-    
-    # Increment each transition type in the vector.
-    for j in range(num_entities):
-        for i in range(num_sentences - 1):
-            transition = grid[i:i+2, j]
-            k = lookup[tuple(transition)]
-            values[k] += 1
-
-    # Convert the vector from counts to probabilities.
-    vector = np.array(values) / num_transitions
-
-    return vector
