@@ -213,6 +213,16 @@ class EntityGrid:
             entities.extend(named_entities)
 
         entities = list(dict.fromkeys(entities))
+
+        # If no named entites are found, use nouns instead.
+        if len(entities) == 0:
+            for sentence_tokens in tokens:
+                sentence = ' '.join(sentence_tokens)
+                doc = nlp(sentence)
+                for chunk in doc.noun_chunks:
+                    if chunk.text not in entities:
+                        entities.append(chunk.text)
+
         return entities
 
 
@@ -257,9 +267,6 @@ class EntityGrid:
                     if entity in sentence:
                         array[i][j] = 1
             
-        # print(sentences)
-        # print(entities)
-        # print(array)
         return np.array(array)
 
     def create_vector(self, sentences, entities, num_sentences, num_entities):
@@ -310,9 +317,9 @@ class EntityGrid:
 
         # Convert the vector from counts to probabilities.
         vector = np.array(values) / num_transitions
-        # print(sentences)
-        # print(entities)
-        # print(vector)
+        print(sentences)
+        print(entities)
+        print(vector)
         return vector
 
 
