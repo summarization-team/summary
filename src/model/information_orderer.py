@@ -5,9 +5,7 @@ from itertools import permutations
 from random import seed, shuffle
 
 import numpy as np
-from nltk.chunk import ne_chunk_sents
 from nltk.metrics import masi_distance
-from nltk.tag import pos_tag_sents
 from nltk.tokenize import word_tokenize, sent_tokenize, TreebankWordDetokenizer
 from nltk.tree import Tree
 from sklearn.linear_model import LogisticRegression
