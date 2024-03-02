@@ -1,253 +1,0 @@
-Some weights of the model checkpoint at distilbert-base-cased were not used when initializing DistilBertModel: ['vocab_projector.bias', 'vocab_layer_norm.bias', 'vocab_layer_norm.weight', 'vocab_projector.weight', 'vocab_transform.weight', 'vocab_transform.bias']
-- This IS expected if you are initializing DistilBertModel from the checkpoint of a model trained on another task or with another architecture (e.g. initializing a BertForSequenceClassification model from a BertForPreTraining model).
-- This IS NOT expected if you are initializing DistilBertModel from the checkpoint of a model that you expect to be exactly identical (initializing a BertForSequenceClassification model from a BertForSequenceClassification model).
-Summarizing training:   0%|          | 0/44 [00:00<?, ?it/s]Token indices sequence length is longer than the specified maximum sequence length for this model (2082 > 512). Running this sequence through the model will result in indexing errors
-Summarizing training:   2%|▏         | 1/44 [00:17<12:31, 17.48s/it]Summarizing training:   5%|▍         | 2/44 [00:33<11:36, 16.59s/it]Summarizing training:   7%|▋         | 3/44 [00:46<10:09, 14.87s/it]Summarizing training:   9%|▉         | 4/44 [01:02<10:08, 15.21s/it]Summarizing training:  11%|█▏        | 5/44 [01:15<09:27, 14.54s/it]Summarizing training:  14%|█▎        | 6/44 [01:28<08:59, 14.20s/it]Summarizing training:  16%|█▌        | 7/44 [01:39<08:00, 13.00s/it]Summarizing training:  18%|█▊        | 8/44 [01:52<07:49, 13.06s/it]Summarizing training:  20%|██        | 9/44 [02:09<08:23, 14.37s/it]Summarizing training:  23%|██▎       | 10/44 [02:25<08:26, 14.89s/it]/home2/kharalds/anaconda3/envs/Summary/lib/python3.9/site-packages/transformers/pipelines/base.py:997: UserWarning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
-  warnings.warn(
-Summarizing training:  25%|██▌       | 11/44 [02:40<08:04, 14.67s/it]/home2/kharalds/anaconda3/envs/Summary/lib/python3.9/site-packages/transformers/pipelines/base.py:997: UserWarning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
-  warnings.warn(
-Summarizing training:  27%|██▋       | 12/44 [02:51<07:22, 13.81s/it]/home2/kharalds/anaconda3/envs/Summary/lib/python3.9/site-packages/transformers/pipelines/base.py:997: UserWarning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
-  warnings.warn(
-Summarizing training:  30%|██▉       | 13/44 [03:05<07:01, 13.60s/it]/home2/kharalds/anaconda3/envs/Summary/lib/python3.9/site-packages/transformers/pipelines/base.py:997: UserWarning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
-  warnings.warn(
-Summarizing training:  32%|███▏      | 14/44 [03:16<06:26, 12.88s/it]/home2/kharalds/anaconda3/envs/Summary/lib/python3.9/site-packages/transformers/pipelines/base.py:997: UserWarning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
-  warnings.warn(
-Summarizing training:  34%|███▍      | 15/44 [03:32<06:40, 13.80s/it]/home2/kharalds/anaconda3/envs/Summary/lib/python3.9/site-packages/transformers/pipelines/base.py:997: UserWarning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
-  warnings.warn(
-Summarizing training:  36%|███▋      | 16/44 [03:45<06:20, 13.58s/it]/home2/kharalds/anaconda3/envs/Summary/lib/python3.9/site-packages/transformers/pipelines/base.py:997: UserWarning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
-  warnings.warn(
-Summarizing training:  39%|███▊      | 17/44 [04:04<06:53, 15.32s/it]/home2/kharalds/anaconda3/envs/Summary/lib/python3.9/site-packages/transformers/pipelines/base.py:997: UserWarning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
-  warnings.warn(
-Summarizing training:  41%|████      | 18/44 [04:22<06:56, 16.01s/it]/home2/kharalds/anaconda3/envs/Summary/lib/python3.9/site-packages/transformers/pipelines/base.py:997: UserWarning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
-  warnings.warn(
-Summarizing training:  43%|████▎     | 19/44 [04:32<06:00, 14.40s/it]/home2/kharalds/anaconda3/envs/Summary/lib/python3.9/site-packages/transformers/pipelines/base.py:997: UserWarning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
-  warnings.warn(
-Summarizing training:  45%|████▌     | 20/44 [04:45<05:31, 13.81s/it]/home2/kharalds/anaconda3/envs/Summary/lib/python3.9/site-packages/transformers/pipelines/base.py:997: UserWarning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
-  warnings.warn(
-Summarizing training:  48%|████▊     | 21/44 [04:58<05:13, 13.61s/it]/home2/kharalds/anaconda3/envs/Summary/lib/python3.9/site-packages/transformers/pipelines/base.py:997: UserWarning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
-  warnings.warn(
-Summarizing training:  50%|█████     | 22/44 [05:10<04:49, 13.15s/it]/home2/kharalds/anaconda3/envs/Summary/lib/python3.9/site-packages/transformers/pipelines/base.py:997: UserWarning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
-  warnings.warn(
-Summarizing training:  52%|█████▏    | 23/44 [05:26<04:55, 14.05s/it]/home2/kharalds/anaconda3/envs/Summary/lib/python3.9/site-packages/transformers/pipelines/base.py:997: UserWarning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
-  warnings.warn(
-Summarizing training:  55%|█████▍    | 24/44 [05:39<04:30, 13.52s/it]/home2/kharalds/anaconda3/envs/Summary/lib/python3.9/site-packages/transformers/pipelines/base.py:997: UserWarning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
-  warnings.warn(
-Summarizing training:  57%|█████▋    | 25/44 [05:52<04:14, 13.40s/it]/home2/kharalds/anaconda3/envs/Summary/lib/python3.9/site-packages/transformers/pipelines/base.py:997: UserWarning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
-  warnings.warn(
-Summarizing training:  59%|█████▉    | 26/44 [06:05<03:58, 13.27s/it]/home2/kharalds/anaconda3/envs/Summary/lib/python3.9/site-packages/transformers/pipelines/base.py:997: UserWarning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
-  warnings.warn(
-Summarizing training:  61%|██████▏   | 27/44 [06:19<03:52, 13.67s/it]/home2/kharalds/anaconda3/envs/Summary/lib/python3.9/site-packages/transformers/pipelines/base.py:997: UserWarning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
-  warnings.warn(
-Summarizing training:  64%|██████▎   | 28/44 [06:32<03:34, 13.38s/it]/home2/kharalds/anaconda3/envs/Summary/lib/python3.9/site-packages/transformers/pipelines/base.py:997: UserWarning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
-  warnings.warn(
-Summarizing training:  66%|██████▌   | 29/44 [06:43<03:11, 12.76s/it]/home2/kharalds/anaconda3/envs/Summary/lib/python3.9/site-packages/transformers/pipelines/base.py:997: UserWarning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
-  warnings.warn(
-Summarizing training:  68%|██████▊   | 30/44 [06:55<02:55, 12.50s/it]/home2/kharalds/anaconda3/envs/Summary/lib/python3.9/site-packages/transformers/pipelines/base.py:997: UserWarning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
-  warnings.warn(
-Summarizing training:  70%|███████   | 31/44 [07:11<02:55, 13.50s/it]/home2/kharalds/anaconda3/envs/Summary/lib/python3.9/site-packages/transformers/pipelines/base.py:997: UserWarning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
-  warnings.warn(
-Summarizing training:  73%|███████▎  | 32/44 [07:23<02:37, 13.11s/it]/home2/kharalds/anaconda3/envs/Summary/lib/python3.9/site-packages/transformers/pipelines/base.py:997: UserWarning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
-  warnings.warn(
-Summarizing training:  75%|███████▌  | 33/44 [07:35<02:19, 12.65s/it]/home2/kharalds/anaconda3/envs/Summary/lib/python3.9/site-packages/transformers/pipelines/base.py:997: UserWarning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
-  warnings.warn(
-Summarizing training:  77%|███████▋  | 34/44 [07:47<02:05, 12.50s/it]/home2/kharalds/anaconda3/envs/Summary/lib/python3.9/site-packages/transformers/pipelines/base.py:997: UserWarning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
-  warnings.warn(
-Summarizing training:  80%|███████▉  | 35/44 [08:01<01:57, 13.08s/it]/home2/kharalds/anaconda3/envs/Summary/lib/python3.9/site-packages/transformers/pipelines/base.py:997: UserWarning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
-  warnings.warn(
-Summarizing training:  82%|████████▏ | 36/44 [08:13<01:40, 12.59s/it]/home2/kharalds/anaconda3/envs/Summary/lib/python3.9/site-packages/transformers/pipelines/base.py:997: UserWarning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
-  warnings.warn(
-Summarizing training:  84%|████████▍ | 37/44 [08:26<01:28, 12.65s/it]/home2/kharalds/anaconda3/envs/Summary/lib/python3.9/site-packages/transformers/pipelines/base.py:997: UserWarning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
-  warnings.warn(
-Summarizing training:  86%|████████▋ | 38/44 [08:37<01:13, 12.25s/it]/home2/kharalds/anaconda3/envs/Summary/lib/python3.9/site-packages/transformers/pipelines/base.py:997: UserWarning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
-  warnings.warn(
-Summarizing training:  89%|████████▊ | 39/44 [08:51<01:03, 12.70s/it]/home2/kharalds/anaconda3/envs/Summary/lib/python3.9/site-packages/transformers/pipelines/base.py:997: UserWarning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
-  warnings.warn(
-Summarizing training:  91%|█████████ | 40/44 [09:02<00:49, 12.42s/it]/home2/kharalds/anaconda3/envs/Summary/lib/python3.9/site-packages/transformers/pipelines/base.py:997: UserWarning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
-  warnings.warn(
-Summarizing training:  93%|█████████▎| 41/44 [09:19<00:40, 13.66s/it]/home2/kharalds/anaconda3/envs/Summary/lib/python3.9/site-packages/transformers/pipelines/base.py:997: UserWarning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
-  warnings.warn(
-Summarizing training:  95%|█████████▌| 42/44 [09:33<00:27, 13.77s/it]/home2/kharalds/anaconda3/envs/Summary/lib/python3.9/site-packages/transformers/pipelines/base.py:997: UserWarning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
-  warnings.warn(
-Summarizing training:  98%|█████████▊| 43/44 [09:46<00:13, 13.66s/it]/home2/kharalds/anaconda3/envs/Summary/lib/python3.9/site-packages/transformers/pipelines/base.py:997: UserWarning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
-  warnings.warn(
-Summarizing training: 100%|██████████| 44/44 [09:58<00:00, 13.16s/it]Summarizing training: 100%|██████████| 44/44 [09:58<00:00, 13.61s/it]
-Summarizing devtest:   0%|          | 0/46 [00:00<?, ?it/s]/home2/kharalds/anaconda3/envs/Summary/lib/python3.9/site-packages/transformers/pipelines/base.py:997: UserWarning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
-  warnings.warn(
-Summarizing devtest:   2%|▏         | 1/46 [00:13<09:47, 13.06s/it]/home2/kharalds/anaconda3/envs/Summary/lib/python3.9/site-packages/transformers/pipelines/base.py:997: UserWarning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
-  warnings.warn(
-Summarizing devtest:   4%|▍         | 2/46 [00:28<10:27, 14.26s/it]/home2/kharalds/anaconda3/envs/Summary/lib/python3.9/site-packages/transformers/pipelines/base.py:997: UserWarning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
-  warnings.warn(
-Summarizing devtest:   7%|▋         | 3/46 [00:40<09:43, 13.56s/it]/home2/kharalds/anaconda3/envs/Summary/lib/python3.9/site-packages/transformers/pipelines/base.py:997: UserWarning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
-  warnings.warn(
-Summarizing devtest:   9%|▊         | 4/46 [00:49<08:05, 11.56s/it]/home2/kharalds/anaconda3/envs/Summary/lib/python3.9/site-packages/transformers/pipelines/base.py:997: UserWarning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
-  warnings.warn(
-Summarizing devtest:  11%|█         | 5/46 [00:59<07:28, 10.93s/it]/home2/kharalds/anaconda3/envs/Summary/lib/python3.9/site-packages/transformers/pipelines/base.py:997: UserWarning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
-  warnings.warn(
-Summarizing devtest:  13%|█▎        | 6/46 [01:14<08:12, 12.32s/it]/home2/kharalds/anaconda3/envs/Summary/lib/python3.9/site-packages/transformers/pipelines/base.py:997: UserWarning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
-  warnings.warn(
-Summarizing devtest:  15%|█▌        | 7/46 [01:26<07:54, 12.16s/it]/home2/kharalds/anaconda3/envs/Summary/lib/python3.9/site-packages/transformers/pipelines/base.py:997: UserWarning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
-  warnings.warn(
-Summarizing devtest:  17%|█▋        | 8/46 [01:41<08:19, 13.14s/it]/home2/kharalds/anaconda3/envs/Summary/lib/python3.9/site-packages/transformers/pipelines/base.py:997: UserWarning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
-  warnings.warn(
-Summarizing devtest:  20%|█▉        | 9/46 [01:51<07:31, 12.20s/it]/home2/kharalds/anaconda3/envs/Summary/lib/python3.9/site-packages/transformers/pipelines/base.py:997: UserWarning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
-  warnings.warn(
-Summarizing devtest:  22%|██▏       | 10/46 [02:04<07:32, 12.57s/it]/home2/kharalds/anaconda3/envs/Summary/lib/python3.9/site-packages/transformers/pipelines/base.py:997: UserWarning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
-  warnings.warn(
-Summarizing devtest:  24%|██▍       | 11/46 [02:18<07:27, 12.80s/it]/home2/kharalds/anaconda3/envs/Summary/lib/python3.9/site-packages/transformers/pipelines/base.py:997: UserWarning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
-  warnings.warn(
-Summarizing devtest:  26%|██▌       | 12/46 [02:32<07:29, 13.21s/it]/home2/kharalds/anaconda3/envs/Summary/lib/python3.9/site-packages/transformers/pipelines/base.py:997: UserWarning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
-  warnings.warn(
-Summarizing devtest:  28%|██▊       | 13/46 [02:43<06:58, 12.68s/it]/home2/kharalds/anaconda3/envs/Summary/lib/python3.9/site-packages/transformers/pipelines/base.py:997: UserWarning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
-  warnings.warn(
-Summarizing devtest:  30%|███       | 14/46 [02:55<06:34, 12.32s/it]/home2/kharalds/anaconda3/envs/Summary/lib/python3.9/site-packages/transformers/pipelines/base.py:997: UserWarning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
-  warnings.warn(
-Summarizing devtest:  33%|███▎      | 15/46 [03:07<06:25, 12.43s/it]/home2/kharalds/anaconda3/envs/Summary/lib/python3.9/site-packages/transformers/pipelines/base.py:997: UserWarning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
-  warnings.warn(
-Summarizing devtest:  35%|███▍      | 16/46 [03:17<05:51, 11.71s/it]/home2/kharalds/anaconda3/envs/Summary/lib/python3.9/site-packages/transformers/pipelines/base.py:997: UserWarning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
-  warnings.warn(
-Summarizing devtest:  37%|███▋      | 17/46 [03:28<05:33, 11.51s/it]/home2/kharalds/anaconda3/envs/Summary/lib/python3.9/site-packages/transformers/pipelines/base.py:997: UserWarning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
-  warnings.warn(
-Summarizing devtest:  39%|███▉      | 18/46 [03:43<05:47, 12.41s/it]/home2/kharalds/anaconda3/envs/Summary/lib/python3.9/site-packages/transformers/pipelines/base.py:997: UserWarning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
-  warnings.warn(
-Summarizing devtest:  41%|████▏     | 19/46 [03:56<05:38, 12.54s/it]/home2/kharalds/anaconda3/envs/Summary/lib/python3.9/site-packages/transformers/pipelines/base.py:997: UserWarning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
-  warnings.warn(
-Summarizing devtest:  43%|████▎     | 20/46 [04:08<05:21, 12.35s/it]/home2/kharalds/anaconda3/envs/Summary/lib/python3.9/site-packages/transformers/pipelines/base.py:997: UserWarning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
-  warnings.warn(
-Summarizing devtest:  46%|████▌     | 21/46 [04:23<05:31, 13.27s/it]/home2/kharalds/anaconda3/envs/Summary/lib/python3.9/site-packages/transformers/pipelines/base.py:997: UserWarning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
-  warnings.warn(
-Summarizing devtest:  48%|████▊     | 22/46 [04:37<05:21, 13.41s/it]/home2/kharalds/anaconda3/envs/Summary/lib/python3.9/site-packages/transformers/pipelines/base.py:997: UserWarning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
-  warnings.warn(
-Summarizing devtest:  50%|█████     | 23/46 [04:52<05:22, 14.02s/it]/home2/kharalds/anaconda3/envs/Summary/lib/python3.9/site-packages/transformers/pipelines/base.py:997: UserWarning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
-  warnings.warn(
-Summarizing devtest:  52%|█████▏    | 24/46 [05:00<04:24, 12.03s/it]/home2/kharalds/anaconda3/envs/Summary/lib/python3.9/site-packages/transformers/pipelines/base.py:997: UserWarning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
-  warnings.warn(
-Summarizing devtest:  54%|█████▍    | 25/46 [05:11<04:07, 11.77s/it]/home2/kharalds/anaconda3/envs/Summary/lib/python3.9/site-packages/transformers/pipelines/base.py:997: UserWarning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
-  warnings.warn(
-Summarizing devtest:  57%|█████▋    | 26/46 [05:24<04:04, 12.24s/it]/home2/kharalds/anaconda3/envs/Summary/lib/python3.9/site-packages/transformers/pipelines/base.py:997: UserWarning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
-  warnings.warn(
-Summarizing devtest:  59%|█████▊    | 27/46 [05:36<03:47, 11.97s/it]/home2/kharalds/anaconda3/envs/Summary/lib/python3.9/site-packages/transformers/pipelines/base.py:997: UserWarning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
-  warnings.warn(
-Summarizing devtest:  61%|██████    | 28/46 [05:49<03:44, 12.45s/it]/home2/kharalds/anaconda3/envs/Summary/lib/python3.9/site-packages/transformers/pipelines/base.py:997: UserWarning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
-  warnings.warn(
-Summarizing devtest:  63%|██████▎   | 29/46 [06:04<03:45, 13.27s/it]/home2/kharalds/anaconda3/envs/Summary/lib/python3.9/site-packages/transformers/pipelines/base.py:997: UserWarning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
-  warnings.warn(
-Summarizing devtest:  65%|██████▌   | 30/46 [06:18<03:35, 13.49s/it]/home2/kharalds/anaconda3/envs/Summary/lib/python3.9/site-packages/transformers/pipelines/base.py:997: UserWarning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
-  warnings.warn(
-Summarizing devtest:  67%|██████▋   | 31/46 [06:33<03:28, 13.92s/it]/home2/kharalds/anaconda3/envs/Summary/lib/python3.9/site-packages/transformers/pipelines/base.py:997: UserWarning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
-  warnings.warn(
-Summarizing devtest:  70%|██████▉   | 32/46 [06:48<03:19, 14.28s/it]/home2/kharalds/anaconda3/envs/Summary/lib/python3.9/site-packages/transformers/pipelines/base.py:997: UserWarning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
-  warnings.warn(
-Summarizing devtest:  72%|███████▏  | 33/46 [06:58<02:47, 12.90s/it]/home2/kharalds/anaconda3/envs/Summary/lib/python3.9/site-packages/transformers/pipelines/base.py:997: UserWarning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
-  warnings.warn(
-Summarizing devtest:  74%|███████▍  | 34/46 [07:09<02:27, 12.31s/it]/home2/kharalds/anaconda3/envs/Summary/lib/python3.9/site-packages/transformers/pipelines/base.py:997: UserWarning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
-  warnings.warn(
-Summarizing devtest:  76%|███████▌  | 35/46 [07:23<02:20, 12.79s/it]/home2/kharalds/anaconda3/envs/Summary/lib/python3.9/site-packages/transformers/pipelines/base.py:997: UserWarning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
-  warnings.warn(
-Summarizing devtest:  78%|███████▊  | 36/46 [07:38<02:16, 13.63s/it]/home2/kharalds/anaconda3/envs/Summary/lib/python3.9/site-packages/transformers/pipelines/base.py:997: UserWarning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
-  warnings.warn(
-Summarizing devtest:  80%|████████  | 37/46 [07:51<02:00, 13.43s/it]/home2/kharalds/anaconda3/envs/Summary/lib/python3.9/site-packages/transformers/pipelines/base.py:997: UserWarning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
-  warnings.warn(
-Summarizing devtest:  83%|████████▎ | 38/46 [08:04<01:46, 13.30s/it]/home2/kharalds/anaconda3/envs/Summary/lib/python3.9/site-packages/transformers/pipelines/base.py:997: UserWarning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
-  warnings.warn(
-Summarizing devtest:  85%|████████▍ | 39/46 [08:20<01:37, 13.93s/it]/home2/kharalds/anaconda3/envs/Summary/lib/python3.9/site-packages/transformers/pipelines/base.py:997: UserWarning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
-  warnings.warn(
-Summarizing devtest:  87%|████████▋ | 40/46 [08:35<01:25, 14.20s/it]/home2/kharalds/anaconda3/envs/Summary/lib/python3.9/site-packages/transformers/pipelines/base.py:997: UserWarning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
-  warnings.warn(
-Summarizing devtest:  89%|████████▉ | 41/46 [08:49<01:11, 14.37s/it]/home2/kharalds/anaconda3/envs/Summary/lib/python3.9/site-packages/transformers/pipelines/base.py:997: UserWarning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
-  warnings.warn(
-Summarizing devtest:  91%|█████████▏| 42/46 [09:05<00:59, 14.76s/it]/home2/kharalds/anaconda3/envs/Summary/lib/python3.9/site-packages/transformers/pipelines/base.py:997: UserWarning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
-  warnings.warn(
-Summarizing devtest:  93%|█████████▎| 43/46 [09:20<00:44, 14.90s/it]/home2/kharalds/anaconda3/envs/Summary/lib/python3.9/site-packages/transformers/pipelines/base.py:997: UserWarning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
-  warnings.warn(
-Summarizing devtest:  96%|█████████▌| 44/46 [09:33<00:28, 14.16s/it]/home2/kharalds/anaconda3/envs/Summary/lib/python3.9/site-packages/transformers/pipelines/base.py:997: UserWarning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
-  warnings.warn(
-Summarizing devtest:  98%|█████████▊| 45/46 [09:49<00:14, 14.68s/it]/home2/kharalds/anaconda3/envs/Summary/lib/python3.9/site-packages/transformers/pipelines/base.py:997: UserWarning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
-  warnings.warn(
-Summarizing devtest: 100%|██████████| 46/46 [09:57<00:00, 12.79s/it]Summarizing devtest: 100%|██████████| 46/46 [09:57<00:00, 12.99s/it]
-Summarizing evaltest:   0%|          | 0/43 [00:00<?, ?it/s]/home2/kharalds/anaconda3/envs/Summary/lib/python3.9/site-packages/transformers/pipelines/base.py:997: UserWarning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
-  warnings.warn(
-Summarizing evaltest:   2%|▏         | 1/43 [00:11<08:03, 11.52s/it]/home2/kharalds/anaconda3/envs/Summary/lib/python3.9/site-packages/transformers/pipelines/base.py:997: UserWarning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
-  warnings.warn(
-Summarizing evaltest:   5%|▍         | 2/43 [00:24<08:36, 12.59s/it]/home2/kharalds/anaconda3/envs/Summary/lib/python3.9/site-packages/transformers/pipelines/base.py:997: UserWarning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
-  warnings.warn(
-Summarizing evaltest:   7%|▋         | 3/43 [00:35<07:40, 11.51s/it]/home2/kharalds/anaconda3/envs/Summary/lib/python3.9/site-packages/transformers/pipelines/base.py:997: UserWarning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
-  warnings.warn(
-Summarizing evaltest:   9%|▉         | 4/43 [00:46<07:32, 11.60s/it]/home2/kharalds/anaconda3/envs/Summary/lib/python3.9/site-packages/transformers/pipelines/base.py:997: UserWarning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
-  warnings.warn(
-Summarizing evaltest:  12%|█▏        | 5/43 [00:58<07:25, 11.72s/it]/home2/kharalds/anaconda3/envs/Summary/lib/python3.9/site-packages/transformers/pipelines/base.py:997: UserWarning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
-  warnings.warn(
-Summarizing evaltest:  14%|█▍        | 6/43 [01:10<07:18, 11.86s/it]/home2/kharalds/anaconda3/envs/Summary/lib/python3.9/site-packages/transformers/pipelines/base.py:997: UserWarning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
-  warnings.warn(
-Summarizing evaltest:  16%|█▋        | 7/43 [01:25<07:35, 12.64s/it]/home2/kharalds/anaconda3/envs/Summary/lib/python3.9/site-packages/transformers/pipelines/base.py:997: UserWarning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
-  warnings.warn(
-Summarizing evaltest:  19%|█▊        | 8/43 [01:38<07:34, 12.98s/it]/home2/kharalds/anaconda3/envs/Summary/lib/python3.9/site-packages/transformers/pipelines/base.py:997: UserWarning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
-  warnings.warn(
-Summarizing evaltest:  21%|██        | 9/43 [01:50<07:03, 12.47s/it]/home2/kharalds/anaconda3/envs/Summary/lib/python3.9/site-packages/transformers/pipelines/base.py:997: UserWarning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
-  warnings.warn(
-Summarizing evaltest:  23%|██▎       | 10/43 [02:01<06:39, 12.10s/it]/home2/kharalds/anaconda3/envs/Summary/lib/python3.9/site-packages/transformers/pipelines/base.py:997: UserWarning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
-  warnings.warn(
-Summarizing evaltest:  26%|██▌       | 11/43 [02:13<06:24, 12.01s/it]/home2/kharalds/anaconda3/envs/Summary/lib/python3.9/site-packages/transformers/pipelines/base.py:997: UserWarning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
-  warnings.warn(
-Summarizing evaltest:  28%|██▊       | 12/43 [02:27<06:30, 12.60s/it]/home2/kharalds/anaconda3/envs/Summary/lib/python3.9/site-packages/transformers/pipelines/base.py:997: UserWarning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
-  warnings.warn(
-Summarizing evaltest:  30%|███       | 13/43 [02:38<06:02, 12.09s/it]/home2/kharalds/anaconda3/envs/Summary/lib/python3.9/site-packages/transformers/pipelines/base.py:997: UserWarning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
-  warnings.warn(
-Summarizing evaltest:  33%|███▎      | 14/43 [02:53<06:15, 12.97s/it]/home2/kharalds/anaconda3/envs/Summary/lib/python3.9/site-packages/transformers/pipelines/base.py:997: UserWarning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
-  warnings.warn(
-Summarizing evaltest:  35%|███▍      | 15/43 [03:02<05:28, 11.74s/it]/home2/kharalds/anaconda3/envs/Summary/lib/python3.9/site-packages/transformers/pipelines/base.py:997: UserWarning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
-  warnings.warn(
-Summarizing evaltest:  37%|███▋      | 16/43 [03:16<05:41, 12.67s/it]/home2/kharalds/anaconda3/envs/Summary/lib/python3.9/site-packages/transformers/pipelines/base.py:997: UserWarning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
-  warnings.warn(
-Summarizing evaltest:  40%|███▉      | 17/43 [03:28<05:23, 12.46s/it]/home2/kharalds/anaconda3/envs/Summary/lib/python3.9/site-packages/transformers/pipelines/base.py:997: UserWarning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
-  warnings.warn(
-Summarizing evaltest:  42%|████▏     | 18/43 [03:41<05:15, 12.61s/it]/home2/kharalds/anaconda3/envs/Summary/lib/python3.9/site-packages/transformers/pipelines/base.py:997: UserWarning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
-  warnings.warn(
-Summarizing evaltest:  44%|████▍     | 19/43 [03:54<05:00, 12.50s/it]/home2/kharalds/anaconda3/envs/Summary/lib/python3.9/site-packages/transformers/pipelines/base.py:997: UserWarning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
-  warnings.warn(
-Summarizing evaltest:  47%|████▋     | 20/43 [04:07<04:50, 12.65s/it]/home2/kharalds/anaconda3/envs/Summary/lib/python3.9/site-packages/transformers/pipelines/base.py:997: UserWarning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
-  warnings.warn(
-Summarizing evaltest:  49%|████▉     | 21/43 [04:18<04:28, 12.20s/it]/home2/kharalds/anaconda3/envs/Summary/lib/python3.9/site-packages/transformers/pipelines/base.py:997: UserWarning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
-  warnings.warn(
-Summarizing evaltest:  51%|█████     | 22/43 [04:31<04:22, 12.50s/it]/home2/kharalds/anaconda3/envs/Summary/lib/python3.9/site-packages/transformers/pipelines/base.py:997: UserWarning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
-  warnings.warn(
-Summarizing evaltest:  53%|█████▎    | 23/43 [04:44<04:13, 12.67s/it]/home2/kharalds/anaconda3/envs/Summary/lib/python3.9/site-packages/transformers/pipelines/base.py:997: UserWarning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
-  warnings.warn(
-Summarizing evaltest:  56%|█████▌    | 24/43 [04:56<03:56, 12.46s/it]/home2/kharalds/anaconda3/envs/Summary/lib/python3.9/site-packages/transformers/pipelines/base.py:997: UserWarning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
-  warnings.warn(
-Summarizing evaltest:  58%|█████▊    | 25/43 [05:11<03:56, 13.15s/it]/home2/kharalds/anaconda3/envs/Summary/lib/python3.9/site-packages/transformers/pipelines/base.py:997: UserWarning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
-  warnings.warn(
-Summarizing evaltest:  60%|██████    | 26/43 [05:21<03:28, 12.25s/it]/home2/kharalds/anaconda3/envs/Summary/lib/python3.9/site-packages/transformers/pipelines/base.py:997: UserWarning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
-  warnings.warn(
-Summarizing evaltest:  63%|██████▎   | 27/43 [05:34<03:20, 12.55s/it]/home2/kharalds/anaconda3/envs/Summary/lib/python3.9/site-packages/transformers/pipelines/base.py:997: UserWarning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
-  warnings.warn(
-Summarizing evaltest:  65%|██████▌   | 28/43 [05:45<03:00, 12.03s/it]/home2/kharalds/anaconda3/envs/Summary/lib/python3.9/site-packages/transformers/pipelines/base.py:997: UserWarning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
-  warnings.warn(
-Summarizing evaltest:  67%|██████▋   | 29/43 [05:56<02:43, 11.67s/it]/home2/kharalds/anaconda3/envs/Summary/lib/python3.9/site-packages/transformers/pipelines/base.py:997: UserWarning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
-  warnings.warn(
-Summarizing evaltest:  70%|██████▉   | 30/43 [06:07<02:31, 11.68s/it]/home2/kharalds/anaconda3/envs/Summary/lib/python3.9/site-packages/transformers/pipelines/base.py:997: UserWarning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
-  warnings.warn(
-Summarizing evaltest:  72%|███████▏  | 31/43 [06:22<02:29, 12.49s/it]/home2/kharalds/anaconda3/envs/Summary/lib/python3.9/site-packages/transformers/pipelines/base.py:997: UserWarning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
-  warnings.warn(
-Summarizing evaltest:  74%|███████▍  | 32/43 [06:34<02:14, 12.26s/it]/home2/kharalds/anaconda3/envs/Summary/lib/python3.9/site-packages/transformers/pipelines/base.py:997: UserWarning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
-  warnings.warn(
-Summarizing evaltest:  77%|███████▋  | 33/43 [06:49<02:10, 13.08s/it]/home2/kharalds/anaconda3/envs/Summary/lib/python3.9/site-packages/transformers/pipelines/base.py:997: UserWarning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
-  warnings.warn(
-Summarizing evaltest:  79%|███████▉  | 34/43 [07:00<01:53, 12.60s/it]/home2/kharalds/anaconda3/envs/Summary/lib/python3.9/site-packages/transformers/pipelines/base.py:997: UserWarning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
-  warnings.warn(
-Summarizing evaltest:  81%|████████▏ | 35/43 [07:14<01:44, 13.07s/it]/home2/kharalds/anaconda3/envs/Summary/lib/python3.9/site-packages/transformers/pipelines/base.py:997: UserWarning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
-  warnings.warn(
-Summarizing evaltest:  84%|████████▎ | 36/43 [07:28<01:33, 13.32s/it]/home2/kharalds/anaconda3/envs/Summary/lib/python3.9/site-packages/transformers/pipelines/base.py:997: UserWarning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
-  warnings.warn(
-Summarizing evaltest:  86%|████████▌ | 37/43 [07:40<01:17, 12.97s/it]/home2/kharalds/anaconda3/envs/Summary/lib/python3.9/site-packages/transformers/pipelines/base.py:997: UserWarning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
-  warnings.warn(
-Summarizing evaltest:  88%|████████▊ | 38/43 [07:52<01:03, 12.76s/it]/home2/kharalds/anaconda3/envs/Summary/lib/python3.9/site-packages/transformers/pipelines/base.py:997: UserWarning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
-  warnings.warn(
-Summarizing evaltest:  91%|█████████ | 39/43 [08:07<00:53, 13.41s/it]/home2/kharalds/anaconda3/envs/Summary/lib/python3.9/site-packages/transformers/pipelines/base.py:997: UserWarning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
-  warnings.warn(
-Summarizing evaltest:  93%|█████████▎| 40/43 [08:18<00:37, 12.43s/it]/home2/kharalds/anaconda3/envs/Summary/lib/python3.9/site-packages/transformers/pipelines/base.py:997: UserWarning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
-  warnings.warn(
-Summarizing evaltest:  95%|█████████▌| 41/43 [08:30<00:24, 12.38s/it]/home2/kharalds/anaconda3/envs/Summary/lib/python3.9/site-packages/transformers/pipelines/base.py:997: UserWarning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
-  warnings.warn(
-Summarizing evaltest:  98%|█████████▊| 42/43 [08:42<00:12, 12.31s/it]/home2/kharalds/anaconda3/envs/Summary/lib/python3.9/site-packages/transformers/pipelines/base.py:997: UserWarning: You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
-  warnings.warn(
-Summarizing evaltest: 100%|██████████| 43/43 [08:58<00:00, 13.32s/it]Summarizing evaltest: 100%|██████████| 43/43 [08:58<00:00, 12.51s/it]

@@ -34,10 +34,10 @@
             }
         },
         "content_realization": {
-            "method": "simple",
+            "method": "generative",
             "additional_parameters": {
                 "compression_method": "neural",
-                "model_id": "gpt-3.5-turbo",
+                "model_id": "t5-large",
                 "max_length": 100,
                 "min_length": 20,
                 "do_sample": false,
@@ -48,7 +48,7 @@
     },
     "evaluation": {
         "metrics": ["rouge1", "rouge2"],
-        "data_subset": "devtest",
+        "data_subset": "baseline",
         "results_dir": "results/D5/devtest",
         "reference_summaries_path": "data/gold/devtest/",
         "generated_summaries_path": "data/devtest/generated_summaries/"
