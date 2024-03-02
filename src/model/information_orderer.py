@@ -73,14 +73,6 @@ class EntityGrid:
 
     def build_training_data(self, data):
         """
-        """
-        if self.syntax:
-            self._build_training_data_no_syntax
-        else:
-            self._build_training_data_syntax
-
-    def _build_training_data_no_syntax(self, data):
-        """
         Builds training data from the provided summary data.
 
         Args:
@@ -125,7 +117,6 @@ class EntityGrid:
         y = np.array(y_list)
         
         return X, y
-
 
     def get_orderings(self, sentences, num_sentences):
         """
@@ -227,7 +218,8 @@ class EntityGrid:
 
     def build_grid(self, sentences, entities):
         """
-        Builds a binary grid indicating the presence of entities in sentences.
+        If self.syntax==False, builds a binary grid indicating the presence of entities in sentences.
+        If self.synatx==True, builds a grid indicating the roles of entities in sentences.
 
         Args:
             sentences (list of str): The sentences to be analyzed.
@@ -239,14 +231,35 @@ class EntityGrid:
         """
         # Initialize empty array.
         array = [[0 for _ in entities] for _ in sentences]
-        
-        # Iterate through sentences and entities to fill in array.
-        for i, sentence in enumerate(sentences):
-            for j, entity in enumerate(entities):
-                check = re.search(r'\b' + entity + r'\b', sentence)
-                if check is not None:
-                    array[i][j] = 1
-        
+
+        if self.syntax:
+            # Parse and iterate through sentences and entities to fill in array.
+            for i, sentence in enumerate(sentences):
+                for j, entity in enumerate(entities):
+                    doc = nlp(sentence)
+                    if entity in [ent.text for ent in doc.ents]:
+                        for token in doc:
+                            if token.text == entity:
+                                if token.dep_ in ['nsubj', 'nsubjpass']:
+                                    val = 1
+                                elif token.dep_ in ['dobj']:
+                                    val = 2
+                                else:
+                                    val = 3
+                                array[i][j] = val
+        else:
+            # Iterate through sentences and entities to fill in array.
+            for i, sentence in enumerate(sentences):
+                for j, entity in enumerate(entities):
+                    # check = re.search(r'\b' + entity + r'\b', sentence)
+                    # if check is not None:
+                        # array[i][j] = 1
+                    if entity in sentence:
+                        array[i][j] = 1
+            
+        # print(sentences)
+        # print(entities)
+        # print(array)
         return np.array(array)
 
     def create_vector(self, sentences, entities, num_sentences, num_entities):
@@ -267,12 +280,20 @@ class EntityGrid:
         grid = self.build_grid(sentences, entities)
 
         # Use the following transition lookups.
-        lookup = {
-            (0, 0): 0,
-            (0, 1): 1,
-            (1, 0): 2,
-            (1, 1): 3
-        }
+        if self.syntax:
+            lookup = {
+                (0, 0): 0, (0, 1): 1, (0, 2): 2, (0, 3): 3,
+                (1, 0): 4, (1, 1): 5, (1, 2): 6, (1, 3): 7,
+                (2, 0): 8, (2, 1): 9, (2, 2): 10, (2, 3): 11,
+                (3, 0): 12, (3, 1): 13, (3, 2): 14, (3, 3): 15
+            }
+        else:
+            lookup = {
+                (0, 0): 0,
+                (0, 1): 1,
+                (1, 0): 2,
+                (1, 1): 3
+            }
 
         # Initialize an empty vector.
         values = [0 for _ in range(len(lookup))]
@@ -289,7 +310,9 @@ class EntityGrid:
 
         # Convert the vector from counts to probabilities.
         vector = np.array(values) / num_transitions
-
+        # print(sentences)
+        # print(entities)
+        # print(vector)
         return vector
 
 
@@ -472,4 +495,4 @@ def path_distance(route, distances):
 
 
 if __name__ == '__main__':
-    EntityGrid('../../data/gold/training', 3, 10, False)
+    EntityGrid('../../data/gold/training', 3, 10, True)
