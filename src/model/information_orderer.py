@@ -117,36 +117,6 @@ class EntityGrid:
         
         return X, y
 
-    """`get_orderings` is deprecated in favor of `get_grid_permuations`"""
-    # def get_orderings(self, sentences, num_sentences):
-    #     """
-    #     Generates possible orderings of sentences.
-
-    #     Args:
-    #         sentences (list of str): The sentences to be reordered.
-    #         num_sentences (int): The number of sentences.
-
-    #     Returns:
-    #         list: A list of tuples, where each tuple represents a possible ordering of the sentences.
-    #     """
-    #     # If num_sentences <= `threshold``, use all possible permutations.
-    #     if num_sentences <= self.threshold:
-    #         orderings = list(permutations(sentences))
-    #         orderings.remove(tuple(sentences))
-        
-    #     # Otherwise, shuffle and select `max_permutations` possible permutations.
-    #     else:
-    #         i = 0
-    #         orderings = []
-    #         while i < self.max_permutations:
-    #             test = self.generate_random_ordering(sentences)
-    #             # Don't use a permutation that matches the original.
-    #             if test != sentences and test not in orderings:
-    #                 orderings.append(test)
-    #                 i += 1
-        
-    #     return orderings
-    
     def get_grid_permutations(self, grid, num_sentences):
         # If num_sentences <= `threshold`, use all possible permutations.
         if num_sentences <= self.threshold:
@@ -174,22 +144,6 @@ class EntityGrid:
         shuffle(random_ordering)
         return random_ordering
 
-    """`generate_random_ordering` is deprecated in favor of `generate_random_ordering_grid`"""
-    # def generate_random_ordering(self, sentences):
-    #     """
-    #     Generates a random ordering of sentences.
-
-    #     Args:
-    #         sentences (list of str): The sentences to be shuffled.
-
-    #     Returns:
-    #         list of str: A randomly shuffled list of sentences.
-    #     """
-    #     # Create a deep copy of the list to shuffle and return.
-    #     random_ordering = deepcopy(sentences)
-    #     shuffle(random_ordering)
-    #     return random_ordering
-    
     def get_entities(self, summary, tokenized=False):
         """
         Extracts named entities from the given summary.
@@ -534,6 +488,8 @@ def path_distance(route, distances):
     for c in range(1, len(route)):
         result += distances[route[c-1]][route[c]]
     return result
+
+
 
 
 # if __name__ == '__main__':
