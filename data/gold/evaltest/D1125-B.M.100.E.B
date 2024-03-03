@@ -1,0 +1,3 @@
+The Director of U.S. Fish/Wildlife Service announced if the polar bear makes it onto the endangered species list, his agency would ask climate scientists to address global warming.
+In September, the U.S. Geological Survey released a report basically stating that even with drastic worldwide reductions in greenhouse gasses, the polar ice cap will continue to shrink for the next 50 years wiping out most of the bears habitat.
+The United Nations also joined in, with its special envoy on climate change warning that time was running out, for rich and poor nations alike, to rescue the earth's stressed climate system.
