@@ -6,11 +6,6 @@ HEADLINE = 'HEADLINE'
 DATELINE = 'DATELINE'
 PARAGRAPH = 'PARAGRAPH-{}'
 SENTENCES = 'SENTENCES'
-TITLE = 'title'
-NARRATIVE = 'narrative'
-CATEGORY = 'category'
-DESCRIPTION_FILE = 'description.txt'
-DESCRIPTION = 'DESCRIPTION'
 
 
 class DocumentProcessor:
@@ -77,21 +72,6 @@ class DocumentProcessor:
                 file_path = os.path.join(root, file_name)
 
                 if os.path.isfile(file_path):
-                    if file_name == DESCRIPTION_FILE:
-                        with open(file_path, 'r') as file:
-                            file_content = file.readlines()
-                            title = ''
-                            narrative = ''
-                            category = ''
-                            for line in file_content:
-                                if TITLE in line:
-                                    title = line.replace(TITLE + ':', "").strip()
-                                elif NARRATIVE in line:
-                                    narrative = line.replace(NARRATIVE + ':', "").strip()
-                                elif CATEGORY in line:
-                                    category = line.replace(CATEGORY + ':', "").strip()
-                            processed_docs[root][DESCRIPTION] = ' '.join([title, narrative, category])
-                        continue
                     processed_docs[root][file_name] = dict()
                     paragraph_count = 0
                     processed_docs[root][file_name][PARAGRAPH.format(paragraph_count)] = []
@@ -142,6 +122,14 @@ class DocumentProcessor:
             description += 'title: ' + topic.find('title').text.strip() + '\n'
             if len(topic.findall('narrative')) > 0:
                 description += 'narrative: ' + topic.find('narrative').text.strip() + '\n'
+            if topic.get('category') != None:
+                categoryNum = topic.get('category')
+                categoryFile = os.path.join(os.path.dirname(input_path), 'categories.txt')
+                with open(categoryFile) as F:
+                    for line in F:
+                        if line[:3] == (categoryNum + '. '):
+                            category = line[3:-2]
+                            description += 'category: ' + category
     
             # Find all docsetA
             for docset in topic.iter('docsetA'):
@@ -157,17 +145,17 @@ class DocumentProcessor:
                     F.write(description)
 
             # Find all docsetB
-            for docset in topic.iter('docsetB'):
-                docsetID = docset.get('id')
-                docsets.append(docsetID)
-                path = self.output_path[mode] + '/' + docsetID
-                
-                for doc in docset:
-                    docID = doc.get('id')
-                    process_doc(path, docID)
-                descriptionFile = os.path.join(path, 'description.txt') 
-                with open(descriptionFile, 'a') as F:
-                    F.write(description)
+#            for docset in topic.iter('docsetB'):
+#                docsetID = docset.get('id')
+#                docsets.append(docsetID)
+#                path = self.output_path[mode] + '/' + docsetID
+#                
+#                for doc in docset:
+#                    docID = doc.get('id')
+#                    process_doc(path, docID)
+#                descriptionFile = os.path.join(path, 'description.txt') 
+#                with open(descriptionFile, 'a') as F:
+#                    F.write(description)
 
         return docsets
 
@@ -208,12 +196,16 @@ def process_doc(dirPath, docID):
 
     # AQUAINT 2
     elif (int(get_year(docID)) >= 2004 and int(get_year(docID)) <= 2006):
-        file = get_AQUAINT2_file(docID)
+        
         try:
-            docXML = get_doc_AQUAINT2(docID, file)
+            file = get_AQUAINT2_file(docID)
+            if os.path.isfile(file):
+                docXML = get_doc_AQUAINT2(docID, file)
+            else: raise Exception()
         # if not found in AQUAINT 2 try 2009 corpus
         except:
             try:
+                file = get_2009_file(docID)
                 docXML = get_doc_2009(docID, file)
                 for x in remove_these:
                     docXML = docXML.replace(x, '')
@@ -229,6 +221,7 @@ def process_doc(dirPath, docID):
                             F.write('\n')
                             for s in tokenized:
                                 F.write(str(s) + '\n')
+                return
             except:
                 return
 
@@ -319,6 +312,7 @@ def get_AQUAINT2_file(docID):
         filePath += docID[4:-5] + 'XIN_ENG'
     else:
         filePath += docID[:7].lower() + '_' + docID[-13:-7] + '.xml'
+        
     return filePath
 
 
