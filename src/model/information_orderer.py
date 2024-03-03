@@ -255,7 +255,9 @@ class InformationOrderer:
                 best_idx = np.argmax(probabilities)
 
                 # Replace `content[k]` with the most likely ordering.
-                content[k] = just_sentences[best_idx]
+                # Ensure that this content is tokenized.
+                retokenized = [word_tokenize(s) for s in just_sentences[best_idx]]
+                content[k] = retokenized
 
         return content
 
