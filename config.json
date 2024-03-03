@@ -30,7 +30,7 @@
                 "training_data_path": "../data/gold/training",
                 "all_possible_permutations_threshold": 3,
                 "max_permutations": 10,
-                "syntax": false
+                "syntax": true
             }
         },
         "content_realization": {
