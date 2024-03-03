@@ -355,13 +355,11 @@ class GenerativeRealizationMethod(RealizationMethod):
 
     def _get_completion(self, concatenated_sentences, model, temperature, n, max_tokens):
         prompt = f"""
-        Your task is mutli-document summarizaiton. Specifically, you will be addressing the "content realization" \
-        step of an extractive summarization system. You will be provided a set of sentences \
-        that have been extracted from news articles pertaining to a particular topic or event. \
-        These sentences have also been ordered. You should return a narrative string. \
-        First, edit the sentences to ensure that they flow coherently. Second, enhance readability \
-        and resolve coreferences. Third, compress or fuse the sentences as necessary. Do not add subsatntive \
-        information or context not present in the selected content below. Your output must not exceed 100 words.
+        Your task is multi-document summarization. Specifically, you will address the "content realization" \
+        step of an extractive summarization system. You will receive a set of ordered sentences extracted from \
+        news articles on a particular topic or event. Edit the sentences for coherence, enhance readability, and \
+        resolve coreferences. Compress or fuse sentences if necessary. Do not add new information. Output \
+        narrative string should not exceed 100 words.
 
         Selected Content: '''{concatenated_sentences}'''
         """
