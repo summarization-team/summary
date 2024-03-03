@@ -26,7 +26,7 @@
             }
         },
         "information_ordering": {
-            "approach": "entity_grid",
+            "approach": "TSP",
             "additional_parameters": {
                 "training_data_path": "data/gold/training",
                 "all_possible_permutations_threshold": 3,
@@ -35,10 +35,10 @@
             }
         },
         "content_realization": {
-            "method": "generative",
+            "method": "simple",
             "additional_parameters": {
                 "compression_method": "neural",
-                "model_id": "t5-large",
+                "model_id": "t5-base",
                 "max_length": 100,
                 "min_length": 20,
                 "do_sample": false,
@@ -50,9 +50,9 @@
     "evaluation": {
         "metrics": ["rouge1", "rouge2"],
         "data_subset": "devtest",
-        "results_dir": "../results/D5",
-        "reference_summaries_path": "../data/gold/devtest/",
-        "generated_summaries_path": "../data/devtest/generated_summaries/"
+        "results_dir": "results/D5",
+        "reference_summaries_path": "data/gold/devtest/",
+        "generated_summaries_path": "data/devtest/generated_summaries/"
     },
-    "output_dir": "../outputs/D5"
+    "output_dir": "outputs/D5"
 }
