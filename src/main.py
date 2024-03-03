@@ -20,9 +20,37 @@ AVERAGE_F1 = 'Average_F'
 
 
 def load_config(config_path):
-    with open(config_path, 'r') as file:
-        return json.load(file)
+    """
+    Load config from a given path.
 
+    Args:
+        config_path (str): The path to the config file.
+
+    Returns:
+        dict: The loaded config if successful, otherwise None.
+    """
+    try:
+        with open(config_path, 'r') as f:
+            return json.load(f)
+    except FileNotFoundError:
+        return None
+
+
+def load_config_with_fallback(primary_path, fallback_path):
+    """
+    Load config from the primary path and fallback to the fallback path if unsuccessful.
+
+    Args:
+        primary_path (str): The primary path to try loading the config from.
+        fallback_path (str): The fallback path to try loading the config from if the primary path fails.
+
+    Returns:
+        dict: The loaded config if successful, otherwise None.
+    """
+    config = load_config(primary_path)
+    if config is None:
+        config = load_config(fallback_path)
+    return config
 
 def output_results(docsets, output_dir):
     """
@@ -38,13 +66,7 @@ def output_results(docsets, output_dir):
     if not os.path.exists(output_dir):
         os.mkdir(output_dir)
 
-    approach = config['model']['content_selection']['approach']
-    if approach == 'tfidf':
-        unique = 1
-    elif approach == 'textrank':
-        unique = 2
-    else:
-        unique = 3
+    unique = f"{config['model']['content_selection']['approach']}-{config['model']['information_ordering']['approach']}-{config['model']['content_realization']['method']}"
 
     for mode, data in docsets.items():
         for full_dir, content in data.items():
@@ -52,7 +74,10 @@ def output_results(docsets, output_dir):
             summary = content['SUMMARY']
             topic_id = parent_dir.split('-')[0]
             id_part1, id_part2 = topic_id[:-1], topic_id[-1]
-            output_filepath = os.path.join(output_dir, f'{id_part1}-A.M.100.{id_part2}.{unique}')
+            mode_output_dir = os.path.join(output_dir, mode)
+            if not os.path.exists(mode_output_dir):
+                os.mkdir(mode_output_dir)
+            output_filepath = os.path.join(mode_output_dir, f'{id_part1}-A.M.100.{id_part2}.{unique}')
             with open(output_filepath, 'w', encoding='utf-8') as outfile:
                 for sentence in summary:
                     outfile.write(sentence + '\n')
@@ -79,13 +104,9 @@ def calculate_rouge_scores(metrics, docsets, mode, reference_summaries_path, res
     
     scores_dict = {metrics[0]: {AVERAGE_R:0, AVERAGE_P: 0, AVERAGE_F1: 0}, 
                    metrics[1]: {AVERAGE_R:0, AVERAGE_P: 0, AVERAGE_F1: 0}}
-    approach = config['model']['content_selection']['approach']
-    if approach == 'tfidf':
-        unique = 1
-    elif approach == 'textrank':
-        unique = 2
-    else:
-        unique = 3
+
+    unique = f"{config['model']['content_selection']['approach']}-{config['model']['information_ordering']['approach']}-{config['model']['content_realization']['method']}"
+
     results_path = os.path.join(results_dir, RESULTS_FILE_NAME.format(unique))
     summary_file_names = []
 
@@ -159,7 +180,9 @@ def main(config):
     content_selector = ContentSelector(
         config['model']['content_selection']['additional_parameters']['num_sentences_per_doc'],
         config['model']['content_selection']['approach'],
-        config['model']['content_selection']['additional_parameters']['similarity_threshold'])
+        config['model']['content_selection']['additional_parameters']['similarity_threshold'],
+        config['model']['content_selection']['additional_parameters']['model_id']
+    )
     information_orderer = InformationOrderer(config['model']['information_ordering'])
     content_realizer = ContentRealizer(
         get_realization_info(config['model']['content_realization'])
@@ -190,5 +213,5 @@ def main(config):
 
 
 if __name__ == "__main__":
-    config = load_config(os.path.join('..', 'config.json'))
+    config = load_config_with_fallback(primary_path='config.json', fallback_path=os.path.join('..', 'config.json'))
     main(config)

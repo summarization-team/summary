@@ -283,6 +283,8 @@ class InformationOrderer:
             return self.order_content_entity_grid(content, self.additional_params)
         elif self.approach == 'random':
             return self.order_content_random(content)
+        elif self.approach == 'baseline':
+            return content
         else:
             raise ValueError(f"Unknown approach: {self.approach}")
 
