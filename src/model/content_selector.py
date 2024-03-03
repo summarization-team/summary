@@ -189,7 +189,7 @@ class ContentSelector:
         selected_sentences = {}
 
         for doc in all_documents.keys():
-            if DESCRIPTION in doc:
+            if DESCRIPTION in doc or doc == "description.txt":
                 continue
             sentlist = []
             sentlist_tok = []
