@@ -35,10 +35,10 @@
             }
         },
         "content_realization": {
-            "method": "simple",
+            "method": "generative",
             "additional_parameters": {
                 "compression_method": "neural",
-                "model_id": "gpt-3.5-turbo",
+                "model_id": "t5-large",
                 "max_length": 100,
                 "min_length": 20,
                 "do_sample": false,
