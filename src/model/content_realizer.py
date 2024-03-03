@@ -22,8 +22,6 @@ from tenacity import (
     wait_random_exponential,
 )  #
 
-openai.api_key = os.environ["OPENAI_API_KEY"]
-
 
 def output_device_name(device):
     with open('condor_logs/D5_gpu_realizer.test', 'w', encoding='utf-8') as outfile:
@@ -105,6 +103,7 @@ def get_realization_info(realization_config):
     elif realization_config['method'] == 'advanced':
         return AdvancedRealizationMethod(additional_parameters=realization_config['additional_parameters'])
     elif realization_config['method'] == 'generative':
+        openai.api_key = os.environ["OPENAI_API_KEY"]
         return GenerativeRealizationMethod(additional_parameters=realization_config['additional_parameters'])
     else:
         raise ValueError(f"Unknown realization strategy: {realization_config['method']}")
