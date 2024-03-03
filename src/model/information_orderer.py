@@ -102,7 +102,6 @@ class EntityGrid:
             y_list.append(1) # Proper ordering
             
             # Generate random orderings.
-            # orderings = self.get_orderings(original_order, num_sentences)
             orderings = self.get_grid_permutations(original_grid, num_sentences)
             
             # For each ordering, create a vector and add to dataset.
@@ -118,6 +117,16 @@ class EntityGrid:
         return X, y
 
     def get_grid_permutations(self, grid, num_sentences):
+        """
+        Generates possible orderings of the grid.
+
+        Args:
+            grid (list of lists): The grid representing the original ordering of sentences and entities.
+            num_sentences (int): The number of sentences in the grid.
+
+        Returns:
+            list: A list of grids, where each grid represents a possible reordering of the original grid.
+        """
         # If num_sentences <= `threshold`, use all possible permutations.
         if num_sentences <= self.threshold:
             orderings = list(permutations(grid))
@@ -129,8 +138,8 @@ class EntityGrid:
             for i in range(self.max_permutations):
                 test = self.generate_random_ordering_grid(grid)
                 # Don't use a permutation that matches the original.
-                # This may result in some identical samples because there is no
-                # check that an ordering doesn't already exist in `orderings`.
+                # This may still result in some identical samples because there
+                # is no check that an ordering doesn't already exist in `orderings`.
                 # However, because we are operating on vectors rather than
                 # sentences, different orderings of sentences may correspond
                 # to the same grids.
@@ -140,13 +149,18 @@ class EntityGrid:
         return orderings
 
     def generate_random_ordering_grid(self, grid):
+        """
+        Generates a random ordering of the grid.
+
+        Args:
+            grid (list of lists): The grid representing the original ordering of sentences and entities.
+
+        Returns:
+            list of lists: A randomly shuffled grid representing a random ordering of sentences and entities.
+        """
         random_ordering = deepcopy(grid)
         shuffle(random_ordering)
         return random_ordering
-
-
-
-
 
 
 class InformationOrderer:
@@ -198,13 +212,6 @@ class InformationOrderer:
         Returns:
             Dictionary with updated order to the list of sentences.
         """
-        # EG = EntityGrid(
-        #     additional_params['training_data_path'], 
-        #     additional_params['all_possible_permutations_threshold'],
-        #     additional_params['max_permutations'],
-        #     additional_params['syntax']
-        # )
-
         syntax = additional_params['syntax']
 
         for k in content.keys():
@@ -227,47 +234,18 @@ class InformationOrderer:
                 named_entities = get_entities(content[k], tokenized=True)
                 num_entities = len(named_entities)
                 
-                """
-                The following blocks first permute the sentences, then calculate
-                a vector independently for each ordering. This requires parsing
-                the same sentence multiple times.
-                """
-                # # Get permutations.
-                # orderings = list(permutations(content[k]))
-
-                # # Create vector for each ordering.
-                # X_list = []
-                # for ordering in orderings:
-                #     sentences = [TreebankWordDetokenizer().detokenize(s) for s in ordering]
-                #     vector = EG.create_vector(sentences, named_entities, num_sentences, num_entities)
-                #     X_list.append(vector)
-
-                """
-                Instead, calculate the grid for the ordering that is originally
-                passed in. Then permute this grid for each possible ordering.
-                This way, the parse only has to be calculated one time.
-                """
-
                 # Create the grid for the ordering that is passed in.
                 initial_ordering = [TreebankWordDetokenizer().detokenize(s) for s in content[k]]
                 initial_grid = build_grid(initial_ordering, named_entities, syntax)
                 
-                """
-                PROBLEM: this just yields a list of grids, rather than the list of sentences.
-                Need to map each permutation of the grid to the corresponding permutation of sentences.
-                """
                 # Get all possible permutations of the grid.
-                # combined = list(zip(initial_ordering, initial_grid))
                 full_perms = list(permutations(zip(initial_ordering, initial_grid)))
                 just_sentences = [[s for s, g in o] for o in full_perms]
                 just_grids = [[g for s, g in o] for o in full_perms]
-                # orderings = list(permutations(initial_grid))
                 X_list = []
-                # for ordering in orderings:
                 for ordering in just_grids:
                     vector = create_vector(ordering, num_sentences, num_entities, syntax)
                     X_list.append(vector)
-
 
                 # Convert to a NumPy array.
                 X = np.array(X_list)
@@ -277,7 +255,6 @@ class InformationOrderer:
                 best_idx = np.argmax(probabilities)
 
                 # Replace `content[k]` with the most likely ordering.
-                # content[k] = orderings[best_idx]
                 content[k] = just_sentences[best_idx]
 
         return content
@@ -306,7 +283,6 @@ class InformationOrderer:
             return self.order_content_random(content)
         else:
             raise ValueError(f"Unknown approach: {self.approach}")
-
 
 
 def calc_distances(content):
@@ -418,10 +394,17 @@ def build_grid(sentences, entities, syntax):
     Args:
         sentences (list of str): The sentences to be analyzed.
         entities (list of str): The entities to be searched for in the sentences.
+        syntax (bool): Indicates whether to build a syntax-aware grid.
 
     Returns:
-        numpy.ndarray: A binary grid where each row corresponds to a sentence and each column corresponds to an entity.
-                    The value at position (i, j) is 1 if the entity j is present in sentence i, otherwise 0.
+        list of lists: A grid where each row corresponds to a sentence and each column corresponds to an entity.
+                    If syntax is True:
+                        - The value at position (i, j) is 1 if the entity j is the subject of sentence i.
+                        - The value is 2 if the entity j is the direct object of sentence i.
+                        - The value is 3 if the entity j is any other role in sentence i.
+                        - The value is 0 if the entity j is not found in sentence i.
+                    If syntax is False:
+                        - The value at position (i, j) is 1 if the entity j is present in sentence i, otherwise 0.
     """
     # Initialize empty array.
     array = [[0 for _ in entities] for _ in sentences]
@@ -448,7 +431,6 @@ def build_grid(sentences, entities, syntax):
                 if entity in sentence:
                     array[i][j] = 1
         
-    # return np.array(array)
     return array
 
 def create_vector(grid_list, num_sentences, num_entities, syntax):
@@ -456,15 +438,24 @@ def create_vector(grid_list, num_sentences, num_entities, syntax):
     Creates a feature vector representing the transition patterns of entities between sentences.
 
     Args:
-        sentences (list of str): The sentences in the summary.
-        entities (list of str): The named entities extracted from the summary.
+        grid_list (list of lists): The grid representing the transition patterns of entities between sentences.
+                                   Each row corresponds to a sentence, and each column corresponds to an entity.
+                                   The values in the grid indicate the role of the entity in the sentence,
+                                   if `syntax` is True.
+                                   If `syntax` is False, the values indicate the presence of the entity in the sentence.
         num_sentences (int): The number of sentences in the summary.
         num_entities (int): The number of named entities in the summary.
+        syntax (bool): Indicates whether the grid represents syntax-aware roles of entities in sentences.
 
     Returns:
         numpy.ndarray: A feature vector representing the transition patterns of entities between sentences.
+                       The vector is normalized by the total number of possible transitions.
+                       The length of the vector is determined by the number of unique transition patterns.
+                       If `syntax` is True:
+                           - The vector length is 16, representing all possible combinations of entity roles.
+                       If `syntax` is False:
+                           - The vector length is 4, representing the presence or absence of entities in sentences.
     """
-
     # Convert the grid to an array.
     grid = np.array(grid_list)
 
@@ -500,6 +491,3 @@ def create_vector(grid_list, num_sentences, num_entities, syntax):
     # Convert the vector from counts to probabilities.
     vector = np.array(values) / num_transitions
     return vector
-
-if __name__ == '__main__':
-    EG = EntityGrid('../../data/gold/training', 3, 10, True)
