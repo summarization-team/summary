@@ -1,5 +1,4 @@
 import os
-import re
 from copy import deepcopy
 from itertools import permutations
 from random import seed, shuffle
@@ -23,7 +22,6 @@ class EntityGrid:
         self.syntax = syntax
         data = self.read_data(training_data_filepath)
         X, y = self.build_training_data(data)
-        
         self.model = LogisticRegression()
         self.model.fit(X, y)
 
@@ -67,6 +65,7 @@ class EntityGrid:
 
                     # Append `summary_data` to `data`.
                     data.append(summary_data)
+
         return data
 
     def build_training_data(self, data):
@@ -95,18 +94,20 @@ class EntityGrid:
             named_entities = summary_data['named_entities']
             num_sentences = summary_data['num_sentences']
             num_entities = summary_data['num_entities']
-                
+
             # Create vector for original summary and add to dataset.
-            original_vector = self.create_vector(original_order, named_entities, num_sentences, num_entities)
+            original_grid = self.build_grid(original_order, named_entities)
+            original_vector = self.create_vector(original_grid, num_sentences, num_entities)
             X_list.append(original_vector)
             y_list.append(1) # Proper ordering
             
             # Generate random orderings.
-            orderings = self.get_orderings(original_order, num_sentences)
-
+            # orderings = self.get_orderings(original_order, num_sentences)
+            orderings = self.get_grid_permutations(original_grid, num_sentences)
+            
             # For each ordering, create a vector and add to dataset.
             for ordering in orderings:
-                vector = self.create_vector(ordering, named_entities, num_sentences, num_entities)
+                vector = self.create_vector(ordering, num_sentences, num_entities)
                 X_list.append(vector)
                 y_list.append(0) # Random ordering
 
@@ -116,50 +117,78 @@ class EntityGrid:
         
         return X, y
 
-    def get_orderings(self, sentences, num_sentences):
-        """
-        Generates possible orderings of sentences.
+    """`get_orderings` is deprecated in favor of `get_grid_permuations`"""
+    # def get_orderings(self, sentences, num_sentences):
+    #     """
+    #     Generates possible orderings of sentences.
 
-        Args:
-            sentences (list of str): The sentences to be reordered.
-            num_sentences (int): The number of sentences.
+    #     Args:
+    #         sentences (list of str): The sentences to be reordered.
+    #         num_sentences (int): The number of sentences.
 
-        Returns:
-            list: A list of tuples, where each tuple represents a possible ordering of the sentences.
-        """
-        # If num_sentences <= `threshold``, use all possible permutations.
+    #     Returns:
+    #         list: A list of tuples, where each tuple represents a possible ordering of the sentences.
+    #     """
+    #     # If num_sentences <= `threshold``, use all possible permutations.
+    #     if num_sentences <= self.threshold:
+    #         orderings = list(permutations(sentences))
+    #         orderings.remove(tuple(sentences))
+        
+    #     # Otherwise, shuffle and select `max_permutations` possible permutations.
+    #     else:
+    #         i = 0
+    #         orderings = []
+    #         while i < self.max_permutations:
+    #             test = self.generate_random_ordering(sentences)
+    #             # Don't use a permutation that matches the original.
+    #             if test != sentences and test not in orderings:
+    #                 orderings.append(test)
+    #                 i += 1
+        
+    #     return orderings
+    
+    def get_grid_permutations(self, grid, num_sentences):
+        # If num_sentences <= `threshold`, use all possible permutations.
         if num_sentences <= self.threshold:
-            orderings = list(permutations(sentences))
-            orderings.remove(tuple(sentences))
+            orderings = list(permutations(grid))
+            orderings.remove(tuple(grid))
         
         # Otherwise, shuffle and select `max_permutations` possible permutations.
         else:
-            i = 0
             orderings = []
-            while i < self.max_permutations:
-                test = self.generate_random_ordering(sentences)
+            for i in range(self.max_permutations):
+                test = self.generate_random_ordering_grid(grid)
                 # Don't use a permutation that matches the original.
-                if test != sentences and test not in orderings:
+                # This may result in some identical samples because there is no
+                # check that an ordering doesn't already exist in `orderings`.
+                # However, because we are operating on vectors rather than
+                # sentences, different orderings of sentences may correspond
+                # to the same grids.
+                if test != grid:
                     orderings.append(test)
-                    i += 1
-        
+
         return orderings
 
-
-    def generate_random_ordering(self, sentences):
-        """
-        Generates a random ordering of sentences.
-
-        Args:
-            sentences (list of str): The sentences to be shuffled.
-
-        Returns:
-            list of str: A randomly shuffled list of sentences.
-        """
-        # Create a deep copy of the list to shuffle and return.
-        random_ordering = deepcopy(sentences)
+    def generate_random_ordering_grid(self, grid):
+        random_ordering = deepcopy(grid)
         shuffle(random_ordering)
         return random_ordering
+
+    """`generate_random_ordering` is deprecated in favor of `generate_random_ordering_grid`"""
+    # def generate_random_ordering(self, sentences):
+    #     """
+    #     Generates a random ordering of sentences.
+
+    #     Args:
+    #         sentences (list of str): The sentences to be shuffled.
+
+    #     Returns:
+    #         list of str: A randomly shuffled list of sentences.
+    #     """
+    #     # Create a deep copy of the list to shuffle and return.
+    #     random_ordering = deepcopy(sentences)
+    #     shuffle(random_ordering)
+    #     return random_ordering
     
     def get_entities(self, summary, tokenized=False):
         """
@@ -202,7 +231,6 @@ class EntityGrid:
 
         return entities
 
-
     def build_grid(self, sentences, entities):
         """
         If self.syntax==False, builds a binary grid indicating the presence of entities in sentences.
@@ -238,15 +266,13 @@ class EntityGrid:
             # Iterate through sentences and entities to fill in array.
             for i, sentence in enumerate(sentences):
                 for j, entity in enumerate(entities):
-                    # check = re.search(r'\b' + entity + r'\b', sentence)
-                    # if check is not None:
-                        # array[i][j] = 1
                     if entity in sentence:
                         array[i][j] = 1
             
-        return np.array(array)
+        # return np.array(array)
+        return array
 
-    def create_vector(self, sentences, entities, num_sentences, num_entities):
+    def create_vector(self, grid_list, num_sentences, num_entities):
         """
         Creates a feature vector representing the transition patterns of entities between sentences.
 
@@ -260,8 +286,9 @@ class EntityGrid:
             numpy.ndarray: A feature vector representing the transition patterns of entities between sentences.
         """
 
-        # Build the entity grid.
-        grid = self.build_grid(sentences, entities)
+        # Convert the grid to an array.
+        # grid = self.build_grid(sentences, entities)
+        grid = np.array(grid_list)
 
         # Use the following transition lookups.
         if self.syntax:
@@ -294,9 +321,6 @@ class EntityGrid:
 
         # Convert the vector from counts to probabilities.
         vector = np.array(values) / num_transitions
-        print(sentences)
-        print(entities)
-        print(vector)
         return vector
 
 
@@ -336,7 +360,8 @@ class InformationOrderer:
             additional_params: A dictionary in the form {
                 'training_data_path': str,
                 'all_possible_permutations_threshold': int,
-                'max_permutations': int
+                'max_permutations': int,
+                'syntax': bool
             }
             
         Returns:
@@ -368,15 +393,47 @@ class InformationOrderer:
                 named_entities = EG.get_entities(content[k], tokenized=True)
                 num_entities = len(named_entities)
                 
-                # Get permutations.
-                orderings = list(permutations(content[k]))
+                """
+                The following blocks first permute the sentences, then calculate
+                a vector independently for each ordering. This requires parsing
+                the same sentence multiple times.
+                """
+                # # Get permutations.
+                # orderings = list(permutations(content[k]))
 
-                # Create vector for each ordering.
+                # # Create vector for each ordering.
+                # X_list = []
+                # for ordering in orderings:
+                #     sentences = [TreebankWordDetokenizer().detokenize(s) for s in ordering]
+                #     vector = EG.create_vector(sentences, named_entities, num_sentences, num_entities)
+                #     X_list.append(vector)
+
+                """
+                Instead, calculate the grid for the ordering that is originally
+                passed in. Then permute this grid for each possible ordering.
+                This way, the parse only has to be calculated one time.
+                """
+
+                # Create the grid for the ordering that is passed in.
+                initial_ordering = [TreebankWordDetokenizer().detokenize(s) for s in content[k]]
+                initial_grid = EG.build_grid(initial_ordering, named_entities)
+                
+                """
+                PROBLEM: this just yields a list of grids, rather than the list of sentences.
+                Need to map each permutation of the grid to the corresponding permutation of sentences.
+                """
+                # Get all possible permutations of the grid.
+                # combined = list(zip(initial_ordering, initial_grid))
+                full_perms = list(permutations(zip(initial_ordering, initial_grid)))
+                just_sentences = [[s for s, g in o] for o in full_perms]
+                just_grids = [[g for s, g in o] for o in full_perms]
+                # orderings = list(permutations(initial_grid))
                 X_list = []
-                for ordering in orderings:
-                    sentences = [TreebankWordDetokenizer().detokenize(s) for s in ordering]
-                    vector = EG.create_vector(sentences, named_entities, num_sentences, num_entities)
+                # for ordering in orderings:
+                for ordering in just_grids:
+                    vector = EG.create_vector(ordering, num_sentences, num_entities)
                     X_list.append(vector)
+
 
                 # Convert to a NumPy array.
                 X = np.array(X_list)
@@ -386,7 +443,8 @@ class InformationOrderer:
                 best_idx = np.argmax(probabilities)
 
                 # Replace `content[k]` with the most likely ordering.
-                content[k] = orderings[best_idx]
+                # content[k] = orderings[best_idx]
+                content[k] = just_sentences[best_idx]
 
         return content
 
@@ -476,3 +534,7 @@ def path_distance(route, distances):
     for c in range(1, len(route)):
         result += distances[route[c-1]][route[c]]
     return result
+
+
+# if __name__ == '__main__':
+#     EG = EntityGrid('../../data/gold/training', 3, 10, True)
