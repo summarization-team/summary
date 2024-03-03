@@ -46,9 +46,9 @@
     "evaluation": {
         "metrics": ["rouge1", "rouge2"],
         "data_subset": "devtest",
-        "results_dir": "../results/D4",
+        "results_dir": "../results/D5",
         "reference_summaries_path": "../data/gold/devtest/",
         "generated_summaries_path": "../data/devtest/generated_summaries/"
     },
-    "output_dir": "../outputs/D4"
+    "output_dir": "../outputs/D5"
 }
