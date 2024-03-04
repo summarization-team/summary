@@ -1,0 +1,3 @@
+SW China is experiencing a severe water shortage due to reduced rainfall, strains of economic and population growth, and disappearing glaciers and faster evaporation caused by global warming.
+The Yangtze River, which provides water for navigation, factories, hydroelectric plants, agriculture, fish stocks, and humans, hit a record low.
+Countermeasures include releasing dam water; digging out sludge, exploding reefs, and banning large vessels to improve navigation in shrinking waterways; increasing sea water desalination; water wagons for humans and cattle; building weirs to preserve water and provide food for migratory birds; establishing consumption quotas; and reducing carbon dioxide and other greenhouse gases.
