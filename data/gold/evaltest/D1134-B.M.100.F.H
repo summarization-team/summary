@@ -1,0 +1,3 @@
+Malawi and South Africa are mapping out comprehensive plans to combat the AIDS epidemic, which has particularly devastated southern Africa.
+Meanwhile, the World Health Organization and UNAIDS have endorsed male circumcision as an important intervention that offers partial protection from HIV,but health officials emphasize that circumcision alone is not enough and should be employed along with other preventive measures such as condom usage, abstinence, better sex education, and a reduction in the number of sexual partners.
+A South African study has also found that exclusive breastfeeding dramatically reduces the transmission of the virus by HIV-infected women to their babies.

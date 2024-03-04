@@ -117,7 +117,6 @@ class DocumentProcessor:
                                 processed_docs[root][file_name][DATELINE] = line.replace(DATELINE + ':', "").strip()
         return processed_docs
 
-      
     def process_documents(self, input_path, mode):
         """
         Processes the XML documents by parsing and extracting relevant information.
@@ -142,17 +141,17 @@ class DocumentProcessor:
             description += 'title: ' + topic.find('title').text.strip() + '\n'
             if len(topic.findall('narrative')) > 0:
                 description += 'narrative: ' + topic.find('narrative').text.strip() + '\n'
-    
+
             # Find all docsetA
             for docset in topic.iter('docsetA'):
                 docsetID = docset.get('id')
                 docsets.append(docsetID)
                 path = self.output_path[mode] + '/' + docsetID
-                
+
                 for doc in docset:
                     docID = doc.get('id')
                     process_doc(path, docID)
-                descriptionFile = os.path.join(path, 'description.txt') 
+                descriptionFile = os.path.join(path, 'description.txt')
                 with open(descriptionFile, 'a') as F:
                     F.write(description)
 
@@ -161,11 +160,11 @@ class DocumentProcessor:
                 docsetID = docset.get('id')
                 docsets.append(docsetID)
                 path = self.output_path[mode] + '/' + docsetID
-                
+
                 for doc in docset:
                     docID = doc.get('id')
                     process_doc(path, docID)
-                descriptionFile = os.path.join(path, 'description.txt') 
+                descriptionFile = os.path.join(path, 'description.txt')
                 with open(descriptionFile, 'a') as F:
                     F.write(description)
 
@@ -236,7 +235,7 @@ def process_doc(dirPath, docID):
             docXML = docXML.replace(x, '')
         headers = get_doc_headers_AQUAINT2(docID, docXML, headerTags)
         newFile = os.path.join(dirPath, docID)
-        
+
         with open(newFile, 'a') as F:
             if os.stat(newFile).st_size == 0:
                 for h in headers:
