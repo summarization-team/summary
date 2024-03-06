@@ -18,7 +18,7 @@
     },
     "model": {
         "content_selection": {
-            "approach": "tfidf",
+            "approach": "topic_focused",
             "additional_parameters": {
                 "num_sentences_per_doc": 10,
                 "similarity_threshold": 0.5,
