@@ -20,7 +20,7 @@
         "content_selection": {
             "approach": "topic_focused",
             "additional_parameters": {
-                "num_sentences_per_doc": 5,
+                "num_sentences_per_doc": 10,
                 "similarity_threshold": 0.5,
                 "model_id": "paraphrase-distilroberta-base-v1"
             }
@@ -41,7 +41,8 @@
                 "model_id": "t5-base",
                 "max_length": 100,
                 "min_length": 20,
-                "do_sample": false,
+                "do_sample": true,
+                "num_beams": 4,
                 "temperature": 0.0,
                 "n": 1
             }

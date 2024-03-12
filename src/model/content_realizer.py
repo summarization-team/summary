@@ -290,9 +290,10 @@ class AdvancedRealizationMethod(RealizationMethod):
             content=sentence_str,
             method=self.additional_parameters['compression_method'],
             transformers_pipeline=self.compression_pipeline,
-            min_length=self.additional_parameters['min_length'],
-            max_length=self.additional_parameters['max_length'],
-            do_sample=self.additional_parameters['do_sample']
+            min_length=self.additional_parameters.get('min_length', 100),
+            max_length=self.additional_parameters.get('max_length', 100) * 1.3,
+            do_sample=self.additional_parameters.get('do_sample', False),
+            num_beams=self.additional_parameters.get('num_beams', None)
         )
         compressed_sentences = sent_tokenize(compressed_str)
         return compressed_sentences
